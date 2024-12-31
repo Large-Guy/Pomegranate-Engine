@@ -19,6 +19,8 @@ struct Matrix2x2 {
     Matrix2x2 operator*(float v) const;
     bool operator==(const Matrix2x2& m) const;
 
+    static Matrix2x2 identity();
+
     void serialize(Archive& a) const;
     void deserialize(Archive& a);
 };

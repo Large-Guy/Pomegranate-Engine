@@ -128,11 +128,15 @@ bool Matrix3x3::operator==(const Matrix3x3& m) const {
     return x == m.x && y == m.y && z == m.z;
 }
 
-Matrix3x3 Matrix3x3::createTransform(Vector2 pos, Vector2 scale, float angle) {
+Matrix3x3 Matrix3x3::identity() {
+    return Matrix3x3();
+}
+
+Matrix3x3 Matrix3x3::transform(Vector2 pos, Vector2 scale, float angle) {
     return Matrix3x3().scale(std::move(scale)).rotate(angle).translate(std::move(pos));
 }
 
-Matrix3x3 Matrix3x3::createOrthographic(float left, float right, float bottom, float top) {
+Matrix3x3 Matrix3x3::orthographic(float left, float right, float bottom, float top) {
     return Matrix3x3(
         2.0f / (right - left), 0.0f, 0.0f,
         0.0f, 2.0f / (top - bottom), 0.0f,

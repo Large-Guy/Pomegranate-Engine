@@ -28,8 +28,9 @@ struct Matrix3x3 {
     Matrix3x3 operator*(float v) const;
     bool operator==(const Matrix3x3& m) const;
 
-    static Matrix3x3 createTransform(Vector2 pos, Vector2 scale, float angle);
-    static Matrix3x3 createOrthographic(float left, float right, float bottom, float top);
+    static Matrix3x3 identity();
+    static Matrix3x3 transform(Vector2 pos, Vector2 scale, float angle);
+    static Matrix3x3 orthographic(float left, float right, float bottom, float top);
 
     void serialize(Archive& a) const;
     void deserialize(Archive& a);

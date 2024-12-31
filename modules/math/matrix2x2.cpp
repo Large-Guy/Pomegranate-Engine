@@ -65,3 +65,7 @@ Matrix2x2 Matrix2x2::operator*(float v) const {
 bool Matrix2x2::operator==(const Matrix2x2& m) const {
     return x == m.x && y == m.y;
 }
+
+Matrix2x2 Matrix2x2::identity() {
+    return Matrix2x2();
+}
