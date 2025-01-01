@@ -150,6 +150,10 @@ Vector2i Vector2i::rotate(const Vector2i &pivot, float angle) const {
     return (*this - pivot).rotate(angle) + pivot;
 }
 
+Vector2i Vector2i::abs() const {
+    return Vector2i(std::abs(x), std::abs(y));
+}
+
 void Vector2i::serialize(Archive& a) const {
     a << x << y;
 }

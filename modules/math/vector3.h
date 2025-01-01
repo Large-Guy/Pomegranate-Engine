@@ -51,6 +51,10 @@ struct Vector3{
     [[nodiscard]] Vector3 refract(const Vector3& normal, float eta) const;
     [[nodiscard]] Vector3 rotate(float angle) const;
     [[nodiscard]] Vector3 rotate(const Vector3& rotation) const;
+    [[nodiscard]] Vector3 round();
+    [[nodiscard]] Vector3 ceil();
+    [[nodiscard]] Vector3 floor();
+    [[nodiscard]] Vector3 abs() const;
     //Vector3 rotate(float angle) const;
     //Vector3 rotate(const Vector3& pivot, float angle) const;
 

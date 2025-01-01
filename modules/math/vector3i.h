@@ -40,6 +40,7 @@ struct Vector3i {
     [[nodiscard]] Vector3i cross(const Vector3i& v) const;
     [[nodiscard]] Vector3i reflect(const Vector3i& normal) const;
     [[nodiscard]] Vector3i refract(const Vector3i& normal, float eta) const;
+    [[nodiscard]] Vector3i abs() const;
     //Vector3i rotate(int angle) const;
     //Vector3i rotate(const Vector3i& pivot, int angle) const;
 

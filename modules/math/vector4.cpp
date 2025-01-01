@@ -176,6 +176,26 @@ Vector4 Vector4::refract(const Vector4& normal, float eta) const
         return *this * eta - normal * (eta * dot + sqrtf(k));
 }
 
+Vector4 Vector4::round() const
+{
+    return Vector4(roundf(x), roundf(y), roundf(z), roundf(w));
+}
+
+Vector4 Vector4::ceil() const
+{
+    return Vector4(ceilf(x), ceilf(y), ceilf(z), ceilf(w));
+}
+
+Vector4 Vector4::floor() const
+{
+    return Vector4(floorf(x), floorf(y), floorf(z), floorf(w));
+}
+
+Vector4 Vector4::abs() const
+{
+    return Vector4(fabsf(x), fabsf(y), fabsf(z), fabsf(w));
+}
+
 void Vector4::serialize(Archive& a) const
 {
     a << x << y << z << w;

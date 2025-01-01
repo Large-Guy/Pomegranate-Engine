@@ -45,6 +45,7 @@ public:
     [[nodiscard]] Vector2i refract(const Vector2i& normal, float eta) const;
     [[nodiscard]] Vector2i rotate(float angle) const;
     [[nodiscard]] Vector2i rotate(const Vector2i& pivot, float angle) const;
+    [[nodiscard]] Vector2i abs() const;
 
     void serialize(Archive& a) const;
     void deserialize(Archive& a);

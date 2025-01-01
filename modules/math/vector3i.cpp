@@ -161,6 +161,11 @@ Vector3i Vector3i::refract(const Vector3i& normal, float eta) const
         return *this * eta - normal * (eta * dot + sqrtf(k));
 }
 
+Vector3i Vector3i::abs() const
+{
+    return Vector3i(std::abs(x), std::abs(y), std::abs(z));
+}
+
 void Vector3i::serialize(Archive& a) const
 {
     a << x << y << z;

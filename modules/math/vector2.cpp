@@ -158,6 +158,22 @@ Vector2 Vector2::rotate(const Vector2 &pivot, float angle) const {
     return (*this - pivot).rotate(angle) + pivot;
 }
 
+Vector2 Vector2::round() const {
+    return Vector2(roundf(x), roundf(y));
+}
+
+Vector2 Vector2::ceil() const {
+    return Vector2(ceilf(x), ceilf(y));
+}
+
+Vector2 Vector2::floor() const {
+    return Vector2(floorf(x), floorf(y));
+}
+
+Vector2 Vector2::abs() const {
+    return Vector2(fabsf(x), fabsf(y));
+}
+
 void Vector2::serialize(Archive& a) const
 {
     a << x << y;

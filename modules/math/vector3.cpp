@@ -195,6 +195,26 @@ Vector3 Vector3::rotate(const Vector3& rotation) const
     return Vector3(x1, y1, z1);
 }
 
+Vector3 Vector3::round()
+{
+    return Vector3(roundf(x), roundf(y), roundf(z));
+}
+
+Vector3 Vector3::ceil()
+{
+    return Vector3(ceilf(x), ceilf(y), ceilf(z));
+}
+
+Vector3 Vector3::floor()
+{
+    return Vector3(floorf(x), floorf(y), floorf(z));
+}
+
+Vector3 Vector3::abs() const
+{
+    return Vector3(fabsf(x), fabsf(y), fabsf(z));
+}
+
 void Vector3::serialize(Archive& a) const
 {
     a << x << y << z;

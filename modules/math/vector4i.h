@@ -40,6 +40,7 @@ struct Vector4i{
     [[nodiscard]] Vector4i cross(const Vector4i& v) const;
     [[nodiscard]] Vector4i reflect(const Vector4i& normal) const;
     [[nodiscard]] Vector4i refract(const Vector4i& normal, float eta) const;
+    [[nodiscard]] Vector4i abs() const;
 
     void serialize(Archive& a) const;
     void deserialize(Archive& a);

@@ -167,6 +167,10 @@ Vector4i Vector4i::refract(const Vector4i& normal, float eta) const
         return *this * eta - normal * (eta * dot + sqrtf(k));
 }
 
+Vector4i Vector4i::abs() const {
+    return Vector4i(std::abs(x), std::abs(y), std::abs(z), std::abs(w));
+}
+
 void Vector4i::serialize(Archive& a) const
 {
     a << x << y << z << w;

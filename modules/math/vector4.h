@@ -49,6 +49,10 @@ struct Vector4 {
     [[nodiscard]] Vector4 cross(const Vector4& v) const;
     [[nodiscard]] Vector4 reflect(const Vector4& normal) const;
     [[nodiscard]] Vector4 refract(const Vector4& normal, float eta) const;
+    [[nodiscard]] Vector4 round() const;
+    [[nodiscard]] Vector4 ceil() const;
+    [[nodiscard]] Vector4 floor() const;
+    [[nodiscard]] Vector4 abs() const;
 
     void serialize(Archive& a) const;
     void deserialize(Archive& a);

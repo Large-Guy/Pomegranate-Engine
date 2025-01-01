@@ -53,6 +53,10 @@ struct Vector2 {
     [[nodiscard]] Vector2 refract(const Vector2& normal, float eta) const;
     [[nodiscard]] Vector2 rotate(float angle) const;
     [[nodiscard]] Vector2 rotate(const Vector2& pivot, float angle) const;
+    [[nodiscard]] Vector2 round() const;
+    [[nodiscard]] Vector2 ceil() const;
+    [[nodiscard]] Vector2 floor() const;
+    [[nodiscard]] Vector2 abs() const;
 
     void serialize(Archive& a) const;
     void deserialize(Archive& a);
