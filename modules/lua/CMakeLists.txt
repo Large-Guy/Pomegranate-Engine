@@ -19,5 +19,22 @@ target_include_directories(PomegranateLua PUBLIC ${POMEGRANATE_LUA_INCLUDE_DIRS}
 
 target_link_libraries(PomegranateLua PomegranateCore PomegranateEvents PomegranateECS)
 
-# You need to put luajit library in external/luajit
-target_link_libraries(PomegranateLua ${CMAKE_CURRENT_SOURCE_DIR}/external/luajit/src/libluajit.a)
+# LuaJIT installer
+if(APPLE)
+    execute_process(
+            COMMAND sh ./install/luajit_mac.sh
+            WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+    )
+
+    target_link_libraries(PomegranateLua ${CMAKE_CURRENT_SOURCE_DIR}/external/LuaJIT/src/libluajit.a)
+
+elseif (UNIX)
+    execute_process(
+            COMMAND sh ./install/luajit_linux.sh
+            WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+    )
+
+    target_link_libraries(PomegranateLua ${CMAKE_CURRENT_SOURCE_DIR}/external/LuaJIT/src/libluajit.a)
+elseif (WIN32)
+    message(FATAL_ERROR "Windows is not supported yet")
+endif()
