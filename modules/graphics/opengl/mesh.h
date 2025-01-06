@@ -553,6 +553,65 @@ public:
 
         return mesh;
     }
+
+    static Mesh<Vertex, Index> quad(Vector2 size) {
+        Mesh<Vertex, Index> mesh;
+
+        Vector2 hs = size / 2.0f;
+
+        mesh.addVertex({hs.x, hs.y, 0.0f}, {0.0f, 0.0f, 1.0f}, {1.0f, 1.0f});
+        mesh.addVertex({-hs.x, hs.y, 0.0f}, {0.0f, 0.0f, 1.0f}, {0.0f, 1.0f});
+        mesh.addVertex({-hs.x, -hs.y, 0.0f}, {0.0f, 0.0f, 1.0f}, {0.0f, 0.0f});
+        mesh.addVertex({hs.x, -hs.y, 0.0f}, {0.0f, 0.0f, 1.0f}, {1.0f, 0.0f});
+
+        mesh.addIndex(0);
+        mesh.addIndex(1);
+        mesh.addIndex(2);
+
+        mesh.addIndex(2);
+        mesh.addIndex(3);
+        mesh.addIndex(0);
+
+        mesh.apply();
+
+        return mesh;
+    }
+
+    static Mesh<Vertex, Index> circle(float radius, int segments = 32) {
+        Mesh<Vertex, Index> mesh;
+
+        Vector3 cnormal = {0.0f, 0.0f, 1.0f};
+        Vector3 cposition = {0.0f, 0.0f, 0.0f};
+        Vector2 cuv = {0.5f, 0.5f};
+
+        mesh.addVertex(cposition, cnormal, cuv);
+
+        for(int i = 0; i <= segments; i++) {
+            float theta = i / (float)segments * M_PI * 2.0f;
+            float x = cos(theta) * radius;
+            float y = sin(theta) * radius;
+
+            Vector3 position = {x, y, 0.0f};
+            Vector3 normal = {0.0f, 0.0f, 1.0f};
+            Vector2 uv = {x / radius, y / radius};
+
+            mesh.addVertex(position, normal, uv);
+        }
+
+        for(int i = 1; i <= segments; i++) {
+            mesh.addIndex(0);
+            mesh.addIndex(i);
+            mesh.addIndex(i + 1);
+        }
+
+        mesh.addIndex(0);
+        mesh.addIndex(segments);
+        mesh.addIndex(1);
+
+        mesh.apply();
+
+        return mesh;
+    }
 };
 
 

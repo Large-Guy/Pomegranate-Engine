@@ -4,6 +4,10 @@ set(POMEGRANATE_ECS_EXTENSIONS_RENDERING_SOURCES
         ${CMAKE_CURRENT_SOURCE_DIR}/mesh_instance.h
         ${CMAKE_CURRENT_SOURCE_DIR}/camera3d.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/camera3d.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/camera2d.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/camera2d.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/sprite.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/sprite.h
 )
 
 add_library(PomegranateECSExtensionsRendering ${POMEGRANATE_ECS_EXTENSIONS_RENDERING_SOURCES})

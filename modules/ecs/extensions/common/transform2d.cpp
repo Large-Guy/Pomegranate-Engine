@@ -71,7 +71,7 @@ float Transform2D::getRotation(Entity& entity) {
 }
 
 
-Matrix3x3 Transform2D::getMatrix(Entity& entity) {
+Matrix4x4 Transform2D::getMatrix(Entity& entity) {
     auto* transform = entity.get<Transform2D>();
     if(transform == nullptr)
     {
@@ -80,7 +80,24 @@ Matrix3x3 Transform2D::getMatrix(Entity& entity) {
     Vector2 position = getPosition(entity);
     Vector2 scale = getScale(entity);
     float rotation = getRotation(entity);
-    return Matrix3x3().rotate(rotation).scale(scale).translate(position);
+    return Matrix4x4().rotateZ(rotation).scale(scale).translate(position);
+}
+
+Matrix3x3 Transform2D::getLocalMatrix(Entity& entity) {
+    auto* transform = entity.get<Transform2D>();
+    if(transform == nullptr)
+    {
+        return {};
+    }
+    return Matrix3x3().rotate(transform->rotation).scale(transform->scale).translate(transform->position);
+}
+
+Vector2 Transform2D::getUp(Entity& entity) {
+    return (Vector2)getMatrix(entity).up();
+}
+
+Vector2 Transform2D::getRight(Entity& entity) {
+    return (Vector2)getMatrix(entity).right();
 }
 
 void Transform2D::serialize(Archive& a) const {

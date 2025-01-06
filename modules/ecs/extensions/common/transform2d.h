@@ -22,7 +22,10 @@ public:
     static Vector2 getPosition(Entity& entity);
     static Vector2 getScale(Entity& entity);
     static float getRotation(Entity& entity);
-    static Matrix3x3 getMatrix(Entity& entity);
+    static Matrix4x4 getMatrix(Entity& entity);
+    static Matrix3x3 getLocalMatrix(Entity& entity);
+    static Vector2 getUp(Entity& entity);
+    static Vector2 getRight(Entity& entity);
     void serialize(Archive& a) const;
     void deserialize(Archive& a);
 };

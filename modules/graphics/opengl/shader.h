@@ -33,10 +33,17 @@ public:
             glUniform4f(location, value.x, value.y, value.z, value.w);
         } else if constexpr (std::is_same<T, Matrix4x4>::value) {
             glUniformMatrix4fv(location, 1, GL_FALSE, &value.x.x);
-        } else {
+        } else if constexpr (std::is_same<T, Matrix3x3>::value) {
+            glUniformMatrix3fv(location, 1, GL_FALSE, &value.x.x);
+        } else if constexpr (std::is_same<T, Matrix2x2>::value) {
+            glUniformMatrix2fv(location, 1, GL_FALSE, &value.x.x);
+        }
+        else {
             Debug::Log::error("Uniform type not supported");
         }
     }
+
+    std::vector<std::string> getShaderUniforms();
 
     ShaderBase() = default;
     virtual ~ShaderBase() = default;
