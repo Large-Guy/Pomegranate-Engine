@@ -3,44 +3,27 @@
 #include "core.h"
 #include <core/core.h>
 #include "enumerations.h"
-#include "math/math.h"
+#include <math/math.h>
 
-class ShaderBase{
+class ShaderBase {
 protected:
     GLuint _program;
     RenderInfo _info;
 public:
 
-    template <typename T>
-    void setUniform(const std::string& name, T value) {
+    GLint getLocation(const std::string& name) {
         glUseProgram(_program);
 
         GLint location = glGetUniformLocation(_program, name.c_str());
-        if (location == -1) {
-            Debug::Log::error("Uniform", name.c_str(), "not found");
-            return;
-        }
+        return location;
+    }
 
-        if constexpr (std::is_same<T, int>::value) {
-            glUniform1i(location, value);
-        } else if constexpr (std::is_same<T, float>::value) {
-            glUniform1f(location, value);
-        } else if constexpr (std::is_same<T, Vector2>::value) {
-            glUniform2f(location, value.x, value.y);
-        } else if constexpr (std::is_same<T, Vector3>::value) {
-            glUniform3f(location, value.x, value.y, value.z);
-        } else if constexpr (std::is_same<T, Vector4>::value) {
-            glUniform4f(location, value.x, value.y, value.z, value.w);
-        } else if constexpr (std::is_same<T, Matrix4x4>::value) {
-            glUniformMatrix4fv(location, 1, GL_FALSE, &value.x.x);
-        } else if constexpr (std::is_same<T, Matrix3x3>::value) {
-            glUniformMatrix3fv(location, 1, GL_FALSE, &value.x.x);
-        } else if constexpr (std::is_same<T, Matrix2x2>::value) {
-            glUniformMatrix2fv(location, 1, GL_FALSE, &value.x.x);
-        }
-        else {
-            Debug::Log::error("Uniform type not supported");
-        }
+    template <typename T>
+    void setUniform(const std::string& name, T value) {
+        GLint location = getLocation(name);
+        Debug::WarnIf::isEqual(location,-1,"Uniform " + name + " not found");
+
+        Debug::Log::error("Uniform type not supported");
     }
 
     std::vector<std::string> getShaderUniforms();
@@ -110,5 +93,100 @@ public:
     friend Window;
 };
 
+template<>
+inline void ShaderBase::setUniform<int>(const std::string &name, int value) {
+    GLint location = getLocation(name);
+    Debug::WarnIf::isEqual(location,-1,"Uniform " + name + " not found");
+
+    glUniform1i(location, value);
+}
+
+template<>
+inline void ShaderBase::setUniform<float>(const std::string &name, float value) {
+    GLint location = getLocation(name);
+    Debug::WarnIf::isEqual(location,-1,"Uniform " + name + " not found");
+
+    glUniform1f(location, value);
+}
+
+template<>
+inline void ShaderBase::setUniform<bool>(const std::string &name, bool value) {
+    GLint location = getLocation(name);
+    Debug::WarnIf::isEqual(location,-1,"Uniform " + name + " not found");
+
+    glUniform1i(location, value);
+}
+
+template<>
+inline void ShaderBase::setUniform<Vector2>(const std::string &name, Vector2 value) {
+    GLint location = getLocation(name);
+    Debug::WarnIf::isEqual(location,-1,"Uniform " + name + " not found");
+
+    glUniform2f(location, value.x, value.y);
+}
+
+template<>
+inline void ShaderBase::setUniform<Vector2i>(const std::string &name, Vector2i value) {
+    GLint location = getLocation(name);
+    Debug::WarnIf::isEqual(location,-1,"Uniform " + name + " not found");
+
+    glUniform2i(location, value.x, value.y);
+}
+
+template<>
+inline void ShaderBase::setUniform<Vector3>(const std::string &name, Vector3 value) {
+    GLint location = getLocation(name);
+    Debug::WarnIf::isEqual(location,-1,"Uniform " + name + " not found");
+
+    glUniform3f(location, value.x, value.y, value.z);
+}
+
+template<>
+inline void ShaderBase::setUniform<Vector3i>(const std::string &name, Vector3i value) {
+    GLint location = getLocation(name);
+    Debug::WarnIf::isEqual(location,-1,"Uniform " + name + " not found");
+
+    glUniform3i(location, value.x, value.y, value.z);
+}
+
+template<>
+inline void ShaderBase::setUniform<Vector4>(const std::string &name, Vector4 value) {
+    GLint location = getLocation(name);
+    Debug::WarnIf::isEqual(location,-1,"Uniform " + name + " not found");
+
+    glUniform4f(location, value.x, value.y, value.z, value.w);
+}
+
+template<>
+inline void ShaderBase::setUniform<Vector4i>(const std::string &name, Vector4i value) {
+    GLint location = getLocation(name);
+    Debug::WarnIf::isEqual(location,-1,"Uniform " + name + " not found");
+
+    glUniform4i(location, value.x, value.y, value.z, value.w);
+}
+
+template<>
+inline void ShaderBase::setUniform<Matrix2x2>(const std::string &name, Matrix2x2 value) {
+    GLint location = getLocation(name);
+    Debug::WarnIf::isEqual(location,-1,"Uniform " + name + " not found");
+
+    glUniformMatrix2fv(location, 1, GL_FALSE, &value.x.x);
+}
+
+template<>
+inline void ShaderBase::setUniform<Matrix3x3>(const std::string &name, Matrix3x3 value) {
+    GLint location = getLocation(name);
+    Debug::WarnIf::isEqual(location,-1,"Uniform " + name + " not found");
+
+    glUniformMatrix3fv(location, 1, GL_FALSE, &value.x.x);
+}
+
+template<>
+inline void ShaderBase::setUniform<Matrix4x4>(const std::string &name, Matrix4x4 value) {
+    GLint location = getLocation(name);
+    Debug::WarnIf::isEqual(location,-1,"Uniform " + name + " not found");
+
+    glUniformMatrix4fv(location, 1, GL_FALSE, &value.x.x);
+}
 
 #endif //POMEGRANATEENGINE_SHADER_H

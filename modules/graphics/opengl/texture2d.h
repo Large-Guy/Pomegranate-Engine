@@ -4,12 +4,14 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include "enumerations.h"
+#include "stb_image.h"
 
 class Texture2D : Asset {
 private:
     GLuint _id;
     int _width;
     int _height;
+    int _channels;
     TextureFormat _format;
     unsigned char* _data;
     TextureFilter _filter;
@@ -22,6 +24,17 @@ public:
     ~Texture2D();
 
     void apply();
+
+    int getWidth();
+    int getHeight();
+    int getChannels();
+    TextureFormat getFormat();
+    unsigned char* getData();
+    TextureFilter getFilter();
+    TextureWrap getWrap();
+
+    void setFilter(TextureFilter filter);
+    void setWrap(TextureWrap wrap);
 
     friend class Window;
 };

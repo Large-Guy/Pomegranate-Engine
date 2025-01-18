@@ -44,6 +44,9 @@ int main() {
 
     Texture2D t_pomegranate = Texture2D("assets/graphics/textures/pomegranate.png","pomegranate");
 
+    //Debug info
+    Debug::Log::info("Texture Info,","Width:",t_pomegranate.getWidth(),"Height:",t_pomegranate.getHeight(),"Channels:",t_pomegranate.getChannels());
+
 #pragma endregion
 
 #pragma region Shader

@@ -1,5 +1,8 @@
 #include "texture2d.h"
 
+#define STB_IMAGE_IMPLEMENTATION
+#include "stb_image.h"
+
 Texture2D::Texture2D() {
     _id = 0;
     _width = 0;
@@ -45,7 +48,11 @@ Texture2D::Texture2D(const std::string& path, const std::string& name) : Asset(p
     _height = 0;
     _format = TEXTURE_FORMAT_RGBA;
     _data = nullptr;
-    //_data = stbi_load(path.c_str(), &_width, &_height, &_channels, 0);
+    _data = stbi_load(path.c_str(), &_width, &_height, &_channels, 0);
+    if (_data == nullptr) {
+        Debug::Log::error("Failed to load texture: " + path);
+    }
+    apply();
 }
 
 Texture2D::~Texture2D() {
@@ -89,4 +96,42 @@ void Texture2D::apply() {
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
             break;
     }
+}
+
+int Texture2D::getWidth() {
+    return _width;
+}
+
+int Texture2D::getHeight() {
+    return _height;
+}
+
+int Texture2D::getChannels() {
+    return _channels;
+}
+
+TextureFormat Texture2D::getFormat() {
+    return _format;
+}
+
+unsigned char* Texture2D::getData() {
+    return _data;
+}
+
+TextureFilter Texture2D::getFilter() {
+    return _filter;
+}
+
+TextureWrap Texture2D::getWrap() {
+    return _wrap;
+}
+
+void Texture2D::setFilter(TextureFilter filter) {
+    _filter = filter;
+    apply();
+}
+
+void Texture2D::setWrap(TextureWrap wrap) {
+    _wrap = wrap;
+    apply();
 }

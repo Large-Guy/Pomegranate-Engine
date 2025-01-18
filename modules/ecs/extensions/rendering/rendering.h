@@ -114,6 +114,10 @@ namespace Extensions::Rendering {
             if(hasSprite)
             {
                 texture = entity.get<Sprite>()->texture;
+                if(texture == nullptr)
+                {
+                    hasSprite = false;
+                }
             }
 
             Matrix4x4 model = Transform2D::getMatrix(entity);
