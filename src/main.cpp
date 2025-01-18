@@ -42,7 +42,7 @@ int main() {
 
     Mesh<Vertex2D, unsigned int> quad = Mesh<Vertex2D, unsigned int>::quad(Vector2::one);
 
-    Texture2D t_pomegranate = Texture2D("assets/graphics/textures/pomegranate.png","pomegranate");
+    Surface2D t_pomegranate = Surface2D("assets/graphics/textures/pomegranate.png","pomegranate");
 
     //Debug info
     Debug::Log::info("Texture Info,","Width:",t_pomegranate.getWidth(),"Height:",t_pomegranate.getHeight(),"Channels:",t_pomegranate.getChannels());

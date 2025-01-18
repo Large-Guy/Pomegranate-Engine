@@ -5,36 +5,21 @@
 #include <GLFW/glfw3.h>
 #include "enumerations.h"
 #include "stb_image.h"
+#include "surface2d.h"
 
 class Texture2D : Asset {
 private:
     GLuint _id;
-    int _width;
-    int _height;
-    int _channels;
-    TextureFormat _format;
-    unsigned char* _data;
-    TextureFilter _filter;
-    TextureWrap _wrap;
+    Surface2D* _surface;
 public:
 
     Texture2D();
-    Texture2D(int width, int height, TextureFormat format, TextureFilter filter, TextureWrap wrap);
-    Texture2D(const std::string& path, const std::string& name);
+    Texture2D(Surface2D* surface);
     ~Texture2D();
 
     void apply();
 
-    int getWidth();
-    int getHeight();
-    int getChannels();
-    TextureFormat getFormat();
-    unsigned char* getData();
-    TextureFilter getFilter();
-    TextureWrap getWrap();
-
-    void setFilter(TextureFilter filter);
-    void setWrap(TextureWrap wrap);
+    Surface2D* getSurface();
 
     friend class Window;
 };

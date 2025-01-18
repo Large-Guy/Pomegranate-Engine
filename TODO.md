@@ -1,7 +1,7 @@
 # TODO
 
 ## High Priority
-- [ ] Seperate surfaces and textures
+- [x] Seperate surfaces and textures
 - [ ] Add texture binding support
 - [ ] Render texture support
 - [ ] Improve asset manager

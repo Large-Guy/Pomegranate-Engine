@@ -1,67 +1,19 @@
 #include "texture2d.h"
 
-#define STB_IMAGE_IMPLEMENTATION
-#include "stb_image.h"
-
 Texture2D::Texture2D() {
     _id = 0;
-    _width = 0;
-    _height = 0;
-    _format = TEXTURE_FORMAT_RGBA;
-    _data = nullptr;
+    _surface = nullptr;
 }
 
-Texture2D::Texture2D(int width, int height, TextureFormat format, TextureFilter filter, TextureWrap wrap) {
+Texture2D::Texture2D(Surface2D* surface) {
     _id = 0;
-    _width = width;
-    _height = height;
-    _format = format;
-    _filter = filter;
-    _wrap = wrap;
-
-    int channels = 0;
-    switch (format) {
-        case TEXTURE_FORMAT_R:
-            channels = 1;
-            break;
-        case TEXTURE_FORMAT_RG:
-            channels = 2;
-            break;
-        case TEXTURE_FORMAT_RGB:
-            channels = 3;
-            break;
-        case TEXTURE_FORMAT_RGBA:
-            channels = 4;
-            break;
-        case TEXTURE_FORMAT_DEPTH:
-            channels = 1;
-            break;
-    }
-
-    _data = new unsigned char[width * height * channels];
-    apply();
-}
-
-Texture2D::Texture2D(const std::string& path, const std::string& name) : Asset(path, name){
-    _id = 0;
-    _width = 0;
-    _height = 0;
-    _format = TEXTURE_FORMAT_RGBA;
-    _data = nullptr;
-    _data = stbi_load(path.c_str(), &_width, &_height, &_channels, 0);
-    if (_data == nullptr) {
-        Debug::Log::error("Failed to load texture: " + path);
-    }
+    _surface = surface;
     apply();
 }
 
 Texture2D::~Texture2D() {
     if (_id != 0) {
         glDeleteTextures(1, &_id);
-    }
-
-    if (_data != nullptr) {
-        delete[] _data;
     }
 }
 
@@ -71,11 +23,11 @@ void Texture2D::apply() {
     }
 
     glBindTexture(GL_TEXTURE_2D, _id);
-    glTexImage2D(GL_TEXTURE_2D, 0, _format, _width, _height, 0, _format, GL_UNSIGNED_BYTE, _data);
+    glTexImage2D(GL_TEXTURE_2D, 0, _surface->getFormat(), _surface->getWidth(), _surface->getHeight(), 0, _surface->getFormat(), GL_UNSIGNED_BYTE, _surface->getData());
     glGenerateMipmap(GL_TEXTURE_2D);
     glBindTexture(GL_TEXTURE_2D, 0);
 
-    switch (_filter) {
+    switch (_surface->getFilter()) {
         case TEXTURE_FILTER_NEAREST:
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
@@ -86,7 +38,7 @@ void Texture2D::apply() {
             break;
     }
 
-    switch (_wrap) {
+    switch (_surface->getWrap()) {
         case TEXTURE_WRAP_REPEAT:
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
@@ -95,43 +47,13 @@ void Texture2D::apply() {
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
             break;
+        case TEXTURE_WRAP_MIRRORED_REPEAT:
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_MIRRORED_REPEAT);
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_MIRRORED_REPEAT);
+            break;
     }
 }
 
-int Texture2D::getWidth() {
-    return _width;
-}
-
-int Texture2D::getHeight() {
-    return _height;
-}
-
-int Texture2D::getChannels() {
-    return _channels;
-}
-
-TextureFormat Texture2D::getFormat() {
-    return _format;
-}
-
-unsigned char* Texture2D::getData() {
-    return _data;
-}
-
-TextureFilter Texture2D::getFilter() {
-    return _filter;
-}
-
-TextureWrap Texture2D::getWrap() {
-    return _wrap;
-}
-
-void Texture2D::setFilter(TextureFilter filter) {
-    _filter = filter;
-    apply();
-}
-
-void Texture2D::setWrap(TextureWrap wrap) {
-    _wrap = wrap;
-    apply();
+Surface2D* Texture2D::getSurface() {
+    return _surface;
 }
