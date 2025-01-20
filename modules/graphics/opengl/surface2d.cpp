@@ -4,7 +4,6 @@
 #include "stb_image.h"
 
 Surface2D::Surface2D() {
-    _id = 0;
     _width = 0;
     _height = 0;
     _format = TEXTURE_FORMAT_RGBA;
@@ -12,7 +11,6 @@ Surface2D::Surface2D() {
 }
 
 Surface2D::Surface2D(int width, int height, TextureFormat format, TextureFilter filter, TextureWrap wrap) {
-    _id = 0;
     _width = width;
     _height = height;
     _format = format;
@@ -42,22 +40,33 @@ Surface2D::Surface2D(int width, int height, TextureFormat format, TextureFilter 
 }
 
 Surface2D::Surface2D(const std::string& path, const std::string& name) : Asset(path, name){
-    _id = 0;
     _width = 0;
     _height = 0;
-    _format = TEXTURE_FORMAT_RGBA;
-    _data = nullptr;
     _data = stbi_load(path.c_str(), &_width, &_height, &_channels, 0);
     if (_data == nullptr) {
         Debug::Log::error("Failed to load texture: " + path);
     }
+
+    switch (_channels) {
+        case 1:
+            _format = TEXTURE_FORMAT_R;
+            break;
+        case 2:
+            _format = TEXTURE_FORMAT_RG;
+            break;
+        case 3:
+            _format = TEXTURE_FORMAT_RGB;
+            break;
+        case 4:
+            _format = TEXTURE_FORMAT_RGBA;
+            break;
+    }
+
+    _filter = TEXTURE_FILTER_LINEAR;
+    _wrap = TEXTURE_WRAP_REPEAT;
 }
 
 Surface2D::~Surface2D() {
-    if (_id != 0) {
-        glDeleteTextures(1, &_id);
-    }
-
     if (_data != nullptr) {
         delete[] _data;
     }

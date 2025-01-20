@@ -42,10 +42,10 @@ int main() {
 
     Mesh<Vertex2D, unsigned int> quad = Mesh<Vertex2D, unsigned int>::quad(Vector2::one);
 
-    Surface2D t_pomegranate = Surface2D("assets/graphics/textures/pomegranate.png","pomegranate");
-
-    //Debug info
-    Debug::Log::info("Texture Info,","Width:",t_pomegranate.getWidth(),"Height:",t_pomegranate.getHeight(),"Channels:",t_pomegranate.getChannels());
+    Surface2D s_pomegranate("assets/graphics/textures/pomegranate.png", "pomegranate");
+    Surface2D s_pomegranate_normal("assets/graphics/textures/pomegranate_n.png", "pomegranate_normal");
+    Texture2D t_pomegranate(&s_pomegranate);
+    Texture2D t_pomegranate_normal(&s_pomegranate_normal);
 
 #pragma endregion
 
@@ -73,7 +73,8 @@ int main() {
             .renderMode = RENDER_MODE_FILL,
             .cullMode = CULL_MODE_BACK,
             .topologyMode = TOPOLOGY_MODE_TRIANGLE_INDEXED,
-            .depthMode = DEPTH_MODE_NEVER
+            .depthMode = DEPTH_MODE_NEVER,
+            .alphaMode = ALPHA_MODE_BLEND
     };
 
     Shader<Vertex2D> shader2d(vertexFile2D.readText().c_str(), fragmentFile2D.readText().c_str(), renderInfo2d);
@@ -100,30 +101,34 @@ int main() {
 
 #pragma endregion
 
-    Entity e_camera3d = Entity::create();
-    e_camera3d.add<Transform3D>()->position = {0.0f,0.0f,-15.0f};
-    e_camera3d.add<Camera3D>();
-    Camera3D::setMain(e_camera3d);
-
-    Entity e_sphere = Entity::create();
-    e_sphere.add<Transform3D>();
-    auto* instance = e_sphere.add<MeshInstance>();
-    instance->mesh = &sphere;
-    instance->shader = &shader;
-
     Entity e_camera2d = Entity::create();
     e_camera2d.add<Transform2D>();
     e_camera2d.add<Camera2D>();
     Debug::Log::info("Camera Zoom: ",e_camera2d.get<Camera2D>()->zoom);
     Camera2D::setMain(e_camera2d);
 
-    Entity e_sprite = Entity::create();
-    e_sprite.add<Transform2D>();
-    auto* instance2d = e_sprite.add<MeshInstance>();
+    Entity e_sprite_shadow = Entity::create();
+    e_sprite_shadow.add<Transform2D>();
+    auto* instance2d = e_sprite_shadow.add<MeshInstance>();
     instance2d->mesh = &quad;
     instance2d->shader = &shader2d;
-    e_sprite.add<Color>()->color = {1.0f,0.0f,0.0f,1.0f};
-    auto* sprite = e_sprite.add<Sprite>();
+    e_sprite_shadow.add<Color>()->color = {0.0f,0.0f,0.0f,0.75f};
+    auto* sprite = e_sprite_shadow.add<Sprite>();
+    sprite->texture = &t_pomegranate;
+    //sprite->normalMap = &t_pomegranate_normal;
+    sprite->normalStrength = 1.0f;
+    sprite->zIndex = 1;
+
+    Entity e_sprite = Entity::create();
+    e_sprite.add<Transform2D>();
+    instance2d = e_sprite.add<MeshInstance>();
+    instance2d->mesh = &quad;
+    instance2d->shader = &shader2d;
+    e_sprite.add<Color>()->color = {1.0f,1.0f,1.0f,1.0f};
+    sprite = e_sprite.add<Sprite>();
+    sprite->texture = &t_pomegranate;
+    //sprite->normalMap = &t_pomegranate_normal;
+    sprite->normalStrength = 1.0f;
 
 
     //Event::on(DRAW, Function::create<void>(Extensions::Rendering::render3D));
@@ -136,19 +141,23 @@ int main() {
     float deltaTime = 0.016f;
     float lastFrame = 0.0f;
 
-    float spawnTime = 0.0f;
+    float time = 0.0f;
 
     while(window.isOpen()) {
         window.poll();
         inputManager.update();
 
-        spawnTime += deltaTime;
+        time += deltaTime;
 
         Event::emit(UPDATE, deltaTime);
 
-        e_sprite.get<Transform2D>()->position = Vector2(cos(spawnTime), sin(spawnTime)) * 0.0f;
-        e_sprite.get<Transform2D>()->rotation += deltaTime;
-        e_sprite.get<Transform2D>()->scale = Vector2::one * 64.0f;
+        e_sprite.get<Transform2D>()->position = Vector2::zero;
+        e_sprite.get<Transform2D>()->rotation = time;
+        e_sprite.get<Transform2D>()->scale = Vector2::one * 256.0f;
+
+        e_sprite_shadow.get<Transform2D>()->position = Vector2(1.0,-1.0) * 16.0f;
+        e_sprite_shadow.get<Transform2D>()->rotation = time;
+        e_sprite_shadow.get<Transform2D>()->scale = Vector2::one * 256.0f;
 
         window.draw.begin();
 

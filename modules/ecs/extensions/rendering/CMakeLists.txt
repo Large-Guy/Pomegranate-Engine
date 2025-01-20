@@ -1,4 +1,5 @@
 set(POMEGRANATE_ECS_EXTENSIONS_RENDERING_SOURCES
+        ${CMAKE_CURRENT_SOURCE_DIR}/rendering.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/rendering.h
         ${CMAKE_CURRENT_SOURCE_DIR}/mesh_instance.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/mesh_instance.h

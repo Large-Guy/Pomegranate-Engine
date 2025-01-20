@@ -14,5 +14,6 @@
 #include "vector4i.h"
 #include "rect.h"
 #include "random.h"
+#include "utils.h"
 
 #endif //POMEGRANATE_ENGINE_MATH_MATH_H

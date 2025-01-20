@@ -57,3 +57,15 @@ void Texture2D::apply() {
 Surface2D* Texture2D::getSurface() {
     return _surface;
 }
+
+void Texture2D::setBindingSlot(uint slot) {
+    _bind = slot;
+}
+
+uint Texture2D::getID() {
+    return _id;
+}
+
+uint Texture2D::getBind() {
+    return _bind;
+}

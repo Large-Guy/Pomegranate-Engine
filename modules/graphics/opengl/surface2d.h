@@ -6,7 +6,6 @@
 
 class Surface2D : Asset {
 private:
-    GLuint _id;
     int _width;
     int _height;
     int _channels;

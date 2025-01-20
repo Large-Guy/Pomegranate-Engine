@@ -26,6 +26,8 @@ set(POMEGRANATE_MATH_SOURCES
         ${CMAKE_CURRENT_SOURCE_DIR}/random.h
         ${CMAKE_CURRENT_SOURCE_DIR}/rect.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/rect.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/utils.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/utils.h
         ${CMAKE_CURRENT_SOURCE_DIR}/math.h
 )
 

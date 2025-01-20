@@ -39,9 +39,6 @@ public:
     bool _visible;
     bool _open;
     Vector2i _position;
-    GLuint _framebuffer;
-    Texture2D _colorBuffer;
-    GLuint _depthBuffer;
 
     InputManager* _inputManager;
 

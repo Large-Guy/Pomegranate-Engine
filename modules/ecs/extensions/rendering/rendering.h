@@ -110,14 +110,16 @@ namespace Extensions::Rendering {
             }
 
             Texture2D* texture = nullptr;
+            Texture2D* normalMap = nullptr;
+            int zIndex = 0;
+            float normalStrength = 1.0f;
             bool hasSprite = entity.has<Sprite>();
             if(hasSprite)
             {
                 texture = entity.get<Sprite>()->texture;
-                if(texture == nullptr)
-                {
-                    hasSprite = false;
-                }
+                normalMap = entity.get<Sprite>()->normalMap;
+                normalStrength = entity.get<Sprite>()->normalStrength;
+                zIndex = entity.get<Sprite>()->zIndex;
             }
 
             Matrix4x4 model = Transform2D::getMatrix(entity);
@@ -137,12 +139,34 @@ namespace Extensions::Rendering {
             else shader->setUniform("tint", Vector4::one);
             if(hasSprite)
             {
-                shader->setUniform("useTexture",true);
-                shader->setUniform("texture",0);
+                if(texture != nullptr)
+                {
+                    texture->setBindingSlot(0);
+                    shader->setUniform("useTexture",true);
+                    shader->setUniform("spriteTexture",texture);
+                }
+                else
+                {
+                    shader->setUniform("useTexture",false);
+                }
+                if(normalMap != nullptr)
+                {
+                    normalMap->setBindingSlot(1);
+                    shader->setUniform("useNormalMap",true);
+                    shader->setUniform("normalMap",normalMap);
+                    shader->setUniform("normalStrength", normalStrength);
+                }
+                else
+                {
+                    shader->setUniform("useNormalMap",false);
+                }
+
+                shader->setUniform("zIndex",zIndex);
             }
             else
             {
                 shader->setUniform("useTexture",false);
+                shader->setUniform("useNormalMap",false);
             }
             Window::getCurrent()->draw.mesh(meshInstance->mesh);
         });

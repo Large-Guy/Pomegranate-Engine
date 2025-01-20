@@ -47,11 +47,19 @@ enum InputRate {
     INPUT_RATE_INSTANCE = GL_VERTEX_ATTRIB_ARRAY_DIVISOR
 };
 
+enum AlphaMode {
+    ALPHA_MODE_NONE = 0,
+    ALPHA_MODE_BLEND = GL_BLEND,
+    ALPHA_MODE_CLIP = GL_ALPHA_TEST
+};
+
 struct RenderInfo {
     RenderMode renderMode = RENDER_MODE_FILL;
     CullMode cullMode = CULL_MODE_BACK;
     TopologyMode topologyMode = TOPOLOGY_MODE_TRIANGLE_INDEXED;
     DepthMode depthMode = DEPTH_MODE_LESS;
+    AlphaMode alphaMode = ALPHA_MODE_NONE;
+    float alphaThreshold = 0.5f;
 };
 
 enum AttributeFormat {
