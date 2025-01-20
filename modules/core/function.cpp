@@ -4,7 +4,7 @@ size_t Function::FunctionBase::getParameterCount() const {
     return _parameters.size();
 }
 
-const std::vector<TypeInfo>& Function::FunctionBase::getParameters() const {
+std::vector<TypeInfo> Function::FunctionBase::getParameters() const {
     return _parameters;
 }
 
@@ -47,8 +47,8 @@ bool Function::operator==(const Function& function) const {
 size_t Function::getParameterCount() const {
     return _function->getParameterCount();
 }
-const std::vector<TypeInfo>& Function::getParameters() const {
-    auto& parameters = _function->getParameters();
+std::vector<TypeInfo> Function::getParameters() const {
+    auto parameters = _function->getParameters();
     return parameters;
 }
 

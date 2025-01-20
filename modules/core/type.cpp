@@ -12,6 +12,14 @@ TypeInfo::TypeInfo(const TypeInfo& other) {
     mangledName = other.mangledName;
 }
 
+TypeInfo& TypeInfo::operator=(const TypeInfo& other) {
+    size = other.size;
+    type = other.type;
+    name = other.name;
+    mangledName = other.mangledName;
+    return *this;
+}
+
 bool TypeInfo::compare(const TypeInfo& other) const {
     return type == other.type;
 }

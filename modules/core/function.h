@@ -14,7 +14,7 @@ public:
         virtual ~FunctionBase() = default;
         virtual FunctionBase* clone() = 0;
         [[nodiscard]] size_t getParameterCount() const;
-        [[nodiscard]] const std::vector<TypeInfo>& getParameters() const;
+        [[nodiscard]] std::vector<TypeInfo> getParameters() const;
         [[nodiscard]] TypeInfo getReturn() const;
     };
 
@@ -71,7 +71,7 @@ public:
     bool operator==(const Function& function) const;
 
     [[nodiscard]] size_t getParameterCount() const;
-    [[nodiscard]] const std::vector<TypeInfo>& getParameters() const;
+    [[nodiscard]] std::vector<TypeInfo> getParameters() const;
     [[nodiscard]] TypeInfo getReturn() const;
 
     template <typename Return, typename... Args, typename Callable>
@@ -79,10 +79,10 @@ public:
         return Function(new FunctionImpl<Return, Args...>(std::forward<Callable>(function)));
     }
 
-    template<typename Return,typename...CallArgs>
+    template<typename Return = void,typename...CallArgs>
     Return call(CallArgs...args) {
 #ifdef POMEGRANATE_FUNCTION_VALIDATION_LAYERS
-        auto& parameters = getParameters();
+        auto parameters = getParameters();
         const std::vector<TypeInfo> callParameters = {TypeInfo::get<CallArgs>()...};
 
         if(parameters.size() != callParameters.size())

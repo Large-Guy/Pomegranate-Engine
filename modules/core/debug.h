@@ -64,139 +64,185 @@ public:
     };
     class AssertIf {
     public:
-        static inline void isTrue(bool condition, const std::string& message) {
+        template<typename ...args>
+        static inline void isTrue(bool condition, args... message) {
             if (condition) {
-                Log::fail(message);
-                throw std::runtime_error(message.data());
+                Log::fail(message...);
+                throw std::runtime_error("Assertion failed");
             }
         }
-        static inline void isFalse(bool condition, const std::string& message) {
+
+        template<typename ...args>
+        static inline void isFalse(bool condition, args... message) {
             if (!condition) {
-                Log::fail(message);
-                throw std::runtime_error(message.data());
+                Log::fail(message...);
+                throw std::runtime_error("Assertion failed");
             }
         }
-        static inline void isNull(void* ptr, const std::string& message) {
+
+        template<typename ...args>
+        static inline void isNull(void* ptr, args... message) {
             if (ptr == nullptr) {
-                Log::fail(message);
-                throw std::runtime_error(message.data());
+                Log::fail(message...);
+                throw std::runtime_error("Assertion failed");
             }
         }
-        static inline void isNotNull(void* ptr, const std::string& message) {
+
+        template<typename ...args>
+        static inline void isNotNull(void* ptr, args... message) {
             if (ptr != nullptr) {
-                Log::fail(message);
-                throw std::runtime_error(message.data());
+                Log::fail(message...);
+                throw std::runtime_error("Assertion failed");
             }
         }
-        static inline void isZero(int value, const std::string& message) {
+
+        template<typename T, typename ...args>
+        static inline void isZero(T value, args... message) {
             if (value == 0) {
-                Log::fail(message);
-                throw std::runtime_error(message.data());
+                Log::fail(message...);
+                throw std::runtime_error("Assertion failed");
             }
         }
-        static inline void isNotZero(int value, const std::string& message) {
+
+        template<typename T, typename ...args>
+        static inline void isNotZero(T value, args... message) {
             if (value != 0) {
-                Log::fail(message);
-                throw std::runtime_error(message.data());
+                Log::fail(message...);
+                throw std::runtime_error("Assertion failed");
             }
         }
-        static inline void isEqual(int a, int b, const std::string& message) {
+
+        template<typename T, typename ...args>
+        static inline void isEqual(T a, T b, args... message) {
             if (a == b) {
-                Log::fail(message);
-                throw std::runtime_error(message.data());
+                Log::fail(message...);
+                throw std::runtime_error("Assertion failed");
             }
         }
-        static inline void isNotEqual(int a, int b, const std::string& message) {
+
+        template<typename T, typename ...args>
+        static inline void isNotEqual(T a, T b, args... message) {
             if (a != b) {
-                Log::fail(message);
-                throw std::runtime_error(message.data());
+                Log::fail(message...);
+                throw std::runtime_error("Assertion failed");
             }
         }
-        static inline void isLessThan(int a, int b, const std::string& message) {
+
+        template<typename T, typename ...args>
+        static inline void isLessThan(T a, T b, args... message) {
             if (a < b) {
-                Log::fail(message);
-                throw std::runtime_error(message.data());
+                Log::fail(message...);
+                throw std::runtime_error("Assertion failed");
             }
         }
-        static inline void isLessThanOrEqual(int a, int b, const std::string& message) {
+
+        template<typename T, typename ...args>
+        static inline void isLessThanOrEqual(T a, T b, args... message) {
             if (a <= b) {
-                Log::fail(message);
-                throw std::runtime_error(message.data());
+                Log::fail(message...);
+                throw std::runtime_error("Assertion failed");
             }
         }
-        static inline void isGreaterThan(int a, int b, const std::string& message) {
+
+        template<typename T, typename ...args>
+        static inline void isGreaterThan(T a, T b, args... message) {
             if (a > b) {
-                Log::fail(message);
-                throw std::runtime_error(message.data());
+                Log::fail(message...);
+                throw std::runtime_error("Assertion failed");
             }
         }
-        static inline void isGreaterThanOrEqual(int a, int b, const std::string& message) {
+
+        template<typename T, typename ...args>
+        static inline void isGreaterThanOrEqual(T a, T b, args... message) {
             if (a >= b) {
-                Log::fail(message);
-                throw std::runtime_error(message.data());
+                Log::fail(message...);
+                throw std::runtime_error("Assertion failed");
             }
         }
     };
     class WarnIf {
     public:
-        static inline void isTrue(bool condition, const std::string& message) {
+        template<typename ...args>
+        static inline void isTrue(bool condition, args... message) {
             if (condition) {
-                Log::warn(message);
+                Log::warn(message...);
             }
         }
-        static inline void isFalse(bool condition, const std::string& message) {
+
+        template<typename ...args>
+        static inline void isFalse(bool condition, args... message) {
             if (!condition) {
-                Log::warn(message);
+                Log::warn(message...);
             }
         }
-        static inline void isNull(void* ptr, const std::string& message) {
+
+        template<typename ...args>
+        static inline void isNull(void* ptr, args... message) {
             if (ptr == nullptr) {
-                Log::warn(message);
+                Log::warn(message...);
             }
         }
-        static inline void isNotNull(void* ptr, const std::string& message) {
+
+        template<typename ...args>
+        static inline void isNotNull(void* ptr, args... message) {
             if (ptr != nullptr) {
-                Log::warn(message);
+                Log::warn(message...);
             }
         }
-        static inline void isZero(int value, const std::string& message) {
+
+        template<typename T, typename ...args>
+        static inline void isZero(T value, args... message) {
             if (value == 0) {
-                Log::warn(message);
+                Log::warn(message...);
             }
         }
-        static inline void isNotZero(int value, const std::string& message) {
+
+        template<typename T, typename ...args>
+        static inline void isNotZero(T value, args... message) {
             if (value != 0) {
-                Log::warn(message);
+                Log::warn(message...);
             }
         }
-        static inline void isEqual(int a, int b, const std::string& message) {
+
+        template<typename T, typename ...args>
+        static inline void isEqual(T a, T b, args... message) {
             if (a == b) {
-                Log::warn(message);
+                Log::warn(message...);
             }
         }
-        static inline void isNotEqual(int a, int b, const std::string& message) {
+
+        template<typename T, typename ...args>
+        static inline void isNotEqual(T a, T b, args... message) {
             if (a != b) {
-                Log::warn(message);
+                Log::warn(message...);
             }
         }
-        static inline void isLessThan(int a, int b, const std::string& message) {
+
+        template<typename T, typename ...args>
+        static inline void isLessThan(T a, T b, args... message) {
             if (a < b) {
-                Log::warn(message);
+                Log::warn(message...);
             }
         }
-        static inline void isLessThanOrEqual(int a, int b, const std::string& message) {
+
+        template<typename T, typename ...args>
+        static inline void isLessThanOrEqual(T a, T b, args... message) {
             if (a <= b) {
-                Log::warn(message);
+                Log::warn(message...);
             }
         }
-        static inline void isGreaterThan(int a, int b, const std::string& message) {
+
+        template<typename T, typename ...args>
+        static inline void isGreaterThan(T a, T b, args... message) {
             if (a > b) {
-                Log::warn(message);
+                Log::warn(message...);
             }
         }
-        static inline void isGreaterThanOrEqual(int a, int b, const std::string& message) {
+
+        template<typename T, typename ...args>
+        static inline void isGreaterThanOrEqual(T a, T b, args... message) {
             if (a >= b) {
-                Log::warn(message);
+                Log::warn(message...);
             }
         }
     };

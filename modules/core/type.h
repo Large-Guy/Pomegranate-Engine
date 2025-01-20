@@ -16,12 +16,23 @@ struct TypeInfo {
 
     TypeInfo(const TypeInfo& other);
 
+    TypeInfo& operator=(const TypeInfo& other);
+
     template<typename T>
     TypeInfo(T& t) {
         size = sizeof(T);
         type = typeid(T).hash_code();
         name = abi::__cxa_demangle(typeid(T).name(),nullptr,nullptr,nullptr);
         mangledName = typeid(T).name();
+    }
+
+    template<>
+    TypeInfo(TypeInfo& t)
+    {
+        size = t.size;
+        type = t.type;
+        name = t.name;
+        mangledName = t.mangledName;
     }
 
     template<typename T>
