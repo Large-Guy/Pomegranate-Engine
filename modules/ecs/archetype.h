@@ -22,10 +22,10 @@ struct ArchetypeEdge{
 struct Archetype {
     ArchetypeID id;
     Type type;
+    ECS* ecs;
     std::vector<ComponentList> components;
     std::unordered_map<size_t,EntityID> entities;
     std::unordered_map<ComponentID, ArchetypeEdge> edges;
-    static Archetype* getArchetype(const Type& type);
 
     Archetype* addComponent(ComponentID component);
     Archetype* removeComponent(ComponentID component);

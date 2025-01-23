@@ -1,18 +1,57 @@
 #include <utility>
 #include <core/core.h>
 #include <ecs/ecs.h>
-#include <events/events.h>
-#include <ecs/extensions/common/common.h>
-#include <ecs/extensions/rendering/rendering.h>
-#include <graphics/opengl/graphics.h>
-#include <input/input.h>
-#include <math/geometry/geometry.h>
-#include "lua/lua_state.h"
-#include "lua/debug.h"
-#include "lua/events.h"
-#include "lua/ecs.h"
+#include <math/math.h>
+
+struct Player
+{
+    char name[32];
+    int health;
+    int mana;
+
+    void serialize(Archive& archive)
+    {
+        //char[] not support
+        for(int i = 0; i < 32; i++)
+        {
+            archive << name[i];
+        }
+        archive << health << mana;
+    }
+
+    void deserialize(Archive& archive)
+    {
+        for(int i = 0; i < 32; i++)
+        {
+            archive >> name[i];
+        }
+        archive >> health >> mana;
+    }
+};
 
 int main() {
-    Debug::Log::info("Hello World!");
+    ECS ecs{};
+
+    ecs.component<Player>("Player");
+    ecs.component<Vector2>("Position");
+
+    Entity test = ecs.entity();
+    auto* player = test.add<Player>();
+
+    strcpy(player->name,"Test");
+    player->health = 100;
+    player->mana = 100;
+
+    test.add<Vector2>();
+    player = test.get<Player>();
+    auto* position = test.get<Vector2>();
+
+    std::cout << player->name << std::endl;
+    std::cout << player->health << std::endl;
+    std::cout << player->mana << std::endl;
+
+    std::cout << position->x << std::endl;
+    std::cout << position->y << std::endl;
+
     return 0;
 }

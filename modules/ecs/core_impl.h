@@ -3,6 +3,21 @@
 
 #include <ecs/ecs.h>
 
+template <typename T>
+ComponentID ECS::component(const std::string& component)
+{
+    ComponentID id = this->component(component,sizeof(T), ClassFunctions{
+            _constructor<T>,
+            _destructor<T>,
+            _copy<T>,
+            _move<T>,
+            _serialize<T>,
+            _deserialize<T>
+    });
+    ECS::component_ids[typeid(T).hash_code()] = id;
+    return id;
+}
+
 template <typename Args>
 void ECS::parallelEach(ComponentID component, std::function<void(Args*)> func)
 {
@@ -24,7 +39,7 @@ void ECS::parallelEach(ComponentID component, std::function<void(Args*)> func)
 template <typename Args>
 void ECS::parallelEach(const std::string& component, std::function<void(Args*)> func)
 {
-    parallelEach<Args>(Component::getComponentID(component), func);
+    parallelEach<Args>(getComponentID(component), func);
 }
 
 template <typename Args>
@@ -48,7 +63,7 @@ void ECS::parallelEach(ComponentID component, std::function<void(Args*, Entity&)
 template <typename Args>
 void ECS::parallelEach(const std::string& component, std::function<void(Args*, Entity&)> func)
 {
-    parallelEach(Component::getComponentID(component), func);
+    parallelEach(getComponentID(component), func);
 }
 
 template <typename T>
@@ -80,7 +95,7 @@ void ECS::each(ComponentID component, std::function<void(Args*)> func)
 template <typename Args>
 void ECS::each(const std::string& component, std::function<void(Args*)> func)
 {
-    each(Component::getComponentID(component), func);
+    each(getComponentID(component), func);
 }
 
 template <typename Args>
@@ -101,7 +116,7 @@ void ECS::each(ComponentID component, std::function<void(Args*, Entity&)> func)
 template <typename Args>
 void ECS::each(const std::string& component, std::function<void(Args*, Entity&)> func)
 {
-    each(Component::getComponentID(component), func);
+    each(getComponentID(component), func);
 }
 
 #endif //POMEGRANATE_ENGINE_ECS_IMPL_H

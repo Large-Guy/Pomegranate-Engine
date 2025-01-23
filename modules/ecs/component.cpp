@@ -71,30 +71,3 @@ void ComponentList::remove(size_t i) {
 bool ComponentList::has(size_t i) const {
     return occupied[i];
 }
-
-ComponentID Component::create(const std::string& component, size_t size, ClassFunctions functions) {
-    ComponentID id = ECS::component_sizes.size();
-    ECS::component_sizes[id] = size;
-    ECS::component_names[component] = id;
-    ECS::functions[id] = std::move(functions);
-    return id;
-}
-
-ComponentID Component::getComponentID(const std::string &component) {
-    if(ECS::component_names.find(component) == ECS::component_names.end())
-    {
-        throw std::runtime_error("Component \"" + component + "\" not found!");
-    }
-    return ECS::component_names[component];
-}
-
-std::string Component::getComponentName(ComponentID component) {
-    for(auto& pair : ECS::component_names)
-    {
-        if(pair.second == component)
-        {
-            return pair.first;
-        }
-    }
-    throw std::runtime_error("Component with ID " + std::to_string(component) + " not found!");
-}

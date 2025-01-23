@@ -20,20 +20,10 @@ struct EntityRecord
 class Entity : public Reflectable
 {
 public:
-    static Entity create();
-
     //Static
-    static void moveEntityArchetype(EntityID entity, Archetype* new_archetype);
-    static bool hasComponent(EntityID entity, ComponentID component);
-    static bool hasComponent(EntityID entity, const std::string& component);
-    static void* getComponent(EntityID entity, ComponentID component);
-    static void* getComponent(EntityID entity, const std::string& component);
-    static void* addComponent(EntityID entity, ComponentID component);
-    static void* addComponent(EntityID entity, const std::string& component);
-    static void removeComponent(EntityID entity, ComponentID component);
-    static void removeComponent(EntityID entity, const std::string& component);
 
     EntityID id;
+    ECS* ecs;
     Entity();
     Entity(EntityID id);
     Entity(const Entity& entity);
@@ -50,7 +40,7 @@ public:
     template<typename T>
     [[nodiscard]] bool has() const
     {
-        return has(ECS::component_ids[typeid(T).hash_code()]);
+        return has(ecs->component_ids[typeid(T).hash_code()]);
     }
 
     [[nodiscard]] void* get(ComponentID component) const;
@@ -58,7 +48,7 @@ public:
     template<typename T>
     T* get() const
     {
-        return (T*) get(ECS::component_ids[typeid(T).hash_code()]);
+        return (T*) get(ecs->component_ids[typeid(T).hash_code()]);
     }
     template<typename T>
     T* get(ComponentID component) const
@@ -75,7 +65,7 @@ public:
     template<typename T, typename... Args>
     T* addNamed(const std::string& component, Args&&... args)
     {
-        Debug::AssertIf::isFalse(ECS::component_ids.count(typeid(T).hash_code()),"Component not registered!");
+        Debug::AssertIf::isFalse(ecs->component_ids.count(typeid(T).hash_code()),"Component not registered!");
         T* t = (T*) add(component);
         return new (t) T(std::forward<Args>(args)...);
         return t;
@@ -83,8 +73,8 @@ public:
     template<typename T, typename... Args>
     T* add(Args&&... args)
     {
-        Debug::AssertIf::isFalse(ECS::component_ids.count(typeid(T).hash_code()),"Component not registered!");
-        T* t = (T*) add(ECS::component_ids[typeid(T).hash_code()]);
+        Debug::AssertIf::isFalse(ecs->component_ids.count(typeid(T).hash_code()),"Component not registered!");
+        T* t = (T*) add(ecs->component_ids[typeid(T).hash_code()]);
         return new (t) T(std::forward<Args>(args)...);
     }
 

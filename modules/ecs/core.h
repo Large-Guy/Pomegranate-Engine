@@ -28,65 +28,125 @@ struct ClassFunctions {
     std::function<void(Archive&, void*)> deserialize;
 };
 
+template<typename T>
+void _constructor(void* ptr)
+{
+    new(ptr) T();
+}
+
+template<typename T>
+void _destructor(void* ptr)
+{
+    ((T*)ptr)->~T();
+}
+
+template<typename T>
+void _copy(void* dest, void* src)
+{
+    //Make sure to use the copy constructor because some objects are not trivially copyable
+    T* d = (T*)dest;
+    T* s = (T*)src;
+    new(dest) T(*(T*)src);
+}
+
+template<typename T>
+void _move(void* dest, void* src)
+{
+    //Make sure to use the move constructor because some objects are not trivially copyable
+    new(dest) T(std::move(*(T*)src));
+}
+
+template<typename T>
+void _serialize(Archive& archive, void* ptr)
+{
+    ((T *) ptr)->serialize(archive);
+}
+
+template<typename T>
+void _deserialize(Archive& archive, void* ptr)
+{
+    ((T *) ptr)->deserialize(archive);
+}
+
 class ECS {
 public:
-    static std::unordered_map<EntityID, EntityRecord*> entity_index;
-    static std::unordered_map<Type, Archetype*, SetHash, SetEqual> archetype_index;
-    static std::unordered_map<ComponentID,ArchetypeMap> component_index;
-    static std::unordered_map<ComponentID, size_t> component_sizes;
-    static std::unordered_map<std::string, ComponentID> component_names;
-    static std::unordered_map<size_t, ComponentID> component_ids;
-    static std::unordered_map<ComponentID, ClassFunctions> functions;
-    static int threadCount;
+    std::unordered_map<EntityID, EntityRecord*> entity_index;
+    std::unordered_map<Type, Archetype*, SetHash, SetEqual> archetype_index;
+    std::unordered_map<ComponentID,ArchetypeMap> component_index;
+    std::unordered_map<ComponentID, size_t> component_sizes;
+    std::unordered_map<std::string, ComponentID> component_names;
+    std::unordered_map<size_t, ComponentID> component_ids;
+    std::unordered_map<ComponentID, ClassFunctions> functions;
+    int threadCount;
+
+    Archetype* getArchetype(const Type& type);
+
+    void moveEntityArchetype(EntityID entity, Archetype* new_archetype);
+    bool hasComponent(EntityID entity, ComponentID component);
+    bool hasComponent(EntityID entity, const std::string& component);
+    void* getComponent(EntityID entity, ComponentID component);
+    void* getComponent(EntityID entity, const std::string& component);
+    void* addComponent(EntityID entity, ComponentID component);
+    void* addComponent(EntityID entity, const std::string& component);
+    void removeComponent(EntityID entity, ComponentID component);
+    void removeComponent(EntityID entity, const std::string& component);
+
+    Entity entity();
+
+    ComponentID component(const std::string& component,size_t size, ClassFunctions functions);
+    template<typename T>
+    ComponentID component(const std::string& component);
+    ComponentID getComponentID(const std::string& component);
+    std::string getComponentName(ComponentID component);
 
     template <typename Args>
-    static void parallelEach(ComponentID component, std::function<void(Args*)> func);
+    void parallelEach(ComponentID component, std::function<void(Args*)> func);
 
     template <typename Args>
-    static void parallelEach(const std::string& component, std::function<void(Args*)> func);
+    void parallelEach(const std::string& component, std::function<void(Args*)> func);
 
     template <typename Args>
-    static void parallelEach(ComponentID component, std::function<void(Args*, Entity&)> func);
+    void parallelEach(ComponentID component, std::function<void(Args*, Entity&)> func);
 
     template <typename Args>
-    static void parallelEach(const std::string& component, std::function<void(Args*, Entity&)> func);
+    void parallelEach(const std::string& component, std::function<void(Args*, Entity&)> func);
 
     template <typename T>
-    static void parallelEach(std::function<void(T*)> func);
+    void parallelEach(std::function<void(T*)> func);
 
     template <typename T>
-    static void parallelEach(std::function<void(T*, Entity&)> func);
+    void parallelEach(std::function<void(T*, Entity&)> func);
 
-    static void parallelEach(ComponentID component, std::function<void(void*)> func);
+    void parallelEach(ComponentID component, std::function<void(void*)> func);
 
-    static void parallelEach(ComponentID component, std::function<void(void*, Entity&)> func);
+    void parallelEach(ComponentID component, std::function<void(void*, Entity&)> func);
 
-    static void parallelEach(const std::string& component, std::function<void(void*)> func);
+    void parallelEach(const std::string& component, std::function<void(void*)> func);
 
-    static void parallelEach(const std::string& component, std::function<void(void*, Entity&)> func);
-
-    template <typename Args>
-    static void each(ComponentID component, std::function<void(Args*)> func);
+    void parallelEach(const std::string& component, std::function<void(void*, Entity&)> func);
 
     template <typename Args>
-    static void each(const std::string& component, std::function<void(Args*)> func);
+    void each(ComponentID component, std::function<void(Args*)> func);
 
     template <typename Args>
-    static void each(ComponentID component, std::function<void(Args*, Entity&)> func);
+    void each(const std::string& component, std::function<void(Args*)> func);
 
     template <typename Args>
-    static void each(const std::string& component, std::function<void(Args*, Entity&)> func);
+    void each(ComponentID component, std::function<void(Args*, Entity&)> func);
 
-    static void each(ComponentID component, std::function<void(void*)> func);
+    template <typename Args>
+    void each(const std::string& component, std::function<void(Args*, Entity&)> func);
 
-    static void each(const std::string& component, std::function<void(void*)> func);
+    void each(ComponentID component, std::function<void(void*)> func);
 
-    static void each(ComponentID component, std::function<void(void*, Entity&)> func);
+    void each(const std::string& component, std::function<void(void*)> func);
 
-    static void each(const std::string& component, std::function<void(void*, Entity&)> func);
+    void each(ComponentID component, std::function<void(void*, Entity&)> func);
 
-    static void setThreadCount(int count);
-    static unsigned int getMaxThreadCount();
+    void each(const std::string& component, std::function<void(void*, Entity&)> func);
+
+    void setThreadCount(int count);
+    unsigned int getMaxThreadCount();
 };
 
 #endif //POMEGRANATE_ENGINE_CORE_H
