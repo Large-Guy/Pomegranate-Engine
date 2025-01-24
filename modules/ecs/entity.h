@@ -25,7 +25,7 @@ public:
     EntityID id;
     ECS* ecs;
     Entity();
-    Entity(EntityID id);
+    Entity(ECS* ecs, EntityID id);
     Entity(const Entity& entity);
     Entity(const Entity* entity);
 

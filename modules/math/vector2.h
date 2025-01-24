@@ -57,6 +57,8 @@ struct Vector2 {
     [[nodiscard]] Vector2 ceil() const;
     [[nodiscard]] Vector2 floor() const;
     [[nodiscard]] Vector2 abs() const;
+    [[nodiscard]] float distanceTo(const Vector2& v) const;
+    [[nodiscard]] Vector2 directionTo(const Vector2& v) const;
 
     void serialize(Archive& a) const;
     void deserialize(Archive& a);

@@ -92,6 +92,7 @@ public:
     void removeComponent(EntityID entity, const std::string& component);
 
     Entity entity();
+    Entity get(EntityID entity);
 
     ComponentID component(const std::string& component,size_t size, ClassFunctions functions);
     template<typename T>

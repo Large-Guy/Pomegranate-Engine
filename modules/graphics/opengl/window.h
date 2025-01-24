@@ -44,7 +44,7 @@ public:
 
 public:
     Draw draw;
-    Window();
+    Window(int w, int h, const std::string& title);
     ~Window();
 
     void setTitle(const std::string& title);

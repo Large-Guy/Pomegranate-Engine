@@ -139,6 +139,13 @@ Entity ECS::entity()
     return entity;
 }
 
+Entity ECS::get(EntityID entity) {
+    Entity e;
+    e.id = entity;
+    e.ecs = this;
+    return e;
+}
+
 ComponentID ECS::component(const std::string& component, size_t size, ClassFunctions functions) {
     ComponentID id = component_sizes.size();
     component_sizes[id] = size;
@@ -227,7 +234,7 @@ void ECS::parallelEach(ComponentID component, std::function<void(void *, Entity 
         for(size_t i = 0; i < record.archetype->components[record.column].count; i++)
         {
             //Call the function
-            Entity entity(record.archetype->entities[i]);
+            Entity entity(this,record.archetype->entities[i]);
             pool.queue(func,record.archetype->components[record.column].get(i),entity);
         }
     }
@@ -261,7 +268,7 @@ void ECS::each(ComponentID component, std::function<void(void *, Entity &)> func
         for(size_t i = 0; i < record.archetype->components[record.column].count; i++)
         {
             //Call the function
-            Entity entity(record.archetype->entities[i]);
+            Entity entity(this,record.archetype->entities[i]);
             func(record.archetype->components[record.column].get(i),entity);
         }
     }

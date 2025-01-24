@@ -8,26 +8,34 @@ EntityRecord::EntityRecord(Archetype *archetype, size_t row) {
 }
 
 Entity::Entity() {
+    this->ecs = nullptr;
     this->id = 0;
 }
 
-Entity::Entity(EntityID id) {
+Entity::Entity(ECS* ecs, EntityID id) {
+    this->ecs = ecs;
     this->id = id;
 }
 
 Entity::Entity(const Entity &entity) {
+    this->ecs = entity.ecs;
     this->id = entity.id;
 }
 
 Entity::Entity(const Entity *entity) {
-    if(entity != nullptr)
+    if(entity != nullptr) {
         this->id = entity->id;
-    else
+        this->ecs = entity->ecs;
+    }
+    else {
         this->id = NULL_ENTITY;
+        this->ecs = nullptr;
+    }
 }
 
 Entity& Entity::operator=(const Entity &entity) {
     this->id = entity.id;
+    this->ecs = entity.ecs;
     return *this;
 }
 
@@ -37,7 +45,7 @@ Entity& Entity::operator=(const EntityID &entity) {
 }
 
 bool Entity::operator==(const Entity &entity) const {
-    return id == entity.id;
+    return id == entity.id && ecs == entity.ecs;
 }
 
 

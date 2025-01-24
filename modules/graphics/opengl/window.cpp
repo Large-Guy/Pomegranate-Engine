@@ -2,10 +2,10 @@
 
 Window* Window::_current = nullptr;
 
-Window::Window() {
+Window::Window(int w, int h, const std::string& title) {
     Graphics::getInstance();
-    this->_title = "Pomegranate Engine";
-    this->_size = {800, 600};
+    this->_title = title;
+    this->_size = {w, h};
     this->_fullscreen = false;
     this->_visible = false;
     this->_open = true;

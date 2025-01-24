@@ -174,6 +174,14 @@ Vector2 Vector2::abs() const {
     return Vector2(fabsf(x), fabsf(y));
 }
 
+float Vector2::distanceTo(const Vector2 &v) const {
+    return (*this - v).length();
+}
+
+Vector2 Vector2::directionTo(const Vector2 &v) const {
+    return (v - *this).normalize();
+}
+
 void Vector2::serialize(Archive& a) const
 {
     a << x << y;

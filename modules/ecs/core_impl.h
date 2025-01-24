@@ -53,7 +53,7 @@ void ECS::parallelEach(ComponentID component, std::function<void(Args*, Entity&)
         for(size_t i = 0; i < record.archetype->components[record.column].count; i++)
         {
             //Call the function
-            Entity entity(record.archetype->entities[i]);
+            Entity entity(this,record.archetype->entities[i]);
             pool.queue(func,(Args*)record.archetype->components[record.column].get(i),entity);
         }
     }
@@ -107,7 +107,7 @@ void ECS::each(ComponentID component, std::function<void(Args*, Entity&)> func)
         for(size_t i = 0; i < record.archetype->components[record.column].count; i++)
         {
             //Call the function
-            Entity entity(record.archetype->entities[i]);
+            Entity entity(this,record.archetype->entities[i]);
             func((Args*)record.archetype->components[record.column].get(i),entity);
         }
     }
