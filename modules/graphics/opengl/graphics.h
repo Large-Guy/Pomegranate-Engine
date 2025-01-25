@@ -10,5 +10,6 @@
 #include "buffer.h"
 #include "texture2d.h"
 #include "mesh.h"
+#include "draw.h"
 
 #endif //POMEGRANATEENGINE_GRAPHICS_H

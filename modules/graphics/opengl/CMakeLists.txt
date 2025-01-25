@@ -18,6 +18,10 @@ set(POMEGRANATE_GRAPHICS_SOURCES
         ${CMAKE_CURRENT_SOURCE_DIR}/texture2d.h
         ${CMAKE_CURRENT_SOURCE_DIR}/surface2d.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/surface2d.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/draw.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/draw.h
+        camera2d.h
+        camera2d.cpp
 )
 
 set(POMEGRANATE_GRAPHICS_OPEN_GL_GLAD_SOURCES

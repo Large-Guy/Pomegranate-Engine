@@ -32,6 +32,7 @@ public:
     virtual ~ShaderBase() = default;
 
     friend class Window;
+    friend class Draw;
 };
 
 template <typename VertexType>

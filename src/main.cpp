@@ -34,7 +34,7 @@ public:
         }
         _mesh = new Mesh<Vertex2D,uint>(_vertices,_indices);
     }
-    Mesh<Vertex2D,uint>* getMesh() {
+    Mesh<Vertex2D,uint32_t>* getMesh() {
         return _mesh;
     }
 };
@@ -81,113 +81,31 @@ int main() {
     window->show();
 
     InputManager inputManager(window);
+    Draw draw(window);
 
     File vertexFile2D("assets/graphics/shaders/opengl/sprite2d.vert");
     vertexFile2D.open();
     File fragmentFile2D("assets/graphics/shaders/opengl/color.frag");
     fragmentFile2D.open();
     RenderInfo renderInfo2d = {
-            .renderMode = RENDER_MODE_FILL,
-            .cullMode = CULL_MODE_BACK,
+            .renderMode = RENDER_MODE_WIRE_FRAME,
+            .cullMode = CULL_MODE_NONE,
             .topologyMode = TOPOLOGY_MODE_TRIANGLE_INDEXED,
             .depthMode = DEPTH_MODE_NEVER,
             .alphaMode = ALPHA_MODE_BLEND
     };
     Shader<Vertex2D> shader(vertexFile2D.readText().c_str(), fragmentFile2D.readText().c_str(), renderInfo2d);
 
-    Polygon polygon;
+    Surface2D surface = Surface2D("assets/graphics/textures/pomegranate.png","pomegranate");
+    Texture2D texture = Texture2D(&surface);
 
-    Matrix4x4 ortho = Matrix4x4::orthographic(-400,400,-300,300,-1,1);
-    Matrix4x4 view = Matrix4x4::identity();
-    Matrix4x4 model = Matrix4x4::identity();
+    Polygon polygon{};
 
     //Delta time
     auto lastTime = std::chrono::high_resolution_clock::now();
     float deltaTime = 0.0f;
 
-    ECS ecs;
-    ecs.setThreadCount(4);
-    ecs.component<Point>("Point");
-    ecs.component<Spring>("Spring");
-
-    //Generate points grid and springs for softbody
-    {
-        Entity entity = ecs.entity();
-        auto point = entity.add<Point>();
-        point->position = Vector2(-100, -100);
-        point->position_old = point->position;
-    }
-    {
-        Entity entity = ecs.entity();
-        auto point = entity.add<Point>();
-        point->position = Vector2(0, -100);
-        point->position_old = point->position;
-    }
-    {
-        Entity entity = ecs.entity();
-        auto point = entity.add<Point>();
-        point->position = Vector2(100, -100);
-        point->position_old = point->position;
-    }
-    {
-        Entity entity = ecs.entity();
-        auto point = entity.add<Point>();
-        point->position = Vector2(100, 0);
-        point->position_old = point->position;
-    }
-    {
-        Entity entity = ecs.entity();
-        auto point = entity.add<Point>();
-        point->position = Vector2(100, 100);
-        point->position_old = point->position;
-    }
-    {
-        Entity entity = ecs.entity();
-        auto point = entity.add<Point>();
-        point->position = Vector2(0, 100);
-        point->position_old = point->position;
-    }
-    {
-        Entity entity = ecs.entity();
-        auto point = entity.add<Point>();
-        point->position = Vector2(-100, 100);
-        point->position_old = point->position;
-    }
-    {
-        Entity entity = ecs.entity();
-        auto point = entity.add<Point>();
-        point->position = Vector2(-100, 0);
-        point->position_old = point->position;
-    }
-    {
-        Entity entity = ecs.entity();
-        auto point = entity.add<Point>();
-        point->position = Vector2(0, 0);
-        point->position_old = point->position;
-    }
-
-    auto link = [&ecs](int a, int b){
-        ecs.entity().add<Spring>(ecs.get(a).get<Point>(),ecs.get(b).get<Point>(),ecs.get(a).get<Point>()->position.distanceTo(ecs.get(b).get<Point>()->position));
-    };
-
-    link(1,2);
-    link(2,3);
-    link(3,4);
-    link(4,5);
-    link(5,6);
-    link(6,7);
-    link(7,8);
-    link(8,1);
-    link(1,9);
-    link(2,9);
-    link(3,9);
-    link(4,9);
-    link(5,9);
-    link(6,9);
-    link(7,9);
-    link(8,9);
-
-
+    Camera2D camera(Vector2::zero,Vector2(800,600),0,1);
 
     float gravity = 9800.0f;
 
@@ -197,99 +115,20 @@ int main() {
     {
         window->poll();
         inputManager.update();
-        //Updating
-
-        Vector2 cursor = inputManager.getMouse().getPosition();
-        //Convert to world space
-        cursor = cursor - Vector2(400,300);
-        cursor.y = -cursor.y;
-
-        if(grabbed == nullptr && inputManager.getMouse().getButton(Mouse::BUTTON_LEFT) == BUTTON_PRESSED) {
-            ecs.each<Point>("Point", [&](Point *point) {
-                if (cursor.distanceTo(point->position) < 50) {
-                    std::cout << "Grabbed" << std::endl;
-                    grabbed = point;
-                }
-            });
-        }
-
-        if(grabbed != nullptr)
-        {
-            std::cout << "Held" << std::endl;
-            Vector2 direction = cursor.directionTo(grabbed->position);
-            grabbed->acceleration += direction * -150000.0f * deltaTime;
-        }
-
-        if(inputManager.getMouse().getButton(Mouse::BUTTON_LEFT) == BUTTON_RELEASED)
-        {
-            grabbed = nullptr;
-        }
-
-
-        //Physics
-        ecs.each<Spring>("Spring",[&](Spring* spring){
-            auto a = spring->a;
-            auto b = spring->b;
-
-            float compression = a->position.distanceTo(b->position) - spring->length;
-            float constant = 24000.0f;
-            float force = constant * compression * 0.5f;
-            float finalForce = force - spring->previousForce * 0.7f;
-            spring->previousForce = force;
-
-            Vector2 direction = a->position.directionTo(b->position);
-
-            a->acceleration += direction * finalForce * deltaTime;
-            b->acceleration -= direction * finalForce * deltaTime;
-        });
-
-        ecs.each<Point>("Point",[&deltaTime,&gravity,&cursor,&inputManager](Point* point){
-            point->acceleration += Vector2(0,-gravity) * deltaTime;
-
-            if(point->position.y < -300)
-            {
-                point->position.y = -300;
-            }
-
-            Vector2 velocity = point->position - point->position_old;
-
-            point->position_old = point->position;
-
-            point->position = point->position + velocity + point->acceleration * deltaTime * deltaTime;
-
-            point->acceleration = {};
-        });
-
-        //Build the polygon
-        polygon.points.clear();
-
-        Point* p1 = nullptr;
-
-        ecs.each<Point>("Point",[&](Point* point){
-            if(p1 == nullptr)
-            {
-                p1 = point;
-            }
-            polygon.addPoint(point->position);
-        });
-
-        //polygon.addPoint(p1->position);
-
-        polygon.generate();
 
         //Rendering
-        window->draw.begin();
-        window->draw.clear(Vector4(0.1f,0.1f,0.1f,1.0f));
+        draw.begin();
+        draw.clear(Vector4(0.1f,0.1f,0.1f,1.0f));
+        draw.camera(&camera);
 
-        window->draw.shader(&shader);
-        shader.setUniform("projection",ortho);
-        shader.setUniform("view",view);
-        shader.setUniform("model",model);
-        shader.setUniform("tint",Vector4::one);
+        draw.rect(Vector2(0,0),Vector2(256,256),0,Vector4(1,0,0,1));
 
-        window->draw.mesh(polygon.getMesh());
+        draw.line(Vector2(0,0),Vector2(256,0),Vector4(1,0,0,1));
+        draw.line(Vector2(0,0),Vector2(0,256),Vector4(0,1,0,1));
+        draw.image(&texture,Vector2(0,0),Vector2(256,256),glfwGetTime(),Vector4::one);
 
-        window->draw.end();
+
+        draw.end();
 
         auto currentTime = std::chrono::high_resolution_clock::now();
         deltaTime = std::chrono::duration<float,std::chrono::seconds::period>(currentTime - lastTime).count();

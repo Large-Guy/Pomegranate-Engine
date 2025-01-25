@@ -24,7 +24,6 @@ Window::Window(int w, int h, const std::string& title) {
     Debug::AssertIf::isFalse(gladLoadGLLoader((GLADloadproc)glfwGetProcAddress), "Failed to initialize GLAD");
 
     glfwHideWindow(this->_window);
-    draw.window = this;
 
     Graphics::_windows.push_back(this);
 
@@ -145,74 +144,4 @@ InputManager* Window::getInputManager() const {
 
 Window* Window::getCurrent() {
     return _current;
-}
-
-//----------- Draw Class ------------
-
-void Window::Draw::begin() {
-    _current = this->window;
-    glfwMakeContextCurrent(this->window->_window);
-    //glBindFramebuffer(GL_FRAMEBUFFER, this->window->_framebuffer);
-    //glViewport(0, 0, this->window->_size.x, this->window->_size.y);
-}
-
-void Window::Draw::end() {
-    glfwSwapBuffers(this->window->_window);
-}
-
-void Window::Draw::clear(Vector4 color) {
-    glClearColor(color.x, color.y, color.z, color.w);
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
-}
-
-/*
-void Window::Draw::buffers(BufferBase<BUFFER_TYPE_VERTEX>* vertexBuffer, BufferBase<BUFFER_TYPE_INDEX>* indexBuffer, ShaderBase* shader) {
-
-}
-*/
-
-void Window::Draw::shader(ShaderBase* shader) {
-    _topologyMode = shader->_info.topologyMode;
-    if(shader->_info.cullMode != CULL_MODE_NONE) {
-        glEnable(GL_CULL_FACE);
-        glCullFace(shader->_info.cullMode);
-    }
-    else {
-        glDisable(GL_CULL_FACE);
-    }
-    glPolygonMode(GL_FRONT_AND_BACK, shader->_info.renderMode);
-
-    if(shader->_info.depthMode != DEPTH_MODE_NEVER)
-    {
-        glEnable(GL_DEPTH_TEST);
-        glDepthFunc(shader->_info.depthMode);
-    }
-    else
-    {
-        glDisable(GL_DEPTH_TEST);
-    }
-
-    if(shader->_info.alphaMode != ALPHA_MODE_NONE)
-    {
-        if(shader->_info.alphaMode == ALPHA_MODE_CLIP)
-        {
-            glEnable(GL_ALPHA_TEST);
-            glAlphaFunc(GL_GREATER, shader->_info.alphaThreshold);
-        }
-        else {
-            glEnable(GL_BLEND);
-            glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-        }
-    }
-    else
-    {
-        glDisable(GL_BLEND);
-    }
-
-    glUseProgram(shader->_program);
-}
-
-void Window::Draw::mesh(MeshBase* mesh) {
-    glBindVertexArray(mesh->_vao);
-    glDrawElements(_topologyMode, mesh->getIndexCount(), GL_UNSIGNED_INT, nullptr);
 }

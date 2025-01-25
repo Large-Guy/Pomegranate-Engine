@@ -15,20 +15,6 @@ class Window {
 public:
     static Window* _current;
 
-    class Draw {
-    private:
-        TopologyMode _topologyMode = TOPOLOGY_MODE_TRIANGLE_INDEXED;
-    public:
-        Window* window;
-        uint32_t imageIndex;
-        void begin();
-        void end();
-        void clear(Vector4 color);
-        //void buffers(BufferBase<BUFFER_TYPE_VERTEX>* vertexBuffer, BufferBase<BUFFER_TYPE_INDEX>* indexBuffer, ShaderBase* shader);
-        void shader(ShaderBase* shader);
-        void mesh(MeshBase* mesh);
-    };
-
     GLFWwindow* _window;
 
     uint32_t _currentFrame = 0;
@@ -41,9 +27,7 @@ public:
     Vector2i _position;
 
     InputManager* _inputManager;
-
 public:
-    Draw draw;
     Window(int w, int h, const std::string& title);
     ~Window();
 
