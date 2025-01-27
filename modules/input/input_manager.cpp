@@ -10,45 +10,44 @@ InputManager::InputManager() {
     _keyboard._inputManager = this;
     _mouse = {};
     _mouse._inputManager = this;
-    for(int i = 0; i < 17; i++) {
+    for (int i = 0; i < 17; i++) {
         _gamepads[i] = {};
-        _gamepads[i]._id = (GamepadID)i;
+        _gamepads[i]._id = (GamepadID) i;
         _gamepads[i]._inputManager = this;
         _gamepads[i]._connected = false;
     }
 }
 
-InputManager::InputManager(Window* window) {
+InputManager::InputManager(Window *window) {
     attachedWindow = window;
     window->_inputManager = this;
     _keyboard = {};
     _keyboard._inputManager = this;
     _mouse = {};
     _mouse._inputManager = this;
-    for(int i = 0; i < 17; i++) {
+    for (int i = 0; i < 17; i++) {
         _gamepads[i] = {};
-        _gamepads[i]._id = (GamepadID)i;
+        _gamepads[i]._id = (GamepadID) i;
         _gamepads[i]._inputManager = this;
         _gamepads[i]._connected = false;
     }
 }
 
-void scrollCallback(GLFWwindow* window, double x, double y) {
-    scroll = {(float)x, (float)y};
+void scrollCallback(GLFWwindow *window, double x, double y) {
+    scroll = {(float) x, (float) y};
 }
 
 void InputManager::update() {
-    if(attachedWindow == nullptr) {
+    if (attachedWindow == nullptr) {
         return;
     }
-    GLFWwindow* window = attachedWindow->_window;
+    GLFWwindow *window = attachedWindow->_window;
 
-    glfwSetScrollCallback(window,scrollCallback);
+    glfwSetScrollCallback(window, scrollCallback);
 
     // Keyboard
-    for(int i = 0; i < GLFW_KEY_LAST + 1; i++) {
-        if(glfwGetKey(window, i) == GLFW_PRESS)
-        {
+    for (int i = 0; i < GLFW_KEY_LAST + 1; i++) {
+        if (glfwGetKey(window, i) == GLFW_PRESS) {
             switch (_keyboard._keys[i]) {
                 case BUTTON_IDLE:
                     _keyboard._keys[i] = BUTTON_PRESSED;
@@ -57,9 +56,7 @@ void InputManager::update() {
                     _keyboard._keys[i] = BUTTON_HELD;
                     break;
             }
-        }
-        else
-        {
+        } else {
             switch (_keyboard._keys[i]) {
                 case BUTTON_HELD:
                     _keyboard._keys[i] = BUTTON_RELEASED;
@@ -75,13 +72,12 @@ void InputManager::update() {
     double x, y;
     glfwGetCursorPos(window, &x, &y);
 
-    _mouse._delta = {(float)x - _mouse._position.x, (float)y - _mouse._position.y};
-    _mouse._position = {(float)x, (float)y};
+    _mouse._delta = {(float) x - _mouse._position.x, (float) y - _mouse._position.y};
+    _mouse._position = {(float) x, (float) y};
     _mouse._scroll = scroll;
 
-    for(int i = 0; i < 3; i++) {
-        if(glfwGetMouseButton(window, i) == GLFW_PRESS)
-        {
+    for (int i = 0; i < 3; i++) {
+        if (glfwGetMouseButton(window, i) == GLFW_PRESS) {
             switch (_mouse._buttons[i]) {
                 case BUTTON_IDLE:
                     _mouse._buttons[i] = BUTTON_PRESSED;
@@ -90,9 +86,7 @@ void InputManager::update() {
                     _mouse._buttons[i] = BUTTON_HELD;
                     break;
             }
-        }
-        else
-        {
+        } else {
             switch (_mouse._buttons[i]) {
                 case BUTTON_HELD:
                     _mouse._buttons[i] = BUTTON_RELEASED;
@@ -105,23 +99,22 @@ void InputManager::update() {
     }
 
     // Gamepads
-    for(int i = GLFW_JOYSTICK_1; i <= GLFW_JOYSTICK_LAST; ++i) {
+    for (int i = GLFW_JOYSTICK_1; i <= GLFW_JOYSTICK_LAST; ++i) {
         if (glfwJoystickPresent(i)) {
             _gamepads[i]._connected = true;
             //_gamepads[i]._name = glfwGetGamepadName(i); //This segfaults for some reason
 
             int count;
-            const float* axes = glfwGetJoystickAxes(i, &count);
+            const float *axes = glfwGetJoystickAxes(i, &count);
 
-            for(int j = 0; j < count; j++) {
+            for (int j = 0; j < count; j++) {
                 _gamepads[i]._axes[j] = axes[j];
             }
 
-            const unsigned char* buttons = glfwGetJoystickButtons(i, &count);
+            const unsigned char *buttons = glfwGetJoystickButtons(i, &count);
 
-            for(int j = 0; j < count; j++) {
-                if(buttons[j] == GLFW_PRESS)
-                {
+            for (int j = 0; j < count; j++) {
+                if (buttons[j] == GLFW_PRESS) {
                     switch (_gamepads[i]._buttons[j]) {
                         case BUTTON_IDLE:
                             _gamepads[i]._buttons[j] = BUTTON_PRESSED;
@@ -130,9 +123,7 @@ void InputManager::update() {
                             _gamepads[i]._buttons[j] = BUTTON_HELD;
                             break;
                     }
-                }
-                else
-                {
+                } else {
                     switch (_gamepads[i]._buttons[j]) {
                         case BUTTON_HELD:
                             _gamepads[i]._buttons[j] = BUTTON_RELEASED;
@@ -147,7 +138,7 @@ void InputManager::update() {
     }
 
     //Iterate over all button aliases
-    for(auto & [name, alias] : _buttonAliases) {
+    for (auto &[name, alias]: _buttonAliases) {
         ButtonState state = getButtonAlias(name).getState();
         switch (state) {
             case BUTTON_IDLE:
@@ -166,89 +157,89 @@ void InputManager::update() {
     }
 
     //Iterate over all axis aliases
-    for(auto & [name, alias] : _axisAliases) {
+    for (auto &[name, alias]: _axisAliases) {
         float value = getAxisAlias(name).getState();
-        if(value != _axisPreviousValues[name]) {
+        if (value != _axisPreviousValues[name]) {
             Event::emit(alias._onChanged, value);
         }
         _axisPreviousValues[name] = value;
     }
 }
 
-void InputManager::attachWindow(Window* window) {
+void InputManager::attachWindow(Window *window) {
     attachedWindow = window;
 }
 
-Window* InputManager::getAttachedWindow() {
+Window *InputManager::getAttachedWindow() {
     return attachedWindow;
 }
 
-ButtonAlias& InputManager::addButtonAlias(const std::string& name, ButtonAlias alias) {
+ButtonAlias &InputManager::addButtonAlias(const std::string &name, ButtonAlias alias) {
     _buttonAliases[name] = std::move(alias);
-    ButtonAlias& buttonAlias = _buttonAliases[name];
+    ButtonAlias &buttonAlias = _buttonAliases[name];
     buttonAlias._inputManager = this;
-    buttonAlias._onIdle = Event::create("@"+name+"-idle");
-    buttonAlias._onHeld = Event::create("@"+name+"-held");
-    buttonAlias._onPressed = Event::create("@"+name+"-pressed");
-    buttonAlias._onReleased = Event::create("@"+name+"-released");
+    buttonAlias._onIdle = Event::create("@" + name + "-idle");
+    buttonAlias._onHeld = Event::create("@" + name + "-held");
+    buttonAlias._onPressed = Event::create("@" + name + "-pressed");
+    buttonAlias._onReleased = Event::create("@" + name + "-released");
 
     return buttonAlias;
 }
 
-AxisAlias& InputManager::addAxisAlias(const std::string& name, AxisAlias alias) {
+AxisAlias &InputManager::addAxisAlias(const std::string &name, AxisAlias alias) {
     _axisAliases[name] = std::move(alias);
 
-    AxisAlias& axisAlias = _axisAliases[name];
+    AxisAlias &axisAlias = _axisAliases[name];
     axisAlias._inputManager = this;
-    axisAlias._onChanged = Event::create("@"+name+"-changed");
+    axisAlias._onChanged = Event::create("@" + name + "-changed");
 
 
     return axisAlias;
 }
 
-void InputManager::setAxisAliasDeadzone(const std::string& name, float deadzone) {
-    if(_axisAliases.find(name) == _axisAliases.end()) {
-        Debug::Log::warn("Axis Alias",name,"not found!");
+void InputManager::setAxisAliasDeadzone(const std::string &name, float deadzone) {
+    if (_axisAliases.find(name) == _axisAliases.end()) {
+        Debug::Log::warn("Axis Alias", name, "not found!");
         return;
     }
     _axisAliases[name].deadzone = deadzone;
 }
 
-Keyboard& InputManager::getKeyboard() {
+Keyboard &InputManager::getKeyboard() {
     return _keyboard;
 }
 
-Mouse& InputManager::getMouse() {
+Mouse &InputManager::getMouse() {
     return _mouse;
 }
 
-Gamepad& InputManager::getGamepad(GamepadID gamepad) {
+Gamepad &InputManager::getGamepad(GamepadID gamepad) {
     return _gamepads[gamepad];
 }
 
-ButtonAlias& InputManager::getButtonAlias(const std::string& name) {
-    if(_buttonAliases.find(name) == _buttonAliases.end()) {
-        Debug::Log::warn("Button Alias",name,"not found!");
+ButtonAlias &InputManager::getButtonAlias(const std::string &name) {
+    if (_buttonAliases.find(name) == _buttonAliases.end()) {
+        Debug::Log::warn("Button Alias", name, "not found!");
     }
-    ButtonAlias& alias = _buttonAliases[name];
+    ButtonAlias &alias = _buttonAliases[name];
     return alias;
 }
 
-AxisAlias& InputManager::getAxisAlias(const std::string& name) {
+AxisAlias &InputManager::getAxisAlias(const std::string &name) {
     if (_axisAliases.find(name) == _axisAliases.end()) {
         Debug::Log::warn("Axis Alias", name, "not found!");
     }
-    AxisAlias& alias = _axisAliases[name];
+    AxisAlias &alias = _axisAliases[name];
     return alias;
 }
 
-Alias InputManager::getAlias(const std::string& name) {
-    if(_buttonAliases.find(name) != _buttonAliases.end()) {
+Alias InputManager::getAlias(const std::string &name) {
+    if (_buttonAliases.find(name) != _buttonAliases.end()) {
         return _buttonAliases[name];
     }
-    if(_axisAliases.find(name) != _axisAliases.end()) {
+    if (_axisAliases.find(name) != _axisAliases.end()) {
         return _axisAliases[name];
     }
-    Debug::Log::warn("Alias",name,"not found!");
+    Debug::Log::warn("Alias", name, "not found!");
     return {};
 }

@@ -1,5 +1,6 @@
 #ifndef POMEGRANATEENGINE_ENUMERATIONS_H
 #define POMEGRANATEENGINE_ENUMERATIONS_H
+
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 

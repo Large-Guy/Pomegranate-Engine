@@ -1,94 +1,93 @@
 #ifndef POMEGRANATE_ENGINE_CORE_HASH_TABLE_H
 #define POMEGRANATE_ENGINE_CORE_HASH_TABLE_H
+
 #include "serializable.h"
 #include <functional>
 #include <unordered_map>
 
-template <typename K, typename V, typename Hash = std::hash<K>>
+template<typename K, typename V, typename Hash = std::hash<K>>
 struct HashTable : public Serializable {
 private:
     std::unordered_map<K, V, Hash> _data;
 public:
-    HashTable()
-    {
+    HashTable() {
         this->_data = {};
     }
-    explicit HashTable(const std::unordered_map<K, V, Hash>& data)
-    {
+
+    explicit HashTable(const std::unordered_map<K, V, Hash> &data) {
         this->_data = data;
     }
-    HashTable(const HashTable<K, V, Hash>& other)
-    {
+
+    HashTable(const HashTable<K, V, Hash> &other) {
         this->_data = other._data;
     }
-    HashTable<K, V, Hash>& operator=(const HashTable<K, V, Hash>& other)
-    {
+
+    HashTable<K, V, Hash> &operator=(const HashTable<K, V, Hash> &other) {
         this->_data = other._data;
         return *this;
     }
-    V& operator[](const K& key)
-    {
+
+    V &operator[](const K &key) {
         return this->_data[key];
     }
-    const V& operator[](const K& key) const
-    {
+
+    const V &operator[](const K &key) const {
         return this->_data[key];
     }
-    size_t size() const
-    {
+
+    size_t size() const {
         return this->_data.size();
     }
-    void add(const K& key, const V& value)
-    {
+
+    void add(const K &key, const V &value) {
         this->_data[key] = value;
     }
-    void remove(const K& key)
-    {
+
+    void remove(const K &key) {
         this->_data.erase(key);
     }
-    void clear()
-    {
+
+    void clear() {
         this->_data.clear();
     }
-    bool has(const K& key) const
-    {
+
+    bool has(const K &key) const {
         return this->_data.find(key) != this->_data.end();
     }
-    size_t count(const K& key) const
-    {
+
+    size_t count(const K &key) const {
         return this->_data.count(key);
     }
-    std::unordered_map<K, V, Hash> data() const
-    {
+
+    std::unordered_map<K, V, Hash> data() const {
         return this->_data;
     }
-    void data(const std::unordered_map<K, V, Hash>& data)
-    {
+
+    void data(const std::unordered_map<K, V, Hash> &data) {
         this->_data = data;
     }
-    typename std::unordered_map<K, V, Hash>::iterator begin()
-    {
+
+    typename std::unordered_map<K, V, Hash>::iterator begin() {
         return this->_data.begin();
     }
-    typename std::unordered_map<K, V, Hash>::iterator end()
-    {
-        return this->_data.end();
-    }
-    typename std::unordered_map<K, V, Hash>::const_iterator begin() const
-    {
-        return this->_data.begin();
-    }
-    typename std::unordered_map<K, V, Hash>::const_iterator end() const
-    {
+
+    typename std::unordered_map<K, V, Hash>::iterator end() {
         return this->_data.end();
     }
 
-    explicit operator std::unordered_map<K, V, Hash>() const
-    {
+    typename std::unordered_map<K, V, Hash>::const_iterator begin() const {
+        return this->_data.begin();
+    }
+
+    typename std::unordered_map<K, V, Hash>::const_iterator end() const {
+        return this->_data.end();
+    }
+
+    explicit operator std::unordered_map<K, V, Hash>() const {
         return this->_data;
     }
-    friend std::ostream& operator<<(std::ostream& os, const HashTable<K,V,Hash>& list)
-    {
+
+    friend std::ostream &operator<<(std::ostream &os, const HashTable<K, V, Hash> &list) {
         os << "[";
         for (auto it = list.begin(); it != list.end(); it++) {
             os << it->first << ": " << it->second;
@@ -99,15 +98,16 @@ public:
         os << "]";
         return os;
     }
-    void serialize(Archive& a) const override
-    {
+
+    void serialize(Archive &a) const override {
         a << this->_data.size();
         for (auto it = this->_data.begin(); it != this->_data.end(); it++) {
             a << it->first;
             a << it->second;
         }
     }
-    void deserialize(Archive& a) override {
+
+    void deserialize(Archive &a) override {
         size_t size;
         a >> &size;
         for (size_t i = 0; i < size; i++) {
@@ -119,4 +119,5 @@ public:
         }
     }
 };
+
 #endif //POMEGRANATE_ENGINE_HASH_TABLE_H

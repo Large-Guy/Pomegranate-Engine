@@ -1,23 +1,30 @@
 #ifndef POMEGRANATEENGINE_PLANE_H
 #define POMEGRANATEENGINE_PLANE_H
+
 #include "math/vector3.h"
 
 struct Plane {
     Vector3 normal;
 
     Plane();
+
     Plane(Vector3 normal);
+
     Plane(float x, float y, float z);
-    Plane(const Plane& other);
 
-    Plane& operator=(const Plane& other);
+    Plane(const Plane &other);
 
-    [[nodiscard]] float distance(const Vector3& point) const;
-    [[nodiscard]] bool contains(const Vector3& point) const;
-    [[nodiscard]] bool intersects(const Plane& other) const;
+    Plane &operator=(const Plane &other);
 
-    void serialize(Archive& arc) const;
-    void deserialize(Archive& arc);
+    [[nodiscard]] float distance(const Vector3 &point) const;
+
+    [[nodiscard]] bool contains(const Vector3 &point) const;
+
+    [[nodiscard]] bool intersects(const Plane &other) const;
+
+    void serialize(Archive &arc) const;
+
+    void deserialize(Archive &arc);
 };
 
 

@@ -14,7 +14,7 @@ TypeInfo Function::FunctionBase::getReturn() const {
 
 Function::Function() : _function(nullptr) {}
 
-Function::Function(const Function& function) {
+Function::Function(const Function &function) {
     _function = function._function->clone();
 }
 
@@ -26,27 +26,28 @@ Function::~Function() {
     delete _function;
 }
 
-Function& Function::operator=(FunctionBase* function) {
+Function &Function::operator=(FunctionBase *function) {
     delete _function;
     _function = function;
     return *this;
 }
 
-Function& Function::operator=(const Function& function){
-    if(this == &function)
+Function &Function::operator=(const Function &function) {
+    if (this == &function)
         return *this;
     delete _function;
     _function = function._function->clone();
     return *this;
 }
 
-bool Function::operator==(const Function& function) const {
+bool Function::operator==(const Function &function) const {
     return _function == function._function;
 }
 
 size_t Function::getParameterCount() const {
     return _function->getParameterCount();
 }
+
 std::vector<TypeInfo> Function::getParameters() const {
     auto parameters = _function->getParameters();
     return parameters;

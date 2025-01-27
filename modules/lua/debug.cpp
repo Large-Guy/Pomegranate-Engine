@@ -90,7 +90,7 @@ int LuaDebug::LuaLog::error(lua_State *L) {
     return 0;
 }
 
-void LuaDebug::registerFunctions(LuaState& script) {
+void LuaDebug::registerFunctions(LuaState &script) {
     script.beginNamespace("Debug");
 
     //Log

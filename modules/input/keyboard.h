@@ -1,5 +1,6 @@
 #ifndef POMEGRANATEENGINE_KEYBOARD_H
 #define POMEGRANATEENGINE_KEYBOARD_H
+
 #include <graphics/opengl/window.h>
 #include <variant>
 #include "enumerations.h"
@@ -9,7 +10,7 @@ class InputManager;
 struct Keyboard {
 private:
     ButtonState _keys[GLFW_KEY_LAST + 1];
-    InputManager* _inputManager;
+    InputManager *_inputManager;
 public:
     enum Key {
         KEY_SPACE = GLFW_KEY_SPACE,

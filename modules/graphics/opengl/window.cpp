@@ -1,8 +1,8 @@
 #include "window.h"
 
-Window* Window::_current = nullptr;
+Window *Window::_current = nullptr;
 
-Window::Window(int w, int h, const std::string& title) {
+Window::Window(int w, int h, const std::string &title) {
     Graphics::getInstance();
     this->_title = title;
     this->_size = {w, h};
@@ -10,9 +10,9 @@ Window::Window(int w, int h, const std::string& title) {
     this->_visible = false;
     this->_open = true;
     this->_window = glfwCreateWindow(this->_size.x, this->_size.y, this->_title.data(), nullptr, nullptr);
-    if(!this->_window) {
+    if (!this->_window) {
         //Get the error
-        const char* error;
+        const char *error;
         glfwGetError(&error);
         Debug::Log::error("Failed to create window: " + std::string(error));
         glfwTerminate();
@@ -21,7 +21,7 @@ Window::Window(int w, int h, const std::string& title) {
 
     glfwMakeContextCurrent(this->_window);
 
-    Debug::AssertIf::isFalse(gladLoadGLLoader((GLADloadproc)glfwGetProcAddress), "Failed to initialize GLAD");
+    Debug::AssertIf::isFalse(gladLoadGLLoader((GLADloadproc) glfwGetProcAddress), "Failed to initialize GLAD");
 
     glfwHideWindow(this->_window);
 
@@ -33,10 +33,11 @@ Window::Window(int w, int h, const std::string& title) {
 Window::~Window() {
     glfwDestroyWindow(this->_window);
 
-    Graphics::_windows.erase(std::remove(Graphics::_windows.begin(), Graphics::_windows.end(), this), Graphics::getInstance()->_windows.end());
+    Graphics::_windows.erase(std::remove(Graphics::_windows.begin(), Graphics::_windows.end(), this),
+                             Graphics::getInstance()->_windows.end());
 }
 
-void Window::setTitle(const std::string& title) {
+void Window::setTitle(const std::string &title) {
     this->_title = title;
     glfwSetWindowTitle(this->_window, this->_title.data());
 }
@@ -54,17 +55,16 @@ void Window::setSize(int width, int height) {
 void Window::poll() {
     glfwPollEvents();
 
-    if(glfwWindowShouldClose(this->_window)) {
+    if (glfwWindowShouldClose(this->_window)) {
         this->_open = false;
-    }
-    else {
+    } else {
         this->_open = true;
     }
 
     //Check for window resize
     Vector2i newSize;
     glfwGetWindowSize(this->_window, &newSize.x, &newSize.y);
-    if(newSize != this->_size) {
+    if (newSize != this->_size) {
         this->_size = newSize;
     }
 
@@ -88,13 +88,12 @@ void Window::close() {
 }
 
 void Window::fullscreen() {
-    if(this->_fullscreen) {
+    if (this->_fullscreen) {
         glfwSetWindowMonitor(this->_window, nullptr, 0, 0, this->_size.x, this->_size.y, 0);
         this->_fullscreen = false;
-    }
-    else {
-        GLFWmonitor* monitor = glfwGetPrimaryMonitor();
-        const GLFWvidmode* mode = glfwGetVideoMode(monitor);
+    } else {
+        GLFWmonitor *monitor = glfwGetPrimaryMonitor();
+        const GLFWvidmode *mode = glfwGetVideoMode(monitor);
         glfwSetWindowMonitor(this->_window, monitor, 0, 0, mode->width, mode->height, mode->refreshRate);
         this->_fullscreen = true;
     }
@@ -138,10 +137,10 @@ bool Window::isOpen() const {
     return this->_open;
 }
 
-InputManager* Window::getInputManager() const {
+InputManager *Window::getInputManager() const {
     return this->_inputManager;
 }
 
-Window* Window::getCurrent() {
+Window *Window::getCurrent() {
     return _current;
 }

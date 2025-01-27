@@ -10,7 +10,7 @@ Transform2D::Transform2D() {
     property("rotation", &this->rotation);
 }
 
-Transform2D::Transform2D(const Vector2& position, const Vector2& scale, float rotation) {
+Transform2D::Transform2D(const Vector2 &position, const Vector2 &scale, float rotation) {
     this->_initalized = false;
     this->position = position;
     this->scale = scale;
@@ -20,7 +20,7 @@ Transform2D::Transform2D(const Vector2& position, const Vector2& scale, float ro
     property("rotation", &this->rotation);
 }
 
-Transform2D::Transform2D(const Transform2D& other) {
+Transform2D::Transform2D(const Transform2D &other) {
     this->_initalized = false;
     this->position = other.position;
     this->scale = other.scale;
@@ -30,35 +30,31 @@ Transform2D::Transform2D(const Transform2D& other) {
     property("rotation", &this->rotation);
 }
 
-Vector2 Transform2D::getPosition(Entity& entity) {
-    auto* transform = entity.get<Transform2D>();
-    if(transform == nullptr)
-    {
+Vector2 Transform2D::getPosition(Entity &entity) {
+    auto *transform = entity.get<Transform2D>();
+    if (transform == nullptr) {
         return {};
     }
-    auto* parent = entity.get<Parent>();
-    if(parent != nullptr)
-    {
+    auto *parent = entity.get<Parent>();
+    if (parent != nullptr) {
         return getPosition(parent->parent) + transform->position;
     }
     return transform->position;
 }
 
-Vector2 Transform2D::getScale(Entity& entity) {
-    auto* transform = entity.get<Transform2D>();
-    if(transform == nullptr)
-    {
+Vector2 Transform2D::getScale(Entity &entity) {
+    auto *transform = entity.get<Transform2D>();
+    if (transform == nullptr) {
         return {};
     }
-    auto* parent = entity.get<Parent>();
-    if(parent != nullptr)
-    {
+    auto *parent = entity.get<Parent>();
+    if (parent != nullptr) {
         return getScale(parent->parent) * transform->scale;
     }
     return transform->scale;
 }
 
-float Transform2D::getRotation(Entity& entity) {
+float Transform2D::getRotation(Entity &entity) {
     auto *transform = entity.get<Transform2D>();
     if (transform == nullptr) {
         return {};
@@ -71,10 +67,9 @@ float Transform2D::getRotation(Entity& entity) {
 }
 
 
-Matrix4x4 Transform2D::getMatrix(Entity& entity) {
-    auto* transform = entity.get<Transform2D>();
-    if(transform == nullptr)
-    {
+Matrix4x4 Transform2D::getMatrix(Entity &entity) {
+    auto *transform = entity.get<Transform2D>();
+    if (transform == nullptr) {
         return {};
     }
     Vector2 position = getPosition(entity);
@@ -83,30 +78,29 @@ Matrix4x4 Transform2D::getMatrix(Entity& entity) {
     return Matrix4x4().rotateZ(rotation).scale(scale).translate(position);
 }
 
-Matrix3x3 Transform2D::getLocalMatrix(Entity& entity) {
-    auto* transform = entity.get<Transform2D>();
-    if(transform == nullptr)
-    {
+Matrix3x3 Transform2D::getLocalMatrix(Entity &entity) {
+    auto *transform = entity.get<Transform2D>();
+    if (transform == nullptr) {
         return {};
     }
     return Matrix3x3().rotate(transform->rotation).scale(transform->scale).translate(transform->position);
 }
 
-Vector2 Transform2D::getUp(Entity& entity) {
-    return (Vector2)getMatrix(entity).up();
+Vector2 Transform2D::getUp(Entity &entity) {
+    return (Vector2) getMatrix(entity).up();
 }
 
-Vector2 Transform2D::getRight(Entity& entity) {
-    return (Vector2)getMatrix(entity).right();
+Vector2 Transform2D::getRight(Entity &entity) {
+    return (Vector2) getMatrix(entity).right();
 }
 
-void Transform2D::serialize(Archive& a) const {
+void Transform2D::serialize(Archive &a) const {
     a << this->position;
     a << this->scale;
     a << this->rotation;
 }
 
-void Transform2D::deserialize(Archive& a) {
+void Transform2D::deserialize(Archive &a) {
     a >> this->position;
     a >> this->scale;
     a >> this->rotation;

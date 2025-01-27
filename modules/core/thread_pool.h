@@ -1,5 +1,6 @@
 #ifndef POMEGRANATEENGINE_THREAD_POOL_H
 #define POMEGRANATEENGINE_THREAD_POOL_H
+
 #include "thread"
 #include "vector"
 #include "queue"
@@ -9,7 +10,7 @@
 #include "utility"
 #include "iostream"
 
-template <typename Ret, typename... Args>
+template<typename Ret, typename... Args>
 class ThreadPool {
 private:
     // Use std::function for FunctionBind
@@ -21,10 +22,8 @@ private:
     bool _terminate = false;
     bool _autoTerminate = false;
 
-    void searchForJob()
-    {
-        while (true)
-        {
+    void searchForJob() {
+        while (true) {
             FunctionBind job;
 
             {
@@ -49,8 +48,7 @@ private:
     }
 
 public:
-    ThreadPool(bool autoTerminate = false) : _autoTerminate(autoTerminate)
-    {
+    ThreadPool(bool autoTerminate = false) : _autoTerminate(autoTerminate) {
         _jobs = std::queue<FunctionBind>();
         _threads = std::vector<std::thread>();
     }
@@ -59,8 +57,7 @@ public:
         terminate();
     }
 
-    void queue(std::function<Ret(Args...)> function, Args... args)
-    {
+    void queue(std::function<Ret(Args...)> function, Args... args) {
         {
             std::unique_lock<std::mutex> lock(_queueMutex);
             _jobs.push(std::bind(function, args...));
@@ -68,8 +65,7 @@ public:
         _mutexCondition.notify_one();
     }
 
-    void start(uint32_t threadCount)
-    {
+    void start(uint32_t threadCount) {
         _terminate = false;
         _threads.reserve(threadCount);
         for (uint32_t i = 0; i < threadCount; ++i) {
@@ -77,36 +73,34 @@ public:
         }
     }
 
-    bool busy()
-    {
+    bool busy() {
         std::unique_lock<std::mutex> lock(_queueMutex);
         return !_jobs.empty();
     }
 
-    void terminate()
-    {
+    void terminate() {
         {
             std::unique_lock<std::mutex> lock(_queueMutex);
             _terminate = true;
         }
         _mutexCondition.notify_all();
 
-        for (std::thread& active_thread : _threads) {
+        for (std::thread &active_thread: _threads) {
             if (active_thread.joinable()) {
                 active_thread.join();
             }
         }
         _threads.clear();
     }
-    void finish()
-    {
+
+    void finish() {
         {
             std::unique_lock<std::mutex> lock(_queueMutex);
             _autoTerminate = true;
         }
         _mutexCondition.notify_all();
 
-        for (std::thread& active_thread : _threads) {
+        for (std::thread &active_thread: _threads) {
             if (active_thread.joinable()) {
                 active_thread.join();
             }

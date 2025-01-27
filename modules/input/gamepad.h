@@ -12,7 +12,7 @@ private:
     std::string _name;
     float _axes[6];
     ButtonState _buttons[15];
-    InputManager* _inputManager;
+    InputManager *_inputManager;
 public:
     enum Axis {
         AXIS_LEFT_X,
@@ -43,9 +43,13 @@ public:
     };
 
     GamepadID getID() const;
+
     std::string getName() const;
+
     bool isConnected() const;
+
     float getAxis(Axis axis) const;
+
     ButtonState getButton(Button button) const;
 
     friend class InputManager;

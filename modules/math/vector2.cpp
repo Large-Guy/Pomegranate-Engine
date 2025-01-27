@@ -12,92 +12,76 @@ const Vector2 Vector2::down = Vector2(0, -1);
 const Vector2 Vector2::left = Vector2(-1, 0);
 const Vector2 Vector2::right = Vector2(1, 0);
 
-Vector2::Vector2()
-{
+Vector2::Vector2() {
     x = 0;
     y = 0;
 }
 
-Vector2::Vector2(float v)
-{
+Vector2::Vector2(float v) {
     x = v;
     y = v;
 }
 
-Vector2::Vector2(float x, float y)
-{
+Vector2::Vector2(float x, float y) {
     this->x = x;
     this->y = y;
 }
 
-Vector2 Vector2::operator+(const Vector2& v) const
-{
+Vector2 Vector2::operator+(const Vector2 &v) const {
     return Vector2(x + v.x, y + v.y);
 }
 
-Vector2 Vector2::operator-(const Vector2& v) const
-{
+Vector2 Vector2::operator-(const Vector2 &v) const {
     return Vector2(x - v.x, y - v.y);
 }
 
-Vector2 Vector2::operator*(const Vector2& v) const
-{
+Vector2 Vector2::operator*(const Vector2 &v) const {
     return Vector2(x * v.x, y * v.y);
 }
 
-Vector2 Vector2::operator/(const Vector2& v) const
-{
+Vector2 Vector2::operator/(const Vector2 &v) const {
     return Vector2(x / v.x, y / v.y);
 }
 
-Vector2 Vector2::operator*(float v) const
-{
+Vector2 Vector2::operator*(float v) const {
     return Vector2(x * v, y * v);
 }
 
-Vector2 Vector2::operator/(float v) const
-{
+Vector2 Vector2::operator/(float v) const {
     return Vector2(x / v, y / v);
 }
 
-void Vector2::operator+=(const Vector2& v)
-{
+void Vector2::operator+=(const Vector2 &v) {
     x += v.x;
     y += v.y;
 }
 
-void Vector2::operator-=(const Vector2& v)
-{
+void Vector2::operator-=(const Vector2 &v) {
     x -= v.x;
     y -= v.y;
 }
 
-void Vector2::operator*=(const Vector2& v)
-{
+void Vector2::operator*=(const Vector2 &v) {
     x *= v.x;
     y *= v.y;
 }
 
-void Vector2::operator/=(const Vector2& v)
-{
+void Vector2::operator/=(const Vector2 &v) {
     x /= v.x;
     y /= v.y;
 }
 
-void Vector2::operator*=(float v)
-{
+void Vector2::operator*=(float v) {
     x *= v;
     y *= v;
 }
 
-void Vector2::operator/=(float v)
-{
+void Vector2::operator/=(float v) {
     x /= v;
     y /= v;
 }
 
-bool Vector2::operator==(const Vector2& v) const
-{
+bool Vector2::operator==(const Vector2 &v) const {
     return x == v.x && y == v.y;
 }
 
@@ -182,18 +166,16 @@ Vector2 Vector2::directionTo(const Vector2 &v) const {
     return (v - *this).normalize();
 }
 
-void Vector2::serialize(Archive& a) const
-{
+void Vector2::serialize(Archive &a) const {
     a << x << y;
 }
 
-void Vector2::deserialize(Archive& a)
-{
+void Vector2::deserialize(Archive &a) {
     a >> x >> y;
 }
 
 Vector2::operator Vector2i() const {
-    return {(int)x, (int)y};
+    return {(int) x, (int) y};
 }
 
 Vector2::operator Vector3() const {
@@ -201,7 +183,7 @@ Vector2::operator Vector3() const {
 }
 
 Vector2::operator Vector3i() const {
-    return {(int)x, (int)y, 0};
+    return {(int) x, (int) y, 0};
 }
 
 Vector2::operator Vector4() const {
@@ -209,5 +191,5 @@ Vector2::operator Vector4() const {
 }
 
 Vector2::operator Vector4i() const {
-    return {(int)x, (int)y, 0, 0};
+    return {(int) x, (int) y, 0, 0};
 }

@@ -4,7 +4,7 @@ Reflectable::Reflectable() {
     _members = std::unordered_map<std::string, Property>();
 }
 
-void Reflectable::property(std::string name, void* member, size_t size, size_t type) {
+void Reflectable::property(std::string name, void *member, size_t size, size_t type) {
     _members[name] = {member, size, type};
 }
 
@@ -12,7 +12,7 @@ void Reflectable::set(std::string name, void *value) {
     memcpy(_members[name].data, value, _members[name].size);
 }
 
-void* Reflectable::get(std::string name) {
+void *Reflectable::get(std::string name) {
     return _members[name].data;
 }
 
@@ -29,6 +29,6 @@ size_t Reflectable::getSize(std::string name) {
     return _members[name].size;
 }
 
-std::unordered_map<std::string , Reflectable::Property> &Reflectable::getProperties() {
+std::unordered_map<std::string, Reflectable::Property> &Reflectable::getProperties() {
     return _members;
 }

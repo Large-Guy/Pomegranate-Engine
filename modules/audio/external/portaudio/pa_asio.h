@@ -67,8 +67,9 @@ extern "C"
  @note: this function used to be called PaAsio_GetAvailableLatencyValues. There is a
  #define that maps PaAsio_GetAvailableLatencyValues to this function for backwards compatibility.
 */
-PaError PaAsio_GetAvailableBufferSizes( PaDeviceIndex device,
-        long *minBufferSizeFrames, long *maxBufferSizeFrames, long *preferredBufferSizeFrames, long *granularity );
+PaError PaAsio_GetAvailableBufferSizes(PaDeviceIndex device,
+                                       long *minBufferSizeFrames, long *maxBufferSizeFrames,
+                                       long *preferredBufferSizeFrames, long *granularity);
 
 
 /** Backwards compatibility alias for PaAsio_GetAvailableBufferSizes
@@ -84,18 +85,7 @@ PaError PaAsio_GetAvailableBufferSizes( PaDeviceIndex device,
   @param systemSpecific On Windows, the calling application's main window handle,
   on Macintosh this value should be zero.
 */
-PaError PaAsio_ShowControlPanel( PaDeviceIndex device, void* systemSpecific );
-
-
-
-
-/** Retrieve a pointer to a string containing the name of the specified
- input channel. The string is valid until Pa_Terminate is called.
-
- The string will be no longer than 32 characters including the null terminator.
-*/
-PaError PaAsio_GetInputChannelName( PaDeviceIndex device, int channelIndex,
-        const char** channelName );
+PaError PaAsio_ShowControlPanel(PaDeviceIndex device, void *systemSpecific);
 
 
 /** Retrieve a pointer to a string containing the name of the specified
@@ -103,8 +93,17 @@ PaError PaAsio_GetInputChannelName( PaDeviceIndex device, int channelIndex,
 
  The string will be no longer than 32 characters including the null terminator.
 */
-PaError PaAsio_GetOutputChannelName( PaDeviceIndex device, int channelIndex,
-        const char** channelName );
+PaError PaAsio_GetInputChannelName(PaDeviceIndex device, int channelIndex,
+                                   const char **channelName);
+
+
+/** Retrieve a pointer to a string containing the name of the specified
+ input channel. The string is valid until Pa_Terminate is called.
+
+ The string will be no longer than 32 characters including the null terminator.
+*/
+PaError PaAsio_GetOutputChannelName(PaDeviceIndex device, int channelIndex,
+                                    const char **channelName);
 
 
 /** Set the sample rate of an open paASIO stream.
@@ -117,12 +116,12 @@ PaError PaAsio_GetOutputChannelName( PaDeviceIndex device, int channelIndex,
 
  Returns paIncompatibleStreamHostApi if stream is not a paASIO stream.
 */
-PaError PaAsio_SetStreamSampleRate( PaStream* stream, double sampleRate );
+PaError PaAsio_SetStreamSampleRate(PaStream *stream, double sampleRate);
 
 
 #define paAsioUseChannelSelectors      (0x01)
 
-typedef struct PaAsioStreamInfo{
+typedef struct PaAsioStreamInfo {
     unsigned long size;             /**< sizeof(PaAsioStreamInfo) */
     PaHostApiTypeId hostApiType;    /**< paASIO */
     unsigned long version;          /**< 1 */
@@ -140,7 +139,7 @@ typedef struct PaAsioStreamInfo{
         result.
     */
     int *channelSelectors;
-}PaAsioStreamInfo;
+} PaAsioStreamInfo;
 
 
 #ifdef __cplusplus

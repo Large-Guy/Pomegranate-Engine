@@ -20,7 +20,7 @@ target_include_directories(PomegranateLua PUBLIC ${POMEGRANATE_LUA_INCLUDE_DIRS}
 target_link_libraries(PomegranateLua PomegranateCore PomegranateEvents PomegranateECS)
 
 # LuaJIT installer
-if(APPLE)
+if (APPLE)
     execute_process(
             COMMAND sh ./install/luajit_mac.sh
             WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
@@ -37,4 +37,4 @@ elseif (UNIX)
     target_link_libraries(PomegranateLua ${CMAKE_CURRENT_SOURCE_DIR}/external/LuaJIT/src/libluajit.a)
 elseif (WIN32)
     message(FATAL_ERROR "Windows is not supported yet")
-endif()
+endif ()

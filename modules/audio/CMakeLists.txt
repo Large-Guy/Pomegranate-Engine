@@ -1,11 +1,11 @@
 set(POMEGRANATE_AUDIO_SOURCES
-    ${CMAKE_CURRENT_SOURCE_DIR}/audio.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/stream.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/stream.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/sample.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/sample.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/core.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/core.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/audio.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/stream.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/stream.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/sample.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/sample.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/core.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/core.h
 
 )
 

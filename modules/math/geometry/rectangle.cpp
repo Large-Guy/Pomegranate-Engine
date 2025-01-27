@@ -33,7 +33,7 @@ Vector2 Rectangle::max() const {
     return this->position + this->size;
 }
 
-bool Rectangle::contains(const Vector2& point) const {
+bool Rectangle::contains(const Vector2 &point) const {
     return point.x >= this->position.x && point.x <= this->position.x + this->size.x &&
            point.y >= this->position.y && point.y <= this->position.y + this->size.y;
 }

@@ -1,8 +1,8 @@
 #include "events.h"
 
 
-int LuaEvents::on(lua_State* L) {
-    const char* event = lua_tostring(L,1);
+int LuaEvents::on(lua_State *L) {
+    const char *event = lua_tostring(L, 1);
     lua_pushvalue(L, 2); // Push the callback function
     int ref = luaL_ref(L, LUA_REGISTRYINDEX); // Store the reference to the callback in the registry
 
@@ -16,8 +16,8 @@ int LuaEvents::on(lua_State* L) {
     return 0;
 }
 
-int LuaEvents::call(lua_State* L) {
-    const char* event = lua_tostring(L,1);
+int LuaEvents::call(lua_State *L) {
+    const char *event = lua_tostring(L, 1);
     Event::emit(event);
     return 0;
 }
@@ -25,9 +25,9 @@ int LuaEvents::call(lua_State* L) {
 void LuaEvents::registerFunctions(LuaState &script) {
     script.beginNamespace("Event");
 
-    script.function("on",LuaEvents::on);
+    script.function("on", LuaEvents::on);
 
-    script.function("call",LuaEvents::call);
+    script.function("call", LuaEvents::call);
 
     script.endNamespace();
 }

@@ -20,42 +20,35 @@ namespace Extensions::Rendering {
         SPRITE = Component::create<Sprite>("Sprite");
     }
 
-    void render3D()
-    {
-        Camera3D* camera = nullptr;
+    void render3D() {
+        Camera3D *camera = nullptr;
         Entity camEntity = Camera3D::getMain();
-        if(camEntity != NULL_ENTITY && camEntity.has<Camera3D>())
-        {
+        if (camEntity != NULL_ENTITY && camEntity.has<Camera3D>()) {
             camera = camEntity.get<Camera3D>();
-        }
-        else
-        {
+        } else {
             Debug::Log::warn("No main camera!");
             return;
         }
 
-        Matrix4x4 view = Matrix4x4::identity().translate(Transform3D::getPosition(camEntity)).rotate(Transform3D::getRotation(camEntity));
+        Matrix4x4 view = Matrix4x4::identity().translate(Transform3D::getPosition(camEntity)).rotate(
+                Transform3D::getRotation(camEntity));
         Matrix4x4 projection = camera->getProjectionMatrix();
 
-        ECS::each<MeshInstance>(MESH_INSTANCE, [&](MeshInstance* meshInstance, Entity& entity){
-            if(!entity.has<Transform3D>())
+        ECS::each<MeshInstance>(MESH_INSTANCE, [&](MeshInstance *meshInstance, Entity &entity) {
+            if (!entity.has<Transform3D>())
                 return;
 
-            ShaderBase* shader = nullptr;
-            if(meshInstance->shader != nullptr)
-            {
+            ShaderBase *shader = nullptr;
+            if (meshInstance->shader != nullptr) {
                 shader = meshInstance->shader;
-            }
-            else
-            {
+            } else {
                 Debug::Log::warn("No shader for mesh instance!");
                 return;
             }
 
             Vector4 color = {1.0f, 1.0f, 1.0f, 1.0f};
             bool hasColor = entity.has<Color>();
-            if(hasColor)
-            {
+            if (hasColor) {
                 color = entity.get<Color>()->color;
             }
 
@@ -65,57 +58,49 @@ namespace Extensions::Rendering {
             shader->setUniform("projection", projection);
             shader->setUniform("view", view);
             shader->setUniform("model", model);
-            if(hasColor) shader->setUniform("tint", color);
+            if (hasColor) shader->setUniform("tint", color);
             Window::getCurrent()->draw.mesh(meshInstance->mesh);
         });
     }
 
-    void render2D()
-    {
-        Camera2D* camera = nullptr;
+    void render2D() {
+        Camera2D *camera = nullptr;
         Entity camEntity = Camera2D::getMain();
-        if(camEntity != NULL_ENTITY && camEntity.has<Camera2D>())
-        {
+        if (camEntity != NULL_ENTITY && camEntity.has<Camera2D>()) {
             camera = camEntity.get<Camera2D>();
-        }
-        else
-        {
+        } else {
             Debug::Log::warn("No main camera!");
             return;
         }
 
-        Matrix4x4 view = Matrix4x4::identity().translate(Transform2D::getPosition(camEntity)).rotateZ(Transform2D::getRotation(camEntity));
+        Matrix4x4 view = Matrix4x4::identity().translate(Transform2D::getPosition(camEntity)).rotateZ(
+                Transform2D::getRotation(camEntity));
         Matrix4x4 projection = camera->getProjectionMatrix();
 
-        ECS::each<MeshInstance>(MESH_INSTANCE, [&](MeshInstance* meshInstance, Entity& entity){
-            if(!entity.has<Transform2D>())
+        ECS::each<MeshInstance>(MESH_INSTANCE, [&](MeshInstance *meshInstance, Entity &entity) {
+            if (!entity.has<Transform2D>())
                 return;
 
-            ShaderBase* shader = nullptr;
-            if(meshInstance->shader != nullptr)
-            {
+            ShaderBase *shader = nullptr;
+            if (meshInstance->shader != nullptr) {
                 shader = meshInstance->shader;
-            }
-            else
-            {
+            } else {
                 Debug::Log::warn("No shader for mesh instance!");
                 return;
             }
 
             Vector4 color = {1.0f, 1.0f, 1.0f, 1.0f};
             bool hasColor = entity.has<Color>();
-            if(hasColor)
-            {
+            if (hasColor) {
                 color = entity.get<Color>()->color;
             }
 
-            Texture2D* texture = nullptr;
-            Texture2D* normalMap = nullptr;
+            Texture2D *texture = nullptr;
+            Texture2D *normalMap = nullptr;
             int zIndex = 0;
             float normalStrength = 1.0f;
             bool hasSprite = entity.has<Sprite>();
-            if(hasSprite)
-            {
+            if (hasSprite) {
                 texture = entity.get<Sprite>()->texture;
                 normalMap = entity.get<Sprite>()->normalMap;
                 normalStrength = entity.get<Sprite>()->normalStrength;
@@ -135,38 +120,29 @@ namespace Extensions::Rendering {
             shader->setUniform("projection", proj);
             shader->setUniform("view", view);
             shader->setUniform("model", model);
-            if(hasColor) shader->setUniform("tint", color);
+            if (hasColor) shader->setUniform("tint", color);
             else shader->setUniform("tint", Vector4::one);
-            if(hasSprite)
-            {
-                if(texture != nullptr)
-                {
+            if (hasSprite) {
+                if (texture != nullptr) {
                     texture->setBindingSlot(0);
-                    shader->setUniform("useTexture",true);
-                    shader->setUniform("spriteTexture",texture);
+                    shader->setUniform("useTexture", true);
+                    shader->setUniform("spriteTexture", texture);
+                } else {
+                    shader->setUniform("useTexture", false);
                 }
-                else
-                {
-                    shader->setUniform("useTexture",false);
-                }
-                if(normalMap != nullptr)
-                {
+                if (normalMap != nullptr) {
                     normalMap->setBindingSlot(1);
-                    shader->setUniform("useNormalMap",true);
-                    shader->setUniform("normalMap",normalMap);
+                    shader->setUniform("useNormalMap", true);
+                    shader->setUniform("normalMap", normalMap);
                     shader->setUniform("normalStrength", normalStrength);
-                }
-                else
-                {
-                    shader->setUniform("useNormalMap",false);
+                } else {
+                    shader->setUniform("useNormalMap", false);
                 }
 
-                shader->setUniform("zIndex",zIndex);
-            }
-            else
-            {
-                shader->setUniform("useTexture",false);
-                shader->setUniform("useNormalMap",false);
+                shader->setUniform("zIndex", zIndex);
+            } else {
+                shader->setUniform("useTexture", false);
+                shader->setUniform("useNormalMap", false);
             }
             Window::getCurrent()->draw.mesh(meshInstance->mesh);
         });

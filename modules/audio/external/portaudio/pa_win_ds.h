@@ -56,7 +56,7 @@ extern "C"
 #define paWinDirectSoundUseChannelMask                          (0x04)
 
 
-typedef struct PaWinDirectSoundStreamInfo{
+typedef struct PaWinDirectSoundStreamInfo {
     unsigned long size;             /**< sizeof(PaWinDirectSoundStreamInfo) */
     PaHostApiTypeId hostApiType;    /**< paDirectSound */
     unsigned long version;          /**< 2 */
@@ -84,8 +84,7 @@ typedef struct PaWinDirectSoundStreamInfo{
     */
     PaWinWaveFormatChannelMask channelMask;
 
-}PaWinDirectSoundStreamInfo;
-
+} PaWinDirectSoundStreamInfo;
 
 
 #ifdef __cplusplus

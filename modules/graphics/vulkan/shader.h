@@ -1,5 +1,6 @@
 #ifndef POMEGRANATEENGINE_SHADER_H
 #define POMEGRANATEENGINE_SHADER_H
+
 #include "core.h"
 #include <core/core.h>
 #include "enumerations.h"
@@ -17,9 +18,12 @@ struct Material {
     Vector3 albedo;
 };
 
-class ShaderBase{
+class ShaderBase {
 private:
-    void createBuffer(VkDeviceSize size, VkBufferUsageFlagBits usage,VkMemoryPropertyFlags properties, VkBuffer& buffer, VkDeviceMemory& bufferMemory);
+    void
+    createBuffer(VkDeviceSize size, VkBufferUsageFlagBits usage, VkMemoryPropertyFlags properties, VkBuffer &buffer,
+                 VkDeviceMemory &bufferMemory);
+
 public:
     VkShaderModule _fragment;
     VkShaderModule _vertex;
@@ -31,25 +35,27 @@ public:
     VkVertexInputBindingDescription _bindingDescription;
     std::vector<VkVertexInputAttributeDescription> _attributeDescriptions;
 
-    std::unordered_map<Window*, Graphics::GraphicsPipelineGroup> _pipelines;
+    std::unordered_map<Window *, Graphics::GraphicsPipelineGroup> _pipelines;
 
     //Uniforms
     DescriptorSet _perspectiveSet;
 
-    VkShaderModule createShaderModule(const List<char>& code);
-    void requestPipeline(Window* window);
+    VkShaderModule createShaderModule(const List<char> &code);
+
+    void requestPipeline(Window *window);
 
     ShaderBase() = default;
+
     virtual ~ShaderBase() = default;
 
     friend Graphics;
 };
 
-template <typename VertexType>
-class Shader : public ShaderBase{
+template<typename VertexType>
+class Shader : public ShaderBase {
 public:
-    Shader(List<char> vertex, List<char> fragment, RenderInfo info = {.renderMode = RENDER_MODE_FILL, .cullMode = CULL_MODE_BACK})
-    {
+    Shader(List<char> vertex, List<char> fragment,
+           RenderInfo info = {.renderMode = RENDER_MODE_FILL, .cullMode = CULL_MODE_BACK}) {
 
         _perspectiveSet = DescriptorSet({
                                                 Uniform(0, sizeof(Perspective)),
@@ -67,10 +73,11 @@ public:
 
         Debug::Log::pass("Successfully compiled shaders!");
 
-        for(auto window : Graphics::getInstance()->_windows) {
+        for (auto window: Graphics::getInstance()->_windows) {
             requestPipeline(window);
         }
     }
+
     ~Shader() {
         vkDeviceWaitIdle(Graphics::getInstance()->_logicalDevice);
 
@@ -86,6 +93,7 @@ public:
                 Graphics::getInstance()->_shaders.end());
 
     }
+
     friend Graphics;
     friend Window;
 };

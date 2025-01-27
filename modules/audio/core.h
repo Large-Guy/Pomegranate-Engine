@@ -8,15 +8,15 @@
 #include"sample.h"
 
 struct Sound {
-    AudioSample* sample;
+    AudioSample *sample;
     size_t position;
     float volume;
     bool loop;
 };
 
 struct AudioData {
-    Sound* sounds;
-    size_t* numSounds;
+    Sound *sounds;
+    size_t *numSounds;
 };
 
 class Audio {
@@ -24,9 +24,10 @@ public:
     static Audio _instance;
 public:
     Audio();
+
     ~Audio();
 
-    static Audio* getInstance();
+    static Audio *getInstance();
 };
 
 #endif //POMEGRANATEENGINE_CORE_H

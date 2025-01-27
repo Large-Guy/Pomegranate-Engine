@@ -4,7 +4,7 @@ Shape::~Shape() {
 
 }
 
-bool Shape::contains(const Vector2& point) const {
+bool Shape::contains(const Vector2 &point) const {
     return false;
 }
 

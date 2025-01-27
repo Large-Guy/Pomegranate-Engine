@@ -4,7 +4,8 @@
 #include "mesh3d.h"
 
 void Window::createSwapChain() {
-    SwapChainSupportDetails swapChainSupport = Graphics::getInstance()->getSwapChainSupport(Graphics::getInstance()->_physicalDevice, &_surface);
+    SwapChainSupportDetails swapChainSupport = Graphics::getInstance()->getSwapChainSupport(
+            Graphics::getInstance()->_physicalDevice, &_surface);
 
     VkSurfaceFormatKHR surfaceFormat = Graphics::getInstance()->getSwapSurfaceFormat(swapChainSupport.formats);
     VkPresentModeKHR presentMode = Graphics::getInstance()->chooseSwapPresentMode(swapChainSupport.presentModes);
@@ -12,7 +13,7 @@ void Window::createSwapChain() {
 
     uint32_t imageCount = swapChainSupport.capabilities.minImageCount + 1;
 
-    if(swapChainSupport.capabilities.maxImageCount > 0 && imageCount > swapChainSupport.capabilities.maxImageCount) {
+    if (swapChainSupport.capabilities.maxImageCount > 0 && imageCount > swapChainSupport.capabilities.maxImageCount) {
         imageCount = swapChainSupport.capabilities.maxImageCount;
     }
 
@@ -29,8 +30,7 @@ void Window::createSwapChain() {
     QueueFamilyIndices indices = Graphics::getInstance()->getQueueFamilies(Graphics::getInstance()->_physicalDevice);
     uint32_t queueFamilyIndices[] = {indices.graphicsFamily.value(), indices.presentFamily.value()};
 
-    if(indices.graphicsFamily != indices.presentFamily)
-    {
+    if (indices.graphicsFamily != indices.presentFamily) {
         createInfo.imageSharingMode = VK_SHARING_MODE_CONCURRENT;
         createInfo.queueFamilyIndexCount = 2;
         createInfo.pQueueFamilyIndices = queueFamilyIndices;
@@ -46,11 +46,13 @@ void Window::createSwapChain() {
     createInfo.clipped = true;
     createInfo.oldSwapchain = VK_NULL_HANDLE;
 
-    Debug::AssertIf::isFalse(vkCreateSwapchainKHR(Graphics::getInstance()->_logicalDevice,&createInfo, nullptr,&_swapChain) == VK_SUCCESS, "Failed to create swap chain!");
+    Debug::AssertIf::isFalse(
+            vkCreateSwapchainKHR(Graphics::getInstance()->_logicalDevice, &createInfo, nullptr, &_swapChain) ==
+            VK_SUCCESS, "Failed to create swap chain!");
 
     Debug::Log::pass("Created swap chain!");
 
-    vkGetSwapchainImagesKHR(Graphics::getInstance()->_logicalDevice,_swapChain,&imageCount, nullptr);
+    vkGetSwapchainImagesKHR(Graphics::getInstance()->_logicalDevice, _swapChain, &imageCount, nullptr);
     _swapChainImages.resize(imageCount);
     vkGetSwapchainImagesKHR(Graphics::getInstance()->_logicalDevice, _swapChain, &imageCount, _swapChainImages.data());
 
@@ -62,8 +64,7 @@ void Window::createSwapChain() {
 
 void Window::createImageViews() {
     _swapChainImageViews.resize(_swapChainImages.size());
-    for(size_t i = 0; i < _swapChainImages.size(); i++)
-    {
+    for (size_t i = 0; i < _swapChainImages.size(); i++) {
         VkImageViewCreateInfo createInfo{};
         createInfo.sType = VK_STRUCTURE_TYPE_IMAGE_VIEW_CREATE_INFO;
         createInfo.image = _swapChainImages[i];
@@ -81,7 +82,9 @@ void Window::createImageViews() {
         createInfo.subresourceRange.baseArrayLayer = 0;
         createInfo.subresourceRange.layerCount = 1;
 
-        Debug::AssertIf::isFalse(vkCreateImageView(Graphics::getInstance()->_logicalDevice,&createInfo, nullptr,&_swapChainImageViews[i]) == VK_SUCCESS, "Failed to create image views!");
+        Debug::AssertIf::isFalse(vkCreateImageView(Graphics::getInstance()->_logicalDevice, &createInfo, nullptr,
+                                                   &_swapChainImageViews[i]) == VK_SUCCESS,
+                                 "Failed to create image views!");
     }
     Debug::Log::pass("Created image views");
 }
@@ -104,7 +107,8 @@ void Window::createFrameBuffers() {
         framebufferCreateInfo.layers = 1;
 
         Debug::AssertIf::isFalse(vkCreateFramebuffer(Graphics::getInstance()->_logicalDevice, &framebufferCreateInfo,
-                                                     nullptr,&_swapChainFramebuffers[i]) == VK_SUCCESS, "Failed to create framebuffer");
+                                                     nullptr, &_swapChainFramebuffers[i]) == VK_SUCCESS,
+                                 "Failed to create framebuffer");
     }
     Debug::Log::pass("Successfully created frame buffers");
 }
@@ -118,44 +122,50 @@ void Window::createCommandBuffer() {
     allocInfo.level = VK_COMMAND_BUFFER_LEVEL_PRIMARY;
     allocInfo.commandBufferCount = _commandBuffers.size();
 
-    Debug::AssertIf::isFalse(vkAllocateCommandBuffers(Graphics::getInstance()->_logicalDevice, &allocInfo, _commandBuffers.data()) == VK_SUCCESS, "Failed to allocate command buffers!");
+    Debug::AssertIf::isFalse(
+            vkAllocateCommandBuffers(Graphics::getInstance()->_logicalDevice, &allocInfo, _commandBuffers.data()) ==
+            VK_SUCCESS, "Failed to allocate command buffers!");
 }
 
 void Window::beginCommandBuffer() {
-    VkCommandBuffer& commandBuffer = getCurrentCommandBuffer();
+    VkCommandBuffer &commandBuffer = getCurrentCommandBuffer();
     VkCommandBufferBeginInfo beginInfo{};
     beginInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
     beginInfo.flags = 0;
     beginInfo.pInheritanceInfo = nullptr;
 
-    Debug::AssertIf::isFalse(vkBeginCommandBuffer(commandBuffer,&beginInfo) == VK_SUCCESS, "Failed to beginNamespace recording command buffer!");
+    Debug::AssertIf::isFalse(vkBeginCommandBuffer(commandBuffer, &beginInfo) == VK_SUCCESS,
+                             "Failed to beginNamespace recording command buffer!");
 }
 
 void Window::endCommandBuffer() {
     vkCmdEndRenderPass(getCurrentCommandBuffer());
 
-    Debug::AssertIf::isFalse(vkEndCommandBuffer(getCurrentCommandBuffer()) == VK_SUCCESS, "Failed to endNamespace command buffer!");
+    Debug::AssertIf::isFalse(vkEndCommandBuffer(getCurrentCommandBuffer()) == VK_SUCCESS,
+                             "Failed to endNamespace command buffer!");
 }
 
 VkExtent2D Window::getExtents(const VkSurfaceCapabilitiesKHR &capabilities) {
-    if(capabilities.currentExtent.width != std::numeric_limits<uint32_t>::max()) {
+    if (capabilities.currentExtent.width != std::numeric_limits<uint32_t>::max()) {
         return capabilities.currentExtent;
     } else {
         int width, height;
-        glfwGetFramebufferSize(_window,&width,&height);
+        glfwGetFramebufferSize(_window, &width, &height);
 
         VkExtent2D actualExtent = {
-                (uint32_t)width,
-                (uint32_t)height
+                (uint32_t) width,
+                (uint32_t) height
         };
 
-        actualExtent.width = std::clamp(actualExtent.width,capabilities.minImageExtent.width,capabilities.maxImageExtent.width);
-        actualExtent.height = std::clamp(actualExtent.height,capabilities.minImageExtent.height,capabilities.maxImageExtent.height);
+        actualExtent.width = std::clamp(actualExtent.width, capabilities.minImageExtent.width,
+                                        capabilities.maxImageExtent.width);
+        actualExtent.height = std::clamp(actualExtent.height, capabilities.minImageExtent.height,
+                                         capabilities.maxImageExtent.height);
         return actualExtent;
     }
 }
 
-VkCommandBuffer& Window::getCurrentCommandBuffer() {
+VkCommandBuffer &Window::getCurrentCommandBuffer() {
     return _commandBuffers[_currentFrame];
 }
 
@@ -168,14 +178,16 @@ Window::Window() {
     this->_visible = false;
     this->_open = true;
     this->_window = glfwCreateWindow(this->_size.x, this->_size.y, this->_title.data(), nullptr, nullptr);
-    Debug::AssertIf::isFalse(glfwCreateWindowSurface(Graphics::getInstance()->_instance, this->_window, nullptr, &this->_surface) == VK_SUCCESS,"Failed to create window surface");
+    Debug::AssertIf::isFalse(
+            glfwCreateWindowSurface(Graphics::getInstance()->_instance, this->_window, nullptr, &this->_surface) ==
+            VK_SUCCESS, "Failed to create window surface");
     glfwHideWindow(this->_window);
     createSwapChain();
     createImageViews();
     Graphics::getInstance()->createRenderPass(this);
     createFrameBuffers();
     createCommandBuffer();
-    for(auto shader : Graphics::getInstance()->_shaders) {
+    for (auto shader: Graphics::getInstance()->_shaders) {
         shader->requestPipeline(this);
     }
     draw.window = this;
@@ -185,24 +197,25 @@ Window::~Window() {
     //Await device to be idle
     vkDeviceWaitIdle(Graphics::getInstance()->_logicalDevice);
 
-    for(auto framebuffer : _swapChainFramebuffers) {
-        vkDestroyFramebuffer(Graphics::getInstance()->_logicalDevice,framebuffer, nullptr);
+    for (auto framebuffer: _swapChainFramebuffers) {
+        vkDestroyFramebuffer(Graphics::getInstance()->_logicalDevice, framebuffer, nullptr);
     }
 
-    for(auto imageView : _swapChainImageViews)
-    {
-        vkDestroyImageView(Graphics::getInstance()->_logicalDevice,imageView, nullptr);
+    for (auto imageView: _swapChainImageViews) {
+        vkDestroyImageView(Graphics::getInstance()->_logicalDevice, imageView, nullptr);
     }
-    vkDestroySwapchainKHR(Graphics::getInstance()->_logicalDevice,_swapChain, nullptr);
+    vkDestroySwapchainKHR(Graphics::getInstance()->_logicalDevice, _swapChain, nullptr);
     vkDestroySurfaceKHR(Graphics::getInstance()->_instance, this->_surface, nullptr);
-    vkDestroyRenderPass(Graphics::getInstance()->_logicalDevice,_renderPass, nullptr);
+    vkDestroyRenderPass(Graphics::getInstance()->_logicalDevice, _renderPass, nullptr);
     glfwDestroyWindow(this->_window);
 
     //Remove from windows list
-    Graphics::getInstance()->_windows.erase(std::remove(Graphics::getInstance()->_windows.begin(), Graphics::getInstance()->_windows.end(), this), Graphics::getInstance()->_windows.end());
+    Graphics::getInstance()->_windows.erase(
+            std::remove(Graphics::getInstance()->_windows.begin(), Graphics::getInstance()->_windows.end(), this),
+            Graphics::getInstance()->_windows.end());
 }
 
-void Window::setTitle(const std::string& title) {
+void Window::setTitle(const std::string &title) {
     this->_title = title;
     glfwSetWindowTitle(this->_window, this->_title.data());
 }
@@ -219,10 +232,9 @@ void Window::setSize(int width, int height) {
 
 void Window::poll() {
     glfwPollEvents();
-    if(glfwWindowShouldClose(this->_window)) {
+    if (glfwWindowShouldClose(this->_window)) {
         this->_open = false;
-    }
-    else {
+    } else {
         this->_open = true;
     }
     this->_position;
@@ -240,13 +252,12 @@ void Window::hide() {
 }
 
 void Window::fullscreen() {
-    if(this->_fullscreen) {
+    if (this->_fullscreen) {
         glfwSetWindowMonitor(this->_window, nullptr, 0, 0, this->_size.x, this->_size.y, 0);
         this->_fullscreen = false;
-    }
-    else {
-        GLFWmonitor* monitor = glfwGetPrimaryMonitor();
-        const GLFWvidmode* mode = glfwGetVideoMode(monitor);
+    } else {
+        GLFWmonitor *monitor = glfwGetPrimaryMonitor();
+        const GLFWvidmode *mode = glfwGetVideoMode(monitor);
         glfwSetWindowMonitor(this->_window, monitor, 0, 0, mode->width, mode->height, mode->refreshRate);
         this->_fullscreen = true;
     }
@@ -293,10 +304,14 @@ bool Window::isOpen() const {
 //----------- Draw Class ------------
 
 void Window::Draw::begin() {
-    vkWaitForFences(Graphics::getInstance()->_logicalDevice, 1, &Graphics::getInstance()->inFlightFences[window->_currentFrame], VK_TRUE, UINT64_MAX);
-    vkResetFences(Graphics::getInstance()->_logicalDevice,1,&Graphics::getInstance()->inFlightFences[window->_currentFrame]);
+    vkWaitForFences(Graphics::getInstance()->_logicalDevice, 1,
+                    &Graphics::getInstance()->inFlightFences[window->_currentFrame], VK_TRUE, UINT64_MAX);
+    vkResetFences(Graphics::getInstance()->_logicalDevice, 1,
+                  &Graphics::getInstance()->inFlightFences[window->_currentFrame]);
 
-    vkAcquireNextImageKHR(Graphics::getInstance()->_logicalDevice, window->_swapChain, UINT64_MAX, Graphics::getInstance()->imageAvailableSemaphores[window->_currentFrame], VK_NULL_HANDLE, &imageIndex);
+    vkAcquireNextImageKHR(Graphics::getInstance()->_logicalDevice, window->_swapChain, UINT64_MAX,
+                          Graphics::getInstance()->imageAvailableSemaphores[window->_currentFrame], VK_NULL_HANDLE,
+                          &imageIndex);
 
     vkResetCommandBuffer(window->getCurrentCommandBuffer(), 0);
 
@@ -306,13 +321,13 @@ void Window::Draw::begin() {
     renderPassInfo.sType = VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO;
     renderPassInfo.renderPass = window->_renderPass;
     renderPassInfo.framebuffer = window->_swapChainFramebuffers[window->draw.imageIndex];
-    renderPassInfo.renderArea.offset = {0,0};
+    renderPassInfo.renderArea.offset = {0, 0};
     renderPassInfo.renderArea.extent = window->_swapExtent;
 
     renderPassInfo.clearValueCount = 0;
     renderPassInfo.pClearValues = nullptr;
 
-    vkCmdBeginRenderPass(window->getCurrentCommandBuffer(),&renderPassInfo, VK_SUBPASS_CONTENTS_INLINE);
+    vkCmdBeginRenderPass(window->getCurrentCommandBuffer(), &renderPassInfo, VK_SUBPASS_CONTENTS_INLINE);
 }
 
 void Window::Draw::end() {
@@ -333,7 +348,9 @@ void Window::Draw::end() {
     submitInfo.signalSemaphoreCount = 1;
     submitInfo.pSignalSemaphores = signalSemaphores;
 
-    Debug::AssertIf::isFalse(vkQueueSubmit(Graphics::getInstance()->_queues.graphicsQueue,1,&submitInfo,Graphics::getInstance()->inFlightFences[window->_currentFrame]) == VK_SUCCESS, "Failed to submit draw command buffer!");
+    Debug::AssertIf::isFalse(vkQueueSubmit(Graphics::getInstance()->_queues.graphicsQueue, 1, &submitInfo,
+                                           Graphics::getInstance()->inFlightFences[window->_currentFrame]) ==
+                             VK_SUCCESS, "Failed to submit draw command buffer!");
 
     VkPresentInfoKHR presentInfo{};
     presentInfo.sType = VK_STRUCTURE_TYPE_PRESENT_INFO_KHR;
@@ -362,14 +379,15 @@ void Window::Draw::clear(Vector4 color) {
 
     VkClearRect clearRect{};
     clearRect.layerCount = 1;
-    clearRect.rect.offset = {0,0};
+    clearRect.rect.offset = {0, 0};
     clearRect.rect.extent = window->_swapExtent;
 
     vkCmdClearAttachments(window->getCurrentCommandBuffer(), 1, &clearAttachment, 1, &clearRect);
 }
 
-void Window::Draw::buffers(BufferBase<BUFFER_TYPE_VERTEX>* vertexBuffer, BufferBase<BUFFER_TYPE_INDEX>* indexBuffer, ShaderBase* shader) {
-    VkCommandBuffer& commandBuffer = window->getCurrentCommandBuffer();
+void Window::Draw::buffers(BufferBase<BUFFER_TYPE_VERTEX> *vertexBuffer, BufferBase<BUFFER_TYPE_INDEX> *indexBuffer,
+                           ShaderBase *shader) {
+    VkCommandBuffer &commandBuffer = window->getCurrentCommandBuffer();
 
     VkViewport viewport{};
     viewport.x = 0.0f;
@@ -385,16 +403,16 @@ void Window::Draw::buffers(BufferBase<BUFFER_TYPE_VERTEX>* vertexBuffer, BufferB
     scissor.extent = window->_swapExtent;
     vkCmdSetScissor(commandBuffer, 0, 1, &scissor);
 
-    vkCmdBindPipeline(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS,shader->_pipelines[window].pipeline);
+    vkCmdBindPipeline(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, shader->_pipelines[window].pipeline);
 
-    Debug::AssertIf::isNull(vertexBuffer,"Vertex buffer cannot be null!");
+    Debug::AssertIf::isNull(vertexBuffer, "Vertex buffer cannot be null!");
     vertexBuffer->bind(window);
-    if(indexBuffer != nullptr)
+    if (indexBuffer != nullptr)
         indexBuffer->bind(window);
 
-    vkCmdDrawIndexed(commandBuffer,(uint32_t)indexBuffer->size,1,0,0,0);
+    vkCmdDrawIndexed(commandBuffer, (uint32_t) indexBuffer->size, 1, 0, 0, 0);
 }
 
-void Window::Draw::mesh(Mesh3D& mesh) {
-    buffers(mesh._vertexBuffer,mesh._indexBuffer,mesh.shader);
+void Window::Draw::mesh(Mesh3D &mesh) {
+    buffers(mesh._vertexBuffer, mesh._indexBuffer, mesh.shader);
 }

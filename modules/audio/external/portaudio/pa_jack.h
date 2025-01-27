@@ -62,13 +62,13 @@ extern "C" {
  * PA might need it.
  * @sa PaJack_GetClientName
  */
-PaError PaJack_SetClientName( const char* name );
+PaError PaJack_SetClientName(const char *name);
 
 /** Get the JACK client name used by PA JACK.
  *
  * The caller is responsible for freeing the returned pointer.
  */
-PaError PaJack_GetClientName(const char** clientName);
+PaError PaJack_GetClientName(const char **clientName);
 
 #ifdef __cplusplus
 }

@@ -18,12 +18,12 @@ range::range(int start, int end, int step) {
     _step = step;
 }
 
-range::iterator& range::iterator::operator++() {
+range::iterator &range::iterator::operator++() {
     current += step;
     return *this;
 }
 
-bool range::iterator::operator!=(const range::iterator& other) const {
+bool range::iterator::operator!=(const range::iterator &other) const {
     return current != other.current;
 }
 

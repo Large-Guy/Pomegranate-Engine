@@ -1,5 +1,6 @@
 #ifndef POMEGRANATEENGINE_MESH_H
 #define POMEGRANATEENGINE_MESH_H
+
 #include <core/core.h>
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
@@ -16,21 +17,27 @@ public:
         _vbo = 0;
         _ebo = 0;
     }
+
     MeshBase(std::string path, std::string name) : Asset(path, name) {
         _vao = 0;
         _vbo = 0;
         _ebo = 0;
     }
+
     virtual ~MeshBase() {
         glDeleteVertexArrays(1, &_vao);
         glDeleteBuffers(1, &_vbo);
         glDeleteBuffers(1, &_ebo);
     }
+
     virtual void apply() = 0;
+
     virtual size_t getVertexCount() = 0;
+
     virtual size_t getIndexCount() = 0;
 
     friend class Window;
+
     friend class Draw;
 };
 
@@ -43,11 +50,11 @@ private:
         Index normalIndex;
     };
 
-    std::vector<std::string> split(const std::string& str, const std::string& delimiter) {
+    std::vector<std::string> split(const std::string &str, const std::string &delimiter) {
         std::vector<std::string> parts;
         size_t start = 0;
         size_t end = str.find(delimiter);
-        while(end != std::string::npos) {
+        while (end != std::string::npos) {
             parts.push_back(str.substr(start, end - start));
             start = end + delimiter.length();
             end = str.find(delimiter, start);
@@ -58,15 +65,15 @@ private:
 
     int vertexAttributeIndex(AttributeType type) {
         std::vector<VertexAttributeInfo> attributes = Vertex::getAttributeInfo();
-        for(int i = 0; i < attributes.size(); i++) {
-            if(attributes[i].type == type) {
+        for (int i = 0; i < attributes.size(); i++) {
+            if (attributes[i].type == type) {
                 return i;
             }
         }
         return -1;
     }
 
-    void loadOBJ(const std::string& path) {
+    void loadOBJ(const std::string &path) {
         File file(path);
         file.open();
         if (!file.exists()) {
@@ -85,10 +92,10 @@ private:
         std::vector<Vector3> normals;
         std::vector<Vector2> uvs;
 
-        for(auto& line : lines) {
+        for (auto &line: lines) {
 
             int positionIndex = vertexAttributeIndex(ATTRIBUTE_TYPE_POSITION);
-            if(positionIndex != -1) {
+            if (positionIndex != -1) {
                 if (line.find("v ") != std::string::npos) {
                     std::vector<std::string> parts = split(line, " ");
                     Vector3 position = {std::stof(parts[1]), std::stof(parts[2]), std::stof(parts[3])};
@@ -99,7 +106,7 @@ private:
             }
 
             int normalIndex = vertexAttributeIndex(ATTRIBUTE_TYPE_NORMAL);
-            if(normalIndex != -1) {
+            if (normalIndex != -1) {
                 if (line.find("vn ") != std::string::npos) {
                     std::vector<std::string> parts = split(line, " ");
                     Vector3 normal = {std::stof(parts[1]), std::stof(parts[2]), std::stof(parts[3])};
@@ -111,7 +118,7 @@ private:
             }
 
             int uvIndex = vertexAttributeIndex(ATTRIBUTE_TYPE_TEXCOORD);
-            if(uvIndex != -1) {
+            if (uvIndex != -1) {
                 if (line.find("vt ") != std::string::npos) {
                     std::vector<std::string> parts = split(line, " ");
                     Vector2 uv = {std::stof(parts[1]), std::stof(parts[2])};
@@ -122,22 +129,22 @@ private:
                 }
             }
 
-            if(line.find("f ") != std::string::npos) {
+            if (line.find("f ") != std::string::npos) {
                 List<std::string> parts = split(line, " ");
 
-                for(int i = 1; i < parts.size(); i++) {
+                for (int i = 1; i < parts.size(); i++) {
                     std::vector<std::string> ind = split(parts[i], "/");
 
                     Index index = 0;
-                    if(ind.size() > 0 && !ind[0].empty())
+                    if (ind.size() > 0 && !ind[0].empty())
                         index = std::stoi(ind[0]) - 1;
 
                     Index uv = 0;
-                    if(ind.size() > 1 && !ind[1].empty())
+                    if (ind.size() > 1 && !ind[1].empty())
                         uv = std::stoi(ind[1]) - 1;
 
                     Index normal = 0;
-                    if(ind.size() > 2 && !ind[2].empty())
+                    if (ind.size() > 2 && !ind[2].empty())
                         normal = std::stoi(ind[2]) - 1;
 
                     indices.push_back({index, uv, normal});
@@ -145,38 +152,38 @@ private:
             }
         }
 
-        for(auto& index : indices) {
+        for (auto &index: indices) {
             Vertex vertex{};
 
             int positionIndex = vertexAttributeIndex(ATTRIBUTE_TYPE_POSITION);
-            if(positionIndex != -1 && attributeCount[positionIndex] > 0) {
+            if (positionIndex != -1 && attributeCount[positionIndex] > 0) {
                 //Memcpy the position
                 int offset = attributes[positionIndex].offset;
                 memcpy(&vertex + offset, &vertices[index.index], sizeof(Vector3));
             }
             int normalIndex = vertexAttributeIndex(ATTRIBUTE_TYPE_NORMAL);
-            if(normalIndex != -1 && attributeCount[normalIndex] > 0) {
+            if (normalIndex != -1 && attributeCount[normalIndex] > 0) {
                 //Memcpy the normal
                 size_t offset = attributes[normalIndex].offset;
-                memcpy(((char*)&vertex) + offset, &normals[index.normalIndex], sizeof(Vector3));
+                memcpy(((char *) &vertex) + offset, &normals[index.normalIndex], sizeof(Vector3));
             }
             int uvIndex = vertexAttributeIndex(ATTRIBUTE_TYPE_TEXCOORD);
-            if(uvIndex != -1 && attributeCount[uvIndex] > 0) {
+            if (uvIndex != -1 && attributeCount[uvIndex] > 0) {
                 //Memcpy the uv
                 size_t offset = attributes[uvIndex].offset;
-                memcpy(((char*)&vertex) + offset, &uvs[index.uvIndex], sizeof(Vector2));
+                memcpy(((char *) &vertex) + offset, &uvs[index.uvIndex], sizeof(Vector2));
             }
             vertices.push_back(vertex);
         }
 
-        for(int i = 0; i < vertices.size(); i++) {
+        for (int i = 0; i < vertices.size(); i++) {
             indices.push_back(i);
         }
 
         //Merge vertices
-        for(int i = 0; i < vertices.size(); i++) {
-            for(int j = i + 1; j < vertices.size(); j++) {
-                if(vertices[i] == vertices[j]) {
+        for (int i = 0; i < vertices.size(); i++) {
+            for (int j = i + 1; j < vertices.size(); j++) {
+                if (vertices[i] == vertices[j]) {
                     indices[j] = indices[i];
                 }
             }
@@ -184,10 +191,11 @@ private:
 
         file.close();
     }
+
 public:
     std::vector<Vertex> vertices;
     std::vector<Index> indices;
-    
+
     void apply() override {
         if (_vao != 0) {
             glDeleteVertexArrays(1, &_vao);
@@ -266,7 +274,7 @@ public:
                     break;
             }
 
-            glVertexAttribPointer(i, size, type, GL_FALSE, sizeof(Vertex), (void*)attributes[i].offset);
+            glVertexAttribPointer(i, size, type, GL_FALSE, sizeof(Vertex), (void *) attributes[i].offset);
             glEnableVertexAttribArray(i);
         }
 
@@ -279,7 +287,7 @@ public:
         indices = std::vector<Index>();
     }
 
-    explicit Mesh(std::vector<Vertex> vertices, std::vector<Index> indices) : MeshBase(){
+    explicit Mesh(std::vector<Vertex> vertices, std::vector<Index> indices) : MeshBase() {
         vertices = vertices;
         indices = indices;
         this->apply();
@@ -295,78 +303,86 @@ public:
     void addVertex(Vertex vertex) {
         vertices.push_back(vertex);
     }
+
     void addVertex(Vector3 position, Vector3 normal = {}, Vector2 uv = {}) {
         Vertex vertex{};
         //Locate the position attribute
         int positionIndex = vertexAttributeIndex(ATTRIBUTE_TYPE_POSITION);
-        if(positionIndex != -1) {
+        if (positionIndex != -1) {
             //Memcpy the position
             size_t offset = Vertex::getAttributeInfo()[positionIndex].offset;
-            memcpy(((char*)&vertex) + offset, &position, sizeof(Vector3));
+            memcpy(((char *) &vertex) + offset, &position, sizeof(Vector3));
         }
 
         //Locate the normal attribute
         int normalIndex = vertexAttributeIndex(ATTRIBUTE_TYPE_NORMAL);
-        if(normalIndex != -1) {
+        if (normalIndex != -1) {
             //Memcpy the normal
             size_t offset = Vertex::getAttributeInfo()[normalIndex].offset;
-            memcpy(((char*)&vertex) + offset, &normal, sizeof(Vector3));
+            memcpy(((char *) &vertex) + offset, &normal, sizeof(Vector3));
         }
 
         //Locate the uv attribute
         int uvIndex = vertexAttributeIndex(ATTRIBUTE_TYPE_TEXCOORD);
-        if(uvIndex != -1) {
+        if (uvIndex != -1) {
             //Memcpy the uv
             size_t offset = Vertex::getAttributeInfo()[uvIndex].offset;
-            memcpy(((char*)&vertex) + offset, &uv, sizeof(Vector2));
+            memcpy(((char *) &vertex) + offset, &uv, sizeof(Vector2));
         }
 
         vertices.push_back(vertex);
     }
+
     void addIndex(Index index) {
         indices.push_back(index);
     }
+
     void setVertices(List<Vertex> vertices) {
         vertices = vertices;
     }
+
     void setIndices(List<Index> indices) {
         indices = indices;
     }
-    Vertex& getVertex(size_t index) {
+
+    Vertex &getVertex(size_t index) {
         return vertices[index];
     }
-    Index& getIndex(size_t index) {
+
+    Index &getIndex(size_t index) {
         return indices[index];
     }
-    std::vector<Vertex>& getVertices() {
+
+    std::vector<Vertex> &getVertices() {
         return vertices;
     }
-    std::vector<Index>& getIndices() {
+
+    std::vector<Index> &getIndices() {
         return indices;
     }
+
     size_t getVertexCount() override {
         return vertices.size();
     }
+
     size_t getIndexCount() override {
         return indices.size();
     }
+
     void clear() {
         vertices.clear();
         indices.clear();
     }
 
-    void calculateNormals()
-    {
-        for(int i = 0; i < vertices.size(); i++)
-        {
-            vertices[i].normal = {0.0f,0.0f,0.0f};
+    void calculateNormals() {
+        for (int i = 0; i < vertices.size(); i++) {
+            vertices[i].normal = {0.0f, 0.0f, 0.0f};
         }
 
-        for(int i = 0; i < indices.size(); i += 3)
-        {
-            Vertex& v0 = vertices[indices[i]];
-            Vertex& v1 = vertices[indices[i + 1]];
-            Vertex& v2 = vertices[indices[i + 2]];
+        for (int i = 0; i < indices.size(); i += 3) {
+            Vertex &v0 = vertices[indices[i]];
+            Vertex &v1 = vertices[indices[i + 1]];
+            Vertex &v2 = vertices[indices[i + 2]];
 
             Vector3 edge1 = v1.position - v0.position;
             Vector3 edge2 = v2.position - v0.position;
@@ -378,14 +394,13 @@ public:
             v2.normal += normal;
         }
 
-        for(int i = 0; i < vertices.size(); i++)
-        {
+        for (int i = 0; i < vertices.size(); i++) {
             vertices[i].normal = vertices[i].normal.normalize();
         }
     }
 
-    static Mesh<Vertex, Index>* cuboid(Vector3 size) {
-        Mesh<Vertex, Index>* mesh = new Mesh<Vertex, Index>();
+    static Mesh<Vertex, Index> *cuboid(Vector3 size) {
+        Mesh<Vertex, Index> *mesh = new Mesh<Vertex, Index>();
 
         Vector3 hs = size / 2.0f;
 
@@ -478,15 +493,15 @@ public:
         return mesh;
     }
 
-    static Mesh<Vertex, Index>* sphere(float radius, int slices, int stacks) {
-        Mesh<Vertex, Index>* mesh = new Mesh<Vertex, Index>();
+    static Mesh<Vertex, Index> *sphere(float radius, int slices, int stacks) {
+        Mesh<Vertex, Index> *mesh = new Mesh<Vertex, Index>();
 
-        for(int i = 0; i <= stacks; i++) {
-            float v = i / (float)stacks;
+        for (int i = 0; i <= stacks; i++) {
+            float v = i / (float) stacks;
             float phi = v * M_PI;
 
-            for(int j = 0; j <= slices; j++) {
-                float u = j / (float)slices;
+            for (int j = 0; j <= slices; j++) {
+                float u = j / (float) slices;
                 float theta = u * M_PI * 2.0f;
 
                 float x = cos(theta) * sin(phi);
@@ -501,8 +516,8 @@ public:
             }
         }
 
-        for(int i = 0; i < stacks; i++) {
-            for(int j = 0; j < slices; j++) {
+        for (int i = 0; i < stacks; i++) {
+            for (int j = 0; j < slices; j++) {
                 int first = (i * (slices + 1)) + j;
                 int second = first + slices + 1;
 
@@ -521,8 +536,8 @@ public:
         return mesh;
     }
 
-    static Mesh<Vertex, Index>* plane(Vector2 size, int subdivisions = 1) {
-        Mesh<Vertex, Index>* mesh = new Mesh<Vertex, Index>();
+    static Mesh<Vertex, Index> *plane(Vector2 size, int subdivisions = 1) {
+        Mesh<Vertex, Index> *mesh = new Mesh<Vertex, Index>();
 
         Vector2 hs = size / 2.0f;
 
@@ -560,8 +575,8 @@ public:
         return mesh;
     }
 
-    static Mesh<Vertex, Index>* quad(Vector2 size) {
-        Mesh<Vertex, Index>* mesh = new Mesh<Vertex, Index>();
+    static Mesh<Vertex, Index> *quad(Vector2 size) {
+        Mesh<Vertex, Index> *mesh = new Mesh<Vertex, Index>();
 
         Vector2 hs = size / 2.0f;
 
@@ -583,8 +598,8 @@ public:
         return mesh;
     }
 
-    static Mesh<Vertex, Index>* circle(float radius, int segments = 32) {
-        Mesh<Vertex, Index>* mesh = new Mesh<Vertex, Index>();
+    static Mesh<Vertex, Index> *circle(float radius, int segments = 32) {
+        Mesh<Vertex, Index> *mesh = new Mesh<Vertex, Index>();
 
         Vector3 cnormal = {0.0f, 0.0f, 1.0f};
         Vector3 cposition = {0.0f, 0.0f, 0.0f};

@@ -1,5 +1,6 @@
 #ifndef POMEGRANATE_ENGINE_CORE_DEBUG_H
 #define POMEGRANATE_ENGINE_CORE_DEBUG_H
+
 #include <string>
 #include <iostream>
 
@@ -8,8 +9,7 @@ public:
     class Log {
     public:
         template<typename ...args>
-        Log(args... messages)
-        {
+        Log(args... messages) {
             std::cout << "\033[1;44m[LOG]\033[0m  ";
             // Ensure space between messages
             ((std::cout << messages << ' '), ...);
@@ -17,9 +17,13 @@ public:
         }
 
         static void info(std::string message);
+
         static void warn(std::string message);
+
         static void error(std::string message);
+
         static void pass(std::string message);
+
         static void fail(std::string message);
 
         template<typename ...args>
@@ -62,6 +66,7 @@ public:
             std::cout << std::endl;
         }
     };
+
     class AssertIf {
     public:
         template<typename ...args>
@@ -81,7 +86,7 @@ public:
         }
 
         template<typename ...args>
-        static inline void isNull(void* ptr, args... message) {
+        static inline void isNull(void *ptr, args... message) {
             if (ptr == nullptr) {
                 Log::fail(message...);
                 throw std::runtime_error("Assertion failed");
@@ -89,7 +94,7 @@ public:
         }
 
         template<typename ...args>
-        static inline void isNotNull(void* ptr, args... message) {
+        static inline void isNotNull(void *ptr, args... message) {
             if (ptr != nullptr) {
                 Log::fail(message...);
                 throw std::runtime_error("Assertion failed");
@@ -160,6 +165,7 @@ public:
             }
         }
     };
+
     class WarnIf {
     public:
         template<typename ...args>
@@ -177,14 +183,14 @@ public:
         }
 
         template<typename ...args>
-        static inline void isNull(void* ptr, args... message) {
+        static inline void isNull(void *ptr, args... message) {
             if (ptr == nullptr) {
                 Log::warn(message...);
             }
         }
 
         template<typename ...args>
-        static inline void isNotNull(void* ptr, args... message) {
+        static inline void isNotNull(void *ptr, args... message) {
             if (ptr != nullptr) {
                 Log::warn(message...);
             }

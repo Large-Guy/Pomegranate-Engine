@@ -1,5 +1,6 @@
 #ifndef POMEGRANATEENGINE_CAMERA2D_H
 #define POMEGRANATEENGINE_CAMERA2D_H
+
 #include <math/math.h>
 
 class Camera2D {
@@ -15,9 +16,9 @@ public:
 
     Matrix4x4 getView();
 
-    void serialize(Archive& archive);
+    void serialize(Archive &archive);
 
-    void deserialize(Archive& archive);
+    void deserialize(Archive &archive);
 };
 
 

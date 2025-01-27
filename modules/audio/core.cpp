@@ -2,13 +2,13 @@
 
 Audio Audio::_instance{};
 
-Audio* Audio::getInstance() {
+Audio *Audio::getInstance() {
     return &_instance;
 }
 
 Audio::Audio() {
     PaError err = Pa_Initialize();
-    if(err != paNoError) {
+    if (err != paNoError) {
         // Handle error
         Debug::Log::error("Failed to initialize PortAudio");
         return;

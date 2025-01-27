@@ -5,14 +5,14 @@ TypeInfo::TypeInfo() : size(0), type(0) {
     this->mangledName = "";
 }
 
-TypeInfo::TypeInfo(const TypeInfo& other) {
+TypeInfo::TypeInfo(const TypeInfo &other) {
     size = other.size;
     type = other.type;
     name = other.name;
     mangledName = other.mangledName;
 }
 
-TypeInfo& TypeInfo::operator=(const TypeInfo& other) {
+TypeInfo &TypeInfo::operator=(const TypeInfo &other) {
     size = other.size;
     type = other.type;
     name = other.name;
@@ -20,7 +20,7 @@ TypeInfo& TypeInfo::operator=(const TypeInfo& other) {
     return *this;
 }
 
-bool TypeInfo::compare(const TypeInfo& other) const {
+bool TypeInfo::compare(const TypeInfo &other) const {
     return type == other.type;
 }
 

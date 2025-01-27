@@ -73,13 +73,13 @@ extern "C"
 #define paWinMmeWaveFormatWmaSpdif                      (0x20)
 
 
-typedef struct PaWinMmeDeviceAndChannelCount{
+typedef struct PaWinMmeDeviceAndChannelCount {
     PaDeviceIndex device;
     int channelCount;
-}PaWinMmeDeviceAndChannelCount;
+} PaWinMmeDeviceAndChannelCount;
 
 
-typedef struct PaWinMmeStreamInfo{
+typedef struct PaWinMmeStreamInfo {
     unsigned long size;             /**< sizeof(PaWinMmeStreamInfo) */
     PaHostApiTypeId hostApiType;    /**< paMME */
     unsigned long version;          /**< 1 */
@@ -125,7 +125,7 @@ typedef struct PaWinMmeStreamInfo{
     */
     PaWinWaveFormatChannelMask channelMask;
 
-}PaWinMmeStreamInfo;
+} PaWinMmeStreamInfo;
 
 
 /** Retrieve the number of wave in handles used by a PortAudio WinMME stream.
@@ -137,7 +137,7 @@ typedef struct PaWinMmeStreamInfo{
 
  @see PaWinMME_GetStreamInputHandle
 */
-int PaWinMME_GetStreamInputHandleCount( PaStream* stream );
+int PaWinMME_GetStreamInputHandleCount(PaStream *stream);
 
 
 /** Retrieve a wave in handle used by a PortAudio WinMME stream.
@@ -150,7 +150,7 @@ int PaWinMME_GetStreamInputHandleCount( PaStream* stream );
 
  @see PaWinMME_GetStreamInputHandle
 */
-HWAVEIN PaWinMME_GetStreamInputHandle( PaStream* stream, int handleIndex );
+HWAVEIN PaWinMME_GetStreamInputHandle(PaStream *stream, int handleIndex);
 
 
 /** Retrieve the number of wave out handles used by a PortAudio WinMME stream.
@@ -162,7 +162,7 @@ HWAVEIN PaWinMME_GetStreamInputHandle( PaStream* stream, int handleIndex );
 
  @see PaWinMME_GetStreamOutputHandle
 */
-int PaWinMME_GetStreamOutputHandleCount( PaStream* stream );
+int PaWinMME_GetStreamOutputHandleCount(PaStream *stream);
 
 
 /** Retrieve a wave out handle used by a PortAudio WinMME stream.
@@ -175,7 +175,7 @@ int PaWinMME_GetStreamOutputHandleCount( PaStream* stream );
 
  @see PaWinMME_GetStreamOutputHandleCount
 */
-HWAVEOUT PaWinMME_GetStreamOutputHandle( PaStream* stream, int handleIndex );
+HWAVEOUT PaWinMME_GetStreamOutputHandle(PaStream *stream, int handleIndex);
 
 
 #ifdef __cplusplus

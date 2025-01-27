@@ -1,5 +1,6 @@
 #ifndef POMEGRANATE_ENGINE_ECS_ECS_TYPEDEFS_H
 #define POMEGRANATE_ENGINE_ECS_ECS_TYPEDEFS_H
+
 #include <vector>
 #include <unordered_set>
 #include <unordered_map>

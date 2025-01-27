@@ -136,8 +136,8 @@ typedef unsigned long PaWinWaveFormatChannelMask;
 #define PAWIN_SIZEOF_WAVEFORMATEX   18
 #define PAWIN_SIZEOF_WAVEFORMATEXTENSIBLE (PAWIN_SIZEOF_WAVEFORMATEX + 22)
 
-typedef struct{
-    unsigned char fields[ PAWIN_SIZEOF_WAVEFORMATEXTENSIBLE ];
+typedef struct {
+    unsigned char fields[PAWIN_SIZEOF_WAVEFORMATEXTENSIBLE];
     unsigned long extraLongForAlignment; /* ensure that compiler aligns struct to DWORD */
 } PaWinWaveFormat;
 
@@ -173,23 +173,24 @@ typedef struct{
     returns PAWIN_WAVE_FORMAT_PCM or PAWIN_WAVE_FORMAT_IEEE_FLOAT
     depending on the sampleFormat parameter.
 */
-int PaWin_SampleFormatToLinearWaveFormatTag( PaSampleFormat sampleFormat );
+int PaWin_SampleFormatToLinearWaveFormatTag(PaSampleFormat sampleFormat);
 
 /*
     Use the following two functions to initialize the waveformat structure.
 */
 
-void PaWin_InitializeWaveFormatEx( PaWinWaveFormat *waveFormat,
-        int numChannels, PaSampleFormat sampleFormat, int waveFormatTag, double sampleRate );
+void PaWin_InitializeWaveFormatEx(PaWinWaveFormat *waveFormat,
+                                  int numChannels, PaSampleFormat sampleFormat, int waveFormatTag, double sampleRate);
 
 
-void PaWin_InitializeWaveFormatExtensible( PaWinWaveFormat *waveFormat,
-        int numChannels, PaSampleFormat sampleFormat, int waveFormatTag, double sampleRate,
-        PaWinWaveFormatChannelMask channelMask );
+void PaWin_InitializeWaveFormatExtensible(PaWinWaveFormat *waveFormat,
+                                          int numChannels, PaSampleFormat sampleFormat, int waveFormatTag,
+                                          double sampleRate,
+                                          PaWinWaveFormatChannelMask channelMask);
 
 
 /* Map a channel count to a speaker channel mask */
-PaWinWaveFormatChannelMask PaWin_DefaultChannelMask( int numChannels );
+PaWinWaveFormatChannelMask PaWin_DefaultChannelMask(int numChannels);
 
 
 #ifdef __cplusplus

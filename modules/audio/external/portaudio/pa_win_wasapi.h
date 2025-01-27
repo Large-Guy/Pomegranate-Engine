@@ -55,38 +55,37 @@ extern "C"
 
 
 /* Stream setup flags. */
-typedef enum PaWasapiFlags
-{
+typedef enum PaWasapiFlags {
     /* put WASAPI into exclusive mode */
-    paWinWasapiExclusive                = (1 << 0),
+    paWinWasapiExclusive = (1 << 0),
 
     /* allow to skip internal PA processing completely */
-    paWinWasapiRedirectHostProcessor    = (1 << 1),
+    paWinWasapiRedirectHostProcessor = (1 << 1),
 
     /* assign custom channel mask */
-    paWinWasapiUseChannelMask           = (1 << 2),
+    paWinWasapiUseChannelMask = (1 << 2),
 
     /* select non-Event driven method of data read/write
        Note: WASAPI Event driven core is capable of 2ms latency!!!, but Polling
              method can only provide 15-20ms latency. */
-    paWinWasapiPolling                  = (1 << 3),
+    paWinWasapiPolling = (1 << 3),
 
     /* force custom thread priority setting, must be used if PaWasapiStreamInfo::threadPriority
        is set to a custom value */
-    paWinWasapiThreadPriority           = (1 << 4),
+    paWinWasapiThreadPriority = (1 << 4),
 
     /* force explicit sample format and do not allow PA to select suitable working format, API will
        fail if provided sample format is not supported by audio hardware in Exclusive mode
        or system mixer in Shared mode */
-    paWinWasapiExplicitSampleFormat     = (1 << 5),
+    paWinWasapiExplicitSampleFormat = (1 << 5),
 
     /* allow API to insert system-level channel matrix mixer and sample rate converter to allow
        playback formats that do not match the current configured system settings.
        this is in particular required for streams not matching the system mixer sample rate.
        only applies in Shared mode. */
-    paWinWasapiAutoConvert              = (1 << 6)
+    paWinWasapiAutoConvert = (1 << 6)
 }
-PaWasapiFlags;
+        PaWasapiFlags;
 #define paWinWasapiExclusive             (paWinWasapiExclusive)
 #define paWinWasapiRedirectHostProcessor (paWinWasapiRedirectHostProcessor)
 #define paWinWasapiUseChannelMask        (paWinWasapiUseChannelMask)
@@ -101,26 +100,25 @@ PaWasapiFlags;
  @note Multiple states can be united into a bitmask.
  @see  PaWasapiStreamStateCallback, PaWasapi_SetStreamStateHandler
 */
-typedef enum PaWasapiStreamState
-{
+typedef enum PaWasapiStreamState {
     /* state change was caused by the error:
 
        Example:
        1) If thread execution stopped due to AUDCLNT_E_RESOURCES_INVALIDATED then state
           value will contain paWasapiStreamStateError|paWasapiStreamStateThreadStop.
     */
-    paWasapiStreamStateError         = (1 << 0),
+    paWasapiStreamStateError = (1 << 0),
 
     /* processing thread is preparing to start execution */
     paWasapiStreamStateThreadPrepare = (1 << 1),
 
     /* processing thread started execution (enters its loop) */
-    paWasapiStreamStateThreadStart   = (1 << 2),
+    paWasapiStreamStateThreadStart = (1 << 2),
 
     /* processing thread stopped execution */
-    paWasapiStreamStateThreadStop    = (1 << 3)
+    paWasapiStreamStateThreadStop = (1 << 3)
 }
-PaWasapiStreamState;
+        PaWasapiStreamState;
 #define paWasapiStreamStateError         (paWasapiStreamStateError)
 #define paWasapiStreamStateThreadPrepare (paWasapiStreamStateThreadPrepare)
 #define paWasapiStreamStateThreadStart   (paWasapiStreamStateThreadStart)
@@ -136,8 +134,8 @@ PaWasapiStreamState;
    Use with caution! inputFrames and outputFrames depend solely on final device setup.
    To query max values of inputFrames/outputFrames use PaWasapi_GetFramesPerHostBuffer.
 */
-typedef void (*PaWasapiHostProcessorCallback) (void *inputBuffer, long inputFrames,
-    void *outputBuffer, long outputFrames, void *userData);
+typedef void (*PaWasapiHostProcessorCallback)(void *inputBuffer, long inputFrames,
+                                              void *outputBuffer, long outputFrames, void *userData);
 
 
 /* Stream state handler.
@@ -149,13 +147,12 @@ typedef void (*PaWasapiHostProcessorCallback) (void *inputBuffer, long inputFram
 
  @see   PaWasapiStreamState
 */
-typedef void (*PaWasapiStreamStateCallback) (PaStream *pStream, unsigned int stateFlags,
-    unsigned int errorId, void *pUserData);
+typedef void (*PaWasapiStreamStateCallback)(PaStream *pStream, unsigned int stateFlags,
+                                            unsigned int errorId, void *pUserData);
 
 
 /* Device role. */
-typedef enum PaWasapiDeviceRole
-{
+typedef enum PaWasapiDeviceRole {
     eRoleRemoteNetworkDevice = 0,
     eRoleSpeakers,
     eRoleLineLevel,
@@ -168,12 +165,11 @@ typedef enum PaWasapiDeviceRole
     eRoleHDMI,
     eRoleUnknownFormFactor
 }
-PaWasapiDeviceRole;
+        PaWasapiDeviceRole;
 
 
 /* Jack connection type. */
-typedef enum PaWasapiJackConnectionType
-{
+typedef enum PaWasapiJackConnectionType {
     eJackConnTypeUnknown,
     eJackConnType3Point5mm,
     eJackConnTypeQuarter,
@@ -187,12 +183,11 @@ typedef enum PaWasapiJackConnectionType
     eJackConnTypeRJ11Modem,
     eJackConnTypeCombination
 }
-PaWasapiJackConnectionType;
+        PaWasapiJackConnectionType;
 
 
 /* Jack geometric location. */
-typedef enum PaWasapiJackGeoLocation
-{
+typedef enum PaWasapiJackGeoLocation {
     eJackGeoLocUnk = 0,
     eJackGeoLocRear = 0x1, /* matches EPcxGeoLocation::eGeoLocRear */
     eJackGeoLocFront,
@@ -210,34 +205,31 @@ typedef enum PaWasapiJackGeoLocation
     eJackGeoLocReserved5,
     eJackGeoLocReserved6,
 }
-PaWasapiJackGeoLocation;
+        PaWasapiJackGeoLocation;
 
 
 /* Jack general location. */
-typedef enum PaWasapiJackGenLocation
-{
+typedef enum PaWasapiJackGenLocation {
     eJackGenLocPrimaryBox = 0,
     eJackGenLocInternal,
     eJackGenLocSeparate,
     eJackGenLocOther
 }
-PaWasapiJackGenLocation;
+        PaWasapiJackGenLocation;
 
 
 /* Jack's type of port. */
-typedef enum PaWasapiJackPortConnection
-{
+typedef enum PaWasapiJackPortConnection {
     eJackPortConnJack = 0,
     eJackPortConnIntegratedDevice,
     eJackPortConnBothIntegratedAndJack,
     eJackPortConnUnknown
 }
-PaWasapiJackPortConnection;
+        PaWasapiJackPortConnection;
 
 
 /* Thread priority. */
-typedef enum PaWasapiThreadPriority
-{
+typedef enum PaWasapiThreadPriority {
     eThreadPriorityNone = 0,
     eThreadPriorityAudio,           //!< Default for Shared mode.
     eThreadPriorityCapture,
@@ -247,21 +239,20 @@ typedef enum PaWasapiThreadPriority
     eThreadPriorityProAudio,        //!< Default for Exclusive mode.
     eThreadPriorityWindowManager
 }
-PaWasapiThreadPriority;
+        PaWasapiThreadPriority;
 
 
 /* Stream descriptor. */
-typedef struct PaWasapiJackDescription
-{
-    unsigned long              channelMapping;
-    unsigned long              color; /* derived from macro: #define RGB(r,g,b) ((COLORREF)(((BYTE)(r)|((WORD)((BYTE)(g))<<8))|(((DWORD)(BYTE)(b))<<16))) */
+typedef struct PaWasapiJackDescription {
+    unsigned long channelMapping;
+    unsigned long color; /* derived from macro: #define RGB(r,g,b) ((COLORREF)(((BYTE)(r)|((WORD)((BYTE)(g))<<8))|(((DWORD)(BYTE)(b))<<16))) */
     PaWasapiJackConnectionType connectionType;
-    PaWasapiJackGeoLocation    geoLocation;
-    PaWasapiJackGenLocation    genLocation;
+    PaWasapiJackGeoLocation geoLocation;
+    PaWasapiJackGenLocation genLocation;
     PaWasapiJackPortConnection portConnection;
-    unsigned int               isConnected;
+    unsigned int isConnected;
 }
-PaWasapiJackDescription;
+        PaWasapiJackDescription;
 
 
 /** Stream category.
@@ -272,20 +263,19 @@ PaWasapiJackDescription;
 
  @version Available as of 19.6.0
 */
-typedef enum PaWasapiStreamCategory
-{
-    eAudioCategoryOther           = 0,
-    eAudioCategoryCommunications  = 3,
-    eAudioCategoryAlerts          = 4,
-    eAudioCategorySoundEffects    = 5,
-    eAudioCategoryGameEffects     = 6,
-    eAudioCategoryGameMedia       = 7,
-    eAudioCategoryGameChat        = 8,
-    eAudioCategorySpeech          = 9,
-    eAudioCategoryMovie           = 10,
-    eAudioCategoryMedia           = 11
+typedef enum PaWasapiStreamCategory {
+    eAudioCategoryOther = 0,
+    eAudioCategoryCommunications = 3,
+    eAudioCategoryAlerts = 4,
+    eAudioCategorySoundEffects = 5,
+    eAudioCategoryGameEffects = 6,
+    eAudioCategoryGameMedia = 7,
+    eAudioCategoryGameChat = 8,
+    eAudioCategorySpeech = 9,
+    eAudioCategoryMovie = 10,
+    eAudioCategoryMedia = 11
 }
-PaWasapiStreamCategory;
+        PaWasapiStreamCategory;
 
 
 /** Stream option.
@@ -295,18 +285,16 @@ PaWasapiStreamCategory;
 
  @version Available as of 19.6.0
 */
-typedef enum PaWasapiStreamOption
-{
-    eStreamOptionNone        = 0, //!< default
-    eStreamOptionRaw         = 1, //!< bypass WASAPI Audio Engine DSP effects, supported since Windows 8.1
+typedef enum PaWasapiStreamOption {
+    eStreamOptionNone = 0, //!< default
+    eStreamOptionRaw = 1, //!< bypass WASAPI Audio Engine DSP effects, supported since Windows 8.1
     eStreamOptionMatchFormat = 2  //!< force WASAPI Audio Engine into a stream format, supported since Windows 10
 }
-PaWasapiStreamOption;
+        PaWasapiStreamOption;
 
 
 /* Stream descriptor. */
-typedef struct PaWasapiStreamInfo
-{
+typedef struct PaWasapiStreamInfo {
     unsigned long size;             /**< sizeof(PaWasapiStreamInfo) */
     PaHostApiTypeId hostApiType;    /**< paWASAPI */
     unsigned long version;          /**< 1 */
@@ -350,7 +338,7 @@ typedef struct PaWasapiStreamInfo
     */
     PaWasapiStreamOption streamOption;
 }
-PaWasapiStreamInfo;
+        PaWasapiStreamInfo;
 
 
 /** Returns pointer to WASAPI's IAudioClient object of the stream.
@@ -361,7 +349,7 @@ PaWasapiStreamInfo;
 
  @return Error code indicating success or failure.
 */
-PaError PaWasapi_GetAudioClient( PaStream *pStream, void **pAudioClient, int bOutput );
+PaError PaWasapi_GetAudioClient(PaStream *pStream, void **pAudioClient, int bOutput);
 
 
 /** Update device list.
@@ -392,7 +380,7 @@ PaError PaWasapi_UpdateDeviceList();
          or, a PaErrorCode (which is always negative) if PortAudio is not initialized
          or an error is encountered.
 */
-int PaWasapi_GetDeviceCurrentFormat( PaStream *pStream, void *pFormat, unsigned int formatSize, int bOutput );
+int PaWasapi_GetDeviceCurrentFormat(PaStream *pStream, void *pFormat, unsigned int formatSize, int bOutput);
 
 
 /** Get default audio format for the device in Shared Mode.
@@ -408,7 +396,7 @@ int PaWasapi_GetDeviceCurrentFormat( PaStream *pStream, void *pFormat, unsigned 
          or, a PaErrorCode (which is always negative) if PortAudio is not initialized
          or an error is encountered.
 */
-int PaWasapi_GetDeviceDefaultFormat( void *pFormat, unsigned int formatSize, PaDeviceIndex device );
+int PaWasapi_GetDeviceDefaultFormat(void *pFormat, unsigned int formatSize, PaDeviceIndex device);
 
 
 /** Get mix audio format for the device in Shared Mode.
@@ -424,7 +412,7 @@ int PaWasapi_GetDeviceDefaultFormat( void *pFormat, unsigned int formatSize, PaD
          or, a PaErrorCode (which is always negative) if PortAudio is not initialized
          or an error is encountered.
 */
-int PaWasapi_GetDeviceMixFormat( void *pFormat, unsigned int formatSize, PaDeviceIndex device );
+int PaWasapi_GetDeviceMixFormat(void *pFormat, unsigned int formatSize, PaDeviceIndex device);
 
 
 /** Get device role (PaWasapiDeviceRole enum).
@@ -434,7 +422,7 @@ int PaWasapi_GetDeviceMixFormat( void *pFormat, unsigned int formatSize, PaDevic
  @return Non-negative value indicating device role or, a PaErrorCode (which is always negative)
          if PortAudio is not initialized or an error is encountered.
 */
-int/*PaWasapiDeviceRole*/ PaWasapi_GetDeviceRole( PaDeviceIndex device );
+int/*PaWasapiDeviceRole*/ PaWasapi_GetDeviceRole(PaDeviceIndex device);
 
 
 /** Get device IMMDevice pointer
@@ -444,7 +432,7 @@ int/*PaWasapiDeviceRole*/ PaWasapi_GetDeviceRole( PaDeviceIndex device );
 
  @return Error code indicating success or failure.
 */
-PaError PaWasapi_GetIMMDevice( PaDeviceIndex device, void **pIMMDevice );
+PaError PaWasapi_GetIMMDevice(PaDeviceIndex device, void **pIMMDevice);
 
 
 /** Boost thread priority of calling thread (MMCSS).
@@ -460,7 +448,7 @@ PaError PaWasapi_GetIMMDevice( PaDeviceIndex device, void **pIMMDevice );
  @return Error code indicating success or failure.
  @see    PaWasapi_RevertThreadPriority
 */
-PaError PaWasapi_ThreadPriorityBoost( void **pTask, PaWasapiThreadPriority priorityClass );
+PaError PaWasapi_ThreadPriorityBoost(void **pTask, PaWasapiThreadPriority priorityClass);
 
 
 /** Boost thread priority of calling thread (MMCSS).
@@ -472,7 +460,7 @@ PaError PaWasapi_ThreadPriorityBoost( void **pTask, PaWasapiThreadPriority prior
  @return Error code indicating success or failure.
  @see    PaWasapi_BoostThreadPriority
 */
-PaError PaWasapi_ThreadPriorityRevert( void *pTask );
+PaError PaWasapi_ThreadPriorityRevert(void *pTask);
 
 
 /** Get number of frames per host buffer.
@@ -488,7 +476,7 @@ PaError PaWasapi_ThreadPriorityRevert( void *pTask );
  @return Error code indicating success or failure.
  @see    PaWasapiHostProcessorCallback
 */
-PaError PaWasapi_GetFramesPerHostBuffer( PaStream *pStream, unsigned int *pInput, unsigned int *pOutput );
+PaError PaWasapi_GetFramesPerHostBuffer(PaStream *pStream, unsigned int *pInput, unsigned int *pOutput);
 
 
 /** Get number of jacks associated with a WASAPI device.
@@ -504,7 +492,7 @@ PaError PaWasapi_GetFramesPerHostBuffer( PaStream *pStream, unsigned int *pInput
  @return Error code indicating success or failure.
  @see    PaWasapi_GetJackDescription
  */
-PaError PaWasapi_GetJackCount( PaDeviceIndex device, int *pJackCount );
+PaError PaWasapi_GetJackCount(PaDeviceIndex device, int *pJackCount);
 
 
 /** Get the jack description associated with a WASAPI device and jack number.
@@ -523,7 +511,7 @@ PaError PaWasapi_GetJackCount( PaDeviceIndex device, int *pJackCount );
  @return Error code indicating success or failure.
  @see PaWasapi_GetJackCount
  */
-PaError PaWasapi_GetJackDescription( PaDeviceIndex device, int jackIndex, PaWasapiJackDescription *pJackDescription );
+PaError PaWasapi_GetJackDescription(PaDeviceIndex device, int jackIndex, PaWasapiJackDescription *pJackDescription);
 
 
 /** Set stream state handler.
@@ -534,7 +522,7 @@ PaError PaWasapi_GetJackDescription( PaDeviceIndex device, int jackIndex, PaWasa
 
  @return Error code indicating success or failure.
 */
-PaError PaWasapi_SetStreamStateHandler( PaStream *pStream, PaWasapiStreamStateCallback fnStateHandler, void *pUserData );
+PaError PaWasapi_SetStreamStateHandler(PaStream *pStream, PaWasapiStreamStateCallback fnStateHandler, void *pUserData);
 
 
 /** Set default device Id.
@@ -564,7 +552,7 @@ PaError PaWasapi_SetStreamStateHandler( PaStream *pStream, PaWasapiStreamStateCa
          for UWP/WinRT platform. If Id is longer than PA_WASAPI_DEVICE_ID_LEN characters paBufferTooBig will
          be returned.
 */
-PaError PaWasapiWinrt_SetDefaultDeviceId( const unsigned short *pId, int bOutput );
+PaError PaWasapiWinrt_SetDefaultDeviceId(const unsigned short *pId, int bOutput);
 
 
 /** Populate the device list.
@@ -601,8 +589,8 @@ PaError PaWasapiWinrt_SetDefaultDeviceId( const unsigned short *pId, int bOutput
          be returned. If Name is longer than PA_WASAPI_DEVICE_NAME_LEN characters paBufferTooBig will
          be returned.
 */
-PaError PaWasapiWinrt_PopulateDeviceList( const unsigned short **pId, const unsigned short **pName,
-    const PaWasapiDeviceRole *pRole, unsigned int count, int bOutput );
+PaError PaWasapiWinrt_PopulateDeviceList(const unsigned short **pId, const unsigned short **pName,
+                                         const PaWasapiDeviceRole *pRole, unsigned int count, int bOutput);
 
 
 /*

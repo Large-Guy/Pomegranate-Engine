@@ -5,7 +5,7 @@ Texture2D::Texture2D() {
     _surface = nullptr;
 }
 
-Texture2D::Texture2D(Surface2D* surface) {
+Texture2D::Texture2D(Surface2D *surface) {
     _id = 0;
     _surface = surface;
     apply();
@@ -23,7 +23,8 @@ void Texture2D::apply() {
     }
 
     glBindTexture(GL_TEXTURE_2D, _id);
-    glTexImage2D(GL_TEXTURE_2D, 0, _surface->getFormat(), _surface->getWidth(), _surface->getHeight(), 0, _surface->getFormat(), GL_UNSIGNED_BYTE, _surface->getData());
+    glTexImage2D(GL_TEXTURE_2D, 0, _surface->getFormat(), _surface->getWidth(), _surface->getHeight(), 0,
+                 _surface->getFormat(), GL_UNSIGNED_BYTE, _surface->getData());
     glGenerateMipmap(GL_TEXTURE_2D);
     glBindTexture(GL_TEXTURE_2D, 0);
 
@@ -54,7 +55,7 @@ void Texture2D::apply() {
     }
 }
 
-Surface2D* Texture2D::getSurface() {
+Surface2D *Texture2D::getSurface() {
     return _surface;
 }
 

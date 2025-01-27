@@ -1,5 +1,6 @@
 #ifndef POMEGRANATEENGINE_ASSET_MANAGER_H
 #define POMEGRANATEENGINE_ASSET_MANAGER_H
+
 #include "directory.h"
 #include "file.h"
 #include "asset.h"

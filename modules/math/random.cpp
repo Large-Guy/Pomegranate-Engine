@@ -14,7 +14,7 @@ float Random::randomFloat() {
     x ^= x >> 17;
     x ^= x << 5;
     seed++;
-    return (float)((x % 1000000) / 1000000.0);
+    return (float) ((x % 1000000) / 1000000.0);
 }
 
 float Random::randomFloat(float min, float max) {
@@ -22,7 +22,7 @@ float Random::randomFloat(float min, float max) {
 }
 
 int Random::randomInt(int min, int max) {
-    return (int)randomFloat(min, max + 1);
+    return (int) randomFloat(min, max + 1);
 }
 
 bool Random::randomBool() {

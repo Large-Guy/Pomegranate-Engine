@@ -4,7 +4,7 @@ LuaTable::LuaTable(lua_State *L, int idx) {
     if (lua_istable(L, idx)) {
         lua_pushnil(L);  // Start `lua_next` with `nil` to get the first key
         while (lua_next(L, idx) != 0) {
-            const char* key = lua_tostring(L, -2);
+            const char *key = lua_tostring(L, -2);
             if (key == nullptr) {
                 lua_pop(L, 1);  // Pop the value and skip if key is not a string
                 continue;
@@ -17,7 +17,7 @@ LuaTable::LuaTable(lua_State *L, int idx) {
             } else if (lua_isboolean(L, -1)) {
                 addProperty<bool>(key, lua_toboolean(L, -1));
             } else if (lua_istable(L, -1)) {
-                LuaTable* table = new LuaTable(L, lua_gettop(L));
+                LuaTable *table = new LuaTable(L, lua_gettop(L));
                 property(key, table);
             }
             lua_pop(L, 1);  // Pop the value, keeping the key for the next iteration
@@ -47,8 +47,7 @@ void LuaState::open(const std::string &source) {
 
 void LuaState::open(File file) {
     Debug::AssertIf::isFalse(file.exists(), "File does not exist");
-    if(!file.isOpen())
-    {
+    if (!file.isOpen()) {
         file.open();
     }
     open(file.readText());
@@ -69,12 +68,12 @@ void LuaState::arg(double arg) {
     _args++;
 }
 
-void LuaState::arg(const std::string& arg) {
+void LuaState::arg(const std::string &arg) {
     lua_pushstring(_lua, arg.c_str());
     _args++;
 }
 
-void LuaState::arg(const char* arg) {
+void LuaState::arg(const char *arg) {
     lua_pushstring(_lua, arg);
     _args++;
 }
@@ -85,7 +84,7 @@ void LuaState::arg(bool arg) {
 }
 
 void LuaState::function(const std::string &name, lua_CFunction function, bool global) {
-    if((_tableStack.empty() && global) || global) {
+    if ((_tableStack.empty() && global) || global) {
         lua_pushcfunction(_lua, function);
         lua_setglobal(_lua, name.c_str());
     } else {
@@ -118,7 +117,7 @@ void LuaState::endNamespace() {
     _tableStack.pop();
 
     //If the stack is empty, set the table as a global
-    if(_tableStack.empty()) {
+    if (_tableStack.empty()) {
         lua_setglobal(_lua, name.c_str());
     } else {
         //Otherwise, set it as a field of the table on top of the stack

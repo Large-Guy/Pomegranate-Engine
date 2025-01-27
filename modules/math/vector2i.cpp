@@ -5,14 +5,12 @@
 #include "vector4.h"
 #include "vector4i.h"
 
-Vector2i::Vector2i()
-{
+Vector2i::Vector2i() {
     x = 0;
     y = 0;
 }
 
-Vector2i::Vector2i(int v)
-{
+Vector2i::Vector2i(int v) {
     x = v;
     y = v;
 }
@@ -22,74 +20,61 @@ Vector2i::Vector2i(int x, int y) {
     this->y = y;
 }
 
-Vector2i Vector2i::operator+(const Vector2i& v) const
-{
+Vector2i Vector2i::operator+(const Vector2i &v) const {
     return Vector2i(x + v.x, y + v.y);
 }
 
-Vector2i Vector2i::operator-(const Vector2i& v) const
-{
+Vector2i Vector2i::operator-(const Vector2i &v) const {
     return Vector2i(x - v.x, y - v.y);
 }
 
-Vector2i Vector2i::operator*(const Vector2i& v) const
-{
+Vector2i Vector2i::operator*(const Vector2i &v) const {
     return Vector2i(x * v.x, y * v.y);
 }
 
-Vector2i Vector2i::operator/(const Vector2i& v) const
-{
+Vector2i Vector2i::operator/(const Vector2i &v) const {
     return Vector2i(x / v.x, y / v.y);
 }
 
-Vector2i Vector2i::operator*(int v) const
-{
+Vector2i Vector2i::operator*(int v) const {
     return Vector2i(x * v, y * v);
 }
 
-Vector2i Vector2i::operator/(int v) const
-{
+Vector2i Vector2i::operator/(int v) const {
     return Vector2i(x / v, y / v);
 }
 
-void Vector2i::operator+=(const Vector2i& v)
-{
+void Vector2i::operator+=(const Vector2i &v) {
     x += v.x;
     y += v.y;
 }
 
-void Vector2i::operator-=(const Vector2i& v)
-{
+void Vector2i::operator-=(const Vector2i &v) {
     x -= v.x;
     y -= v.y;
 }
 
-void Vector2i::operator*=(const Vector2i& v)
-{
+void Vector2i::operator*=(const Vector2i &v) {
     x *= v.x;
     y *= v.y;
 }
 
-void Vector2i::operator/=(const Vector2i& v)
-{
+void Vector2i::operator/=(const Vector2i &v) {
     x /= v.x;
     y /= v.y;
 }
 
-void Vector2i::operator*=(int v)
-{
+void Vector2i::operator*=(int v) {
     x *= v;
     y *= v;
 }
 
-void Vector2i::operator/=(int v)
-{
+void Vector2i::operator/=(int v) {
     x /= v;
     y /= v;
 }
 
-bool Vector2i::operator==(const Vector2i& v) const
-{
+bool Vector2i::operator==(const Vector2i &v) const {
     return x == v.x && y == v.y;
 }
 
@@ -154,11 +139,11 @@ Vector2i Vector2i::abs() const {
     return Vector2i(std::abs(x), std::abs(y));
 }
 
-void Vector2i::serialize(Archive& a) const {
+void Vector2i::serialize(Archive &a) const {
     a << x << y;
 }
 
-void Vector2i::deserialize(Archive& a) {
+void Vector2i::deserialize(Archive &a) {
     a >> x >> y;
 }
 
@@ -167,11 +152,11 @@ std::array<int, 2> Vector2i::get() const {
 }
 
 Vector2i::operator Vector2() const {
-    return {(float)x, (float)y};
+    return {(float) x, (float) y};
 }
 
 Vector2i::operator Vector3() const {
-    return {(float)x, (float)y, 0.0f};
+    return {(float) x, (float) y, 0.0f};
 }
 
 Vector2i::operator Vector3i() const {
@@ -179,7 +164,7 @@ Vector2i::operator Vector3i() const {
 }
 
 Vector2i::operator Vector4() const {
-    return {(float)x, (float)y, 0.0f, 0.0f};
+    return {(float) x, (float) y, 0.0f, 0.0f};
 }
 
 Vector2i::operator Vector4i() {

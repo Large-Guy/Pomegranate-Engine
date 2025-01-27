@@ -17,21 +17,27 @@ private:
     EventID _onHeld;
     EventID _onPressed;
     EventID _onReleased;
-    InputManager* _inputManager;
+    InputManager *_inputManager;
 public:
 
     List<Button> buttons;
 
     void addButton(Keyboard::Key key);
+
     void addButton(Mouse::Button button);
+
     void addButton(Gamepad::Button button);
+
     void addButton(GamepadID gamepad, Gamepad::Button button);
 
     ButtonState getState();
 
     void onIdle(Function callback) const;
+
     void onHeld(Function callback) const;
+
     void onPressed(Function callback) const;
+
     void onReleased(Function callback) const;
 
     friend class InputManager;
@@ -40,7 +46,7 @@ public:
 struct AxisAlias {
 private:
     EventID _onChanged;
-    InputManager* _inputManager;
+    InputManager *_inputManager;
 public:
     List<Axis> axes;
     bool invert;
@@ -57,9 +63,7 @@ public:
 };
 
 
-
-struct Alias
-{
+struct Alias {
 public:
     enum Type {
         NOT_FOUND,
@@ -67,17 +71,22 @@ public:
         AXIS
     };
 private:
-    void* _alias;
+    void *_alias;
     Type _type;
 public:
     ButtonAlias button();
+
     AxisAlias axis();
+
     Type type();
+
     bool exists();
 
     Alias();
-    Alias(ButtonAlias& alias);
-    Alias(AxisAlias& alias);
+
+    Alias(ButtonAlias &alias);
+
+    Alias(AxisAlias &alias);
 };
 
 #endif //POMEGRANATEENGINE_ALIASES_H

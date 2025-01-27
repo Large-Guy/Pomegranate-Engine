@@ -15,15 +15,20 @@ public:
     float far = 1000.0f;
 
     Camera3D();
+
     Camera3D(float fov, float near, float far);
 
-    static void setMain(Entity& entity);
+    static void setMain(Entity &entity);
+
     static Entity getMain();
+
     bool isMain() const;
+
     Matrix4x4 getProjectionMatrix() const;
 
-    void serialize(Archive& a) const override;
-    void deserialize(Archive& a) override;
+    void serialize(Archive &a) const override;
+
+    void deserialize(Archive &a) override;
 };
 
 

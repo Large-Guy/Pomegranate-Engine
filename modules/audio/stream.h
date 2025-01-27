@@ -9,24 +9,27 @@ class Stream {
     Function customCallback;
 public:
     struct CallbackInfo {
-        float* input;
-        float* output;
+        float *input;
+        float *output;
         unsigned long frameCount;
         float time;
         float frameDeltaTime;
         int sampleRate;
         int channels;
-        void* userData;
+        void *userData;
     };
 
     Stream();
+
     ~Stream();
 
     void start();
+
     void stop();
 
-    Function& setCustomCallback(Function callback);
-    Function& getCustomCallback();
+    Function &setCustomCallback(Function callback);
+
+    Function &getCustomCallback();
 };
 
 

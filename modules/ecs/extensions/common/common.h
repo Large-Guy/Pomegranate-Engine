@@ -14,6 +14,7 @@ namespace Extensions::Common {
     ComponentID COLOR = 0;
     ComponentID CHILDREN = 0;
     ComponentID PARENT = 0;
+
     void init() {
         TRANSFORM_2D = Component::create<Transform2D>("Transform2D");
         TRANSFORM_3D = Component::create<Transform3D>("Transform3D");

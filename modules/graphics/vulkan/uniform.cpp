@@ -12,7 +12,7 @@ Uniform::Uniform(size_t binding, size_t size) {
     this->size = size;
 }
 
-UniformBuffer::UniformBuffer(const Uniform& uniform) {
+UniformBuffer::UniformBuffer(const Uniform &uniform) {
     this->uniform = uniform;
     createUniformBuffers();
 }
@@ -25,14 +25,16 @@ UniformBuffer::~UniformBuffer() {
 }
 
 void UniformBuffer::createBuffer(VkDeviceSize size, VkBufferUsageFlagBits usage, VkMemoryPropertyFlags properties,
-                           VkBuffer &buffer, VkDeviceMemory &bufferMemory) {
+                                 VkBuffer &buffer, VkDeviceMemory &bufferMemory) {
     VkBufferCreateInfo bufferInfo{};
     bufferInfo.sType = VK_STRUCTURE_TYPE_BUFFER_CREATE_INFO;
     bufferInfo.size = size;
     bufferInfo.usage = usage;
     bufferInfo.sharingMode = VK_SHARING_MODE_EXCLUSIVE;
 
-    Debug::AssertIf::isFalse(vkCreateBuffer(Graphics::getInstance()->_logicalDevice, &bufferInfo, nullptr, &buffer) == VK_SUCCESS, "Failed to create buffer!");
+    Debug::AssertIf::isFalse(
+            vkCreateBuffer(Graphics::getInstance()->_logicalDevice, &bufferInfo, nullptr, &buffer) == VK_SUCCESS,
+            "Failed to create buffer!");
     Debug::Log::pass("Successfully created uniform buffer!");
 
     VkMemoryRequirements memRequirements{};
@@ -43,7 +45,9 @@ void UniformBuffer::createBuffer(VkDeviceSize size, VkBufferUsageFlagBits usage,
     allocInfo.allocationSize = memRequirements.size;
     allocInfo.memoryTypeIndex = Graphics::getInstance()->getMemoryType(memRequirements.memoryTypeBits, properties);
 
-    Debug::AssertIf::isFalse(vkAllocateMemory(Graphics::getInstance()->_logicalDevice, &allocInfo, nullptr, &bufferMemory) == VK_SUCCESS, "Failed to allocate buffer memory!");
+    Debug::AssertIf::isFalse(
+            vkAllocateMemory(Graphics::getInstance()->_logicalDevice, &allocInfo, nullptr, &bufferMemory) == VK_SUCCESS,
+            "Failed to allocate buffer memory!");
     Debug::Log::pass("Successfully allocated uniform buffer memory!");
 
     vkBindBufferMemory(Graphics::getInstance()->_logicalDevice, buffer, bufferMemory, 0);
@@ -57,7 +61,8 @@ void UniformBuffer::createUniformBuffers() {
     mapped.resize(Graphics::MAX_FRAMES_IN_FLIGHT);
 
     for (int i = 0; i < Graphics::MAX_FRAMES_IN_FLIGHT; ++i) {
-        createBuffer(bufferSize, VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT, VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT, buffer[i], memory[i]);
+        createBuffer(bufferSize, VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT,
+                     VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT, buffer[i], memory[i]);
         vkMapMemory(Graphics::getInstance()->_logicalDevice, memory[i], 0, bufferSize, 0, &mapped[i]);
     }
 }
@@ -79,7 +84,7 @@ DescriptorSet::DescriptorSet(std::vector<Uniform> uniforms, VkShaderStageFlagBit
     this->uniforms = std::move(uniforms);
 
     //Initialize uniform buffers
-    for(auto& uniform : this->uniforms) {
+    for (auto &uniform: this->uniforms) {
         uniformBuffers.emplace_back(uniform);
     }
 
@@ -88,9 +93,9 @@ DescriptorSet::DescriptorSet(std::vector<Uniform> uniforms, VkShaderStageFlagBit
 
 DescriptorSet::~DescriptorSet() {
     vkDeviceWaitIdle(Graphics::getInstance()->_logicalDevice);
-    if(descriptorSetLayout != VK_NULL_HANDLE)
+    if (descriptorSetLayout != VK_NULL_HANDLE)
         vkDestroyDescriptorSetLayout(Graphics::getInstance()->_logicalDevice, descriptorSetLayout, nullptr);
-    if(descriptorPool != VK_NULL_HANDLE)
+    if (descriptorPool != VK_NULL_HANDLE)
         vkDestroyDescriptorPool(Graphics::getInstance()->_logicalDevice, descriptorPool, nullptr);
 }
 
@@ -107,6 +112,8 @@ void DescriptorSet::createDescriptorSetLayout(VkShaderStageFlagBits type) {
     layoutInfo.bindingCount = 1;
     layoutInfo.pBindings = &uboLayoutBinding;
 
-    Debug::AssertIf::isFalse(vkCreateDescriptorSetLayout(Graphics::getInstance()->_logicalDevice, &layoutInfo, nullptr, &descriptorSetLayout) == VK_SUCCESS, "Failed to create descriptor set layout!");
+    Debug::AssertIf::isFalse(vkCreateDescriptorSetLayout(Graphics::getInstance()->_logicalDevice, &layoutInfo, nullptr,
+                                                         &descriptorSetLayout) == VK_SUCCESS,
+                             "Failed to create descriptor set layout!");
     Debug::Log::pass("Successfully created descriptor set layout!");
 }
