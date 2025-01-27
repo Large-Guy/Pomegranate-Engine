@@ -1,0 +1,7 @@
+#ifndef POMEGRANATEENGINE_GAMEOBJECTS_H
+#define POMEGRANATEENGINE_GAMEOBJECTS_H
+
+#include "typedefs.h"
+#include "gameobject.h"
+
+#endif //POMEGRANATEENGINE_GAMEOBJECTS_H

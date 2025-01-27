@@ -1,0 +1,10 @@
+#ifndef POMEGRANATEENGINE_CORE_H
+#define POMEGRANATEENGINE_CORE_H
+
+
+class Core {
+
+};
+
+
+#endif //POMEGRANATEENGINE_CORE_H
