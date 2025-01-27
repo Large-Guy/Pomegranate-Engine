@@ -5,18 +5,18 @@
 #include<portaudio/portaudio.h>
 
 class Stream {
-    PaStream *stream;
+    PaStream* stream;
     Function customCallback;
 public:
     struct CallbackInfo {
-        float *input;
-        float *output;
+        float* input;
+        float* output;
         unsigned long frameCount;
         float time;
         float frameDeltaTime;
         int sampleRate;
         int channels;
-        void *userData;
+        void* userData;
     };
 
     Stream();
@@ -27,9 +27,9 @@ public:
 
     void stop();
 
-    Function &setCustomCallback(Function callback);
+    Function& setCustomCallback(Function callback);
 
-    Function &getCustomCallback();
+    Function& getCustomCallback();
 };
 
 

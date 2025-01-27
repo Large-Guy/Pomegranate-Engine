@@ -7,10 +7,10 @@ Sprite::Sprite() {
     zIndex = 0;
 }
 
-void Sprite::serialize(Archive &a) const {
+void Sprite::serialize(Archive& a) const {
 
 }
 
-void Sprite::deserialize(Archive &a) {
+void Sprite::deserialize(Archive& a) {
 
 }

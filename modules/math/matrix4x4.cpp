@@ -7,7 +7,7 @@ Matrix4x4::Matrix4x4() {
     w = Vector4(0.0f, 0.0f, 0.0f, 1.0f);
 }
 
-Matrix4x4::Matrix4x4(const Vector4 &x, const Vector4 &y, const Vector4 &z, const Vector4 &w) {
+Matrix4x4::Matrix4x4(const Vector4& x, const Vector4& y, const Vector4& z, const Vector4& w) {
     this->x = x;
     this->y = y;
     this->z = z;
@@ -22,11 +22,11 @@ Matrix4x4::Matrix4x4(float x0, float x1, float x2, float x3, float y0, float y1,
     w = Vector4(w0, w1, w2, w3);
 }
 
-void Matrix4x4::serialize(Archive &a) const {
+void Matrix4x4::serialize(Archive& a) const {
     a << x << y << z << w;
 }
 
-void Matrix4x4::deserialize(Archive &a) {
+void Matrix4x4::deserialize(Archive& a) {
     a >> x >> y >> z >> w;
 }
 
@@ -146,7 +146,7 @@ Matrix4x4 Matrix4x4::rotate(Vector3 eulerAngles) {
                });
 }
 
-Matrix4x4 Matrix4x4::dot(const Matrix4x4 &m) const {
+Matrix4x4 Matrix4x4::dot(const Matrix4x4& m) const {
     return Matrix4x4(
             x.x * m.x.x + x.y * m.y.x + x.z * m.z.x + x.w * m.w.x,
             x.x * m.x.y + x.y * m.y.y + x.z * m.z.y + x.w * m.w.y,
@@ -179,11 +179,11 @@ Vector3 Matrix4x4::up() const {
     return Vector3(x.y, y.y, z.y);
 }
 
-Matrix4x4 Matrix4x4::operator*(const Matrix4x4 &v) const {
+Matrix4x4 Matrix4x4::operator*(const Matrix4x4& v) const {
     return dot(v);
 }
 
-Vector4 Matrix4x4::operator*(const Vector4 &v) const {
+Vector4 Matrix4x4::operator*(const Vector4& v) const {
     return Vector4(
             x.x * v.x + x.y * v.y + x.z * v.z + x.w * v.w,
             y.x * v.x + y.y * v.y + y.z * v.z + y.w * v.w,
@@ -201,7 +201,7 @@ Matrix4x4 Matrix4x4::operator*(float v) const {
     );
 }
 
-bool Matrix4x4::operator==(const Matrix4x4 &v) const {
+bool Matrix4x4::operator==(const Matrix4x4& v) const {
     return x == v.x && y == v.y && z == v.z && w == v.w;
 }
 

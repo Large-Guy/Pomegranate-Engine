@@ -9,11 +9,11 @@ struct Curve3D {
 
     Curve3D();
 
-    Curve3D(const List<Vector3> &points);
+    Curve3D(const List<Vector3>& points);
 
-    Curve3D(const Curve3D &other);
+    Curve3D(const Curve3D& other);
 
-    Curve3D &operator=(const Curve3D &other);
+    Curve3D& operator=(const Curve3D& other);
 
     [[nodiscard]] Vector3 bezier(float t) const;
 
@@ -21,9 +21,9 @@ struct Curve3D {
 
     [[nodiscard]] float bezierLength() const;
 
-    void serialize(Archive &arc) const;
+    void serialize(Archive& arc) const;
 
-    void deserialize(Archive &arc);
+    void deserialize(Archive& arc);
 };
 
 

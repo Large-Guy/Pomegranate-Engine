@@ -13,17 +13,17 @@ struct Sphere {
 
     Sphere(float x, float y, float z, float radius);
 
-    Sphere(const Sphere &other);
+    Sphere(const Sphere& other);
 
-    Sphere &operator=(const Sphere &other);
+    Sphere& operator=(const Sphere& other);
 
-    [[nodiscard]] bool contains(const Vector3 &point) const;
+    [[nodiscard]] bool contains(const Vector3& point) const;
 
-    [[nodiscard]] bool intersects(const Sphere &other) const;
+    [[nodiscard]] bool intersects(const Sphere& other) const;
 
-    void serialize(Archive &a) const;
+    void serialize(Archive& a) const;
 
-    void deserialize(Archive &a);
+    void deserialize(Archive& a);
 };
 
 

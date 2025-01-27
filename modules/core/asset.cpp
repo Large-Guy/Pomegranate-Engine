@@ -27,10 +27,10 @@ uint Asset::getId() const {
     return this->_id;
 }
 
-void Asset::serialize(Archive &a) const {
+void Asset::serialize(Archive& a) const {
 
 }
 
-void Asset::deserialize(Archive &a) {
+void Asset::deserialize(Archive& a) {
 
 }

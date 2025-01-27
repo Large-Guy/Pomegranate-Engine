@@ -112,12 +112,12 @@ void AxisAlias::addAxis(Axis axis) {
 }
 
 float AxisAlias::getState() {
-    auto &options = axes;
+    auto& options = axes;
 
     std::vector<float> values{};
     values.reserve(options.size());
 
-    for (auto &option: options) {
+    for (auto& option: options) {
         switch (option.type) {
             case Axis::KEYBOARD: {
                 auto positive = (Keyboard::Key) option.positive;
@@ -200,7 +200,7 @@ float AxisAlias::getState() {
     }
 
     float maxValue = 0.0f;
-    for (auto &value: values) {
+    for (auto& value: values) {
         if (abs(value) > abs(maxValue)) {
             maxValue = value;
         }
@@ -235,7 +235,7 @@ ButtonAlias Alias::button() {
         Debug::Log::warn("Alias is not a button alias");
         return {};
     }
-    return *(ButtonAlias *) _alias;
+    return *(ButtonAlias*) _alias;
 }
 
 AxisAlias Alias::axis() {
@@ -243,7 +243,7 @@ AxisAlias Alias::axis() {
         Debug::Log::warn("Alias is not an axis alias");
         return {};
     }
-    return *(AxisAlias *) _alias;
+    return *(AxisAlias*) _alias;
 }
 
 Alias::Type Alias::type() {
@@ -258,12 +258,12 @@ Alias::Alias() {
     _type = NOT_FOUND;
 }
 
-Alias::Alias(ButtonAlias &alias) {
+Alias::Alias(ButtonAlias& alias) {
     _type = BUTTON;
     _alias = new ButtonAlias(alias);
 }
 
-Alias::Alias(AxisAlias &alias) {
+Alias::Alias(AxisAlias& alias) {
     _type = AXIS;
     _alias = new AxisAlias(alias);
 }

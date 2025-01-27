@@ -20,19 +20,19 @@ Vector2i::Vector2i(int x, int y) {
     this->y = y;
 }
 
-Vector2i Vector2i::operator+(const Vector2i &v) const {
+Vector2i Vector2i::operator+(const Vector2i& v) const {
     return Vector2i(x + v.x, y + v.y);
 }
 
-Vector2i Vector2i::operator-(const Vector2i &v) const {
+Vector2i Vector2i::operator-(const Vector2i& v) const {
     return Vector2i(x - v.x, y - v.y);
 }
 
-Vector2i Vector2i::operator*(const Vector2i &v) const {
+Vector2i Vector2i::operator*(const Vector2i& v) const {
     return Vector2i(x * v.x, y * v.y);
 }
 
-Vector2i Vector2i::operator/(const Vector2i &v) const {
+Vector2i Vector2i::operator/(const Vector2i& v) const {
     return Vector2i(x / v.x, y / v.y);
 }
 
@@ -44,22 +44,22 @@ Vector2i Vector2i::operator/(int v) const {
     return Vector2i(x / v, y / v);
 }
 
-void Vector2i::operator+=(const Vector2i &v) {
+void Vector2i::operator+=(const Vector2i& v) {
     x += v.x;
     y += v.y;
 }
 
-void Vector2i::operator-=(const Vector2i &v) {
+void Vector2i::operator-=(const Vector2i& v) {
     x -= v.x;
     y -= v.y;
 }
 
-void Vector2i::operator*=(const Vector2i &v) {
+void Vector2i::operator*=(const Vector2i& v) {
     x *= v.x;
     y *= v.y;
 }
 
-void Vector2i::operator/=(const Vector2i &v) {
+void Vector2i::operator/=(const Vector2i& v) {
     x /= v.x;
     y /= v.y;
 }
@@ -74,11 +74,11 @@ void Vector2i::operator/=(int v) {
     y /= v;
 }
 
-bool Vector2i::operator==(const Vector2i &v) const {
+bool Vector2i::operator==(const Vector2i& v) const {
     return x == v.x && y == v.y;
 }
 
-int Vector2i::dot(const Vector2i &v) const {
+int Vector2i::dot(const Vector2i& v) const {
     return x * v.x + y * v.y;
 }
 
@@ -91,11 +91,11 @@ Vector2i Vector2i::normalize() const {
     return Vector2i(x / l, y / l);
 }
 
-Vector2i Vector2i::lerp(const Vector2i &v, float t) const {
+Vector2i Vector2i::lerp(const Vector2i& v, float t) const {
     return *this + (v - *this) * t;
 }
 
-Vector2i Vector2i::slerp(const Vector2i &v, float t) const {
+Vector2i Vector2i::slerp(const Vector2i& v, float t) const {
     int dot = normalize().dot(v.normalize());
     //Clamp
     dot = fmaxf(-1.0f, fminf(1.0f, dot));
@@ -104,19 +104,19 @@ Vector2i Vector2i::slerp(const Vector2i &v, float t) const {
     return *this * cosf(theta) + relative * sinf(theta);
 }
 
-Vector2i Vector2i::nlerp(const Vector2i &v, float t) const {
+Vector2i Vector2i::nlerp(const Vector2i& v, float t) const {
     return lerp(v, t).normalize();
 }
 
-Vector2i Vector2i::cross(const Vector2i &v) const {
+Vector2i Vector2i::cross(const Vector2i& v) const {
     return Vector2i(y * v.x - x * v.y, x * v.y - y * v.x);
 }
 
-Vector2i Vector2i::reflect(const Vector2i &normal) const {
+Vector2i Vector2i::reflect(const Vector2i& normal) const {
     return *this - normal * 2 * dot(normal);
 }
 
-Vector2i Vector2i::refract(const Vector2i &normal, float eta) const {
+Vector2i Vector2i::refract(const Vector2i& normal, float eta) const {
     int dot = this->dot(normal);
     int k = 1.0f - eta * eta * (1.0f - dot * dot);
     if (k < 0.0f) {
@@ -131,7 +131,7 @@ Vector2i Vector2i::rotate(float angle) const {
     return Vector2i(x * c - y * s, x * s + y * c);
 }
 
-Vector2i Vector2i::rotate(const Vector2i &pivot, float angle) const {
+Vector2i Vector2i::rotate(const Vector2i& pivot, float angle) const {
     return (*this - pivot).rotate(angle) + pivot;
 }
 
@@ -139,11 +139,11 @@ Vector2i Vector2i::abs() const {
     return Vector2i(std::abs(x), std::abs(y));
 }
 
-void Vector2i::serialize(Archive &a) const {
+void Vector2i::serialize(Archive& a) const {
     a << x << y;
 }
 
-void Vector2i::deserialize(Archive &a) {
+void Vector2i::deserialize(Archive& a) {
     a >> x >> y;
 }
 

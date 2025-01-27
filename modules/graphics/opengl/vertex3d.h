@@ -15,11 +15,11 @@ struct Vertex3D {
 
     static std::vector<VertexAttributeInfo> getAttributeInfo();
 
-    void serialize(Archive &archive);
+    void serialize(Archive& archive);
 
-    void deserialize(Archive &archive);
+    void deserialize(Archive& archive);
 
-    bool operator==(const Vertex3D &other) const;
+    bool operator==(const Vertex3D& other) const;
 };
 
 

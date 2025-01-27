@@ -10,12 +10,12 @@ Rectangle::Rectangle(Vector2 position, Vector2 size) {
     this->size = size;
 }
 
-Rectangle::Rectangle(const Rectangle &other) {
+Rectangle::Rectangle(const Rectangle& other) {
     position = other.position;
     size = other.size;
 }
 
-Rectangle &Rectangle::operator=(const Rectangle &other) {
+Rectangle& Rectangle::operator=(const Rectangle& other) {
     position = other.position;
     size = other.size;
     return *this;
@@ -33,12 +33,12 @@ Vector2 Rectangle::max() const {
     return this->position + this->size;
 }
 
-bool Rectangle::contains(const Vector2 &point) const {
+bool Rectangle::contains(const Vector2& point) const {
     return point.x >= this->position.x && point.x <= this->position.x + this->size.x &&
            point.y >= this->position.y && point.y <= this->position.y + this->size.y;
 }
 
-bool Rectangle::intersects(const Rectangle &other) const {
+bool Rectangle::intersects(const Rectangle& other) const {
     return this->position.x < other.position.x + other.size.x &&
            this->position.x + this->size.x > other.position.x &&
            this->position.y < other.position.y + other.size.y &&
@@ -49,7 +49,7 @@ float Rectangle::area() const {
     return this->size.x * this->size.y;
 }
 
-void Rectangle::cast(const Ray2D &ray, Hit2D &hit) const {
+void Rectangle::cast(const Ray2D& ray, Hit2D& hit) const {
     hit.hit = false;
 
     float tmin = (this->position.x - ray.origin.x) / ray.direction.x;
@@ -84,10 +84,10 @@ void Rectangle::cast(const Ray2D &ray, Hit2D &hit) const {
     hit.normal = Vector2();
 }
 
-void Rectangle::serialize(Archive &a) const {
+void Rectangle::serialize(Archive& a) const {
     a << position << size;
 }
 
-void Rectangle::deserialize(Archive &a) {
+void Rectangle::deserialize(Archive& a) {
     a >> position >> size;
 }

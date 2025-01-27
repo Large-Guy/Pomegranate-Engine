@@ -12,7 +12,7 @@ Uniform::Uniform(size_t binding, size_t size) {
     this->size = size;
 }
 
-UniformBuffer::UniformBuffer(const Uniform &uniform) {
+UniformBuffer::UniformBuffer(const Uniform& uniform) {
     this->uniform = uniform;
     createUniformBuffers();
 }
@@ -25,7 +25,7 @@ UniformBuffer::~UniformBuffer() {
 }
 
 void UniformBuffer::createBuffer(VkDeviceSize size, VkBufferUsageFlagBits usage, VkMemoryPropertyFlags properties,
-                                 VkBuffer &buffer, VkDeviceMemory &bufferMemory) {
+                                 VkBuffer& buffer, VkDeviceMemory& bufferMemory) {
     VkBufferCreateInfo bufferInfo{};
     bufferInfo.sType = VK_STRUCTURE_TYPE_BUFFER_CREATE_INFO;
     bufferInfo.size = size;
@@ -84,7 +84,7 @@ DescriptorSet::DescriptorSet(std::vector<Uniform> uniforms, VkShaderStageFlagBit
     this->uniforms = std::move(uniforms);
 
     //Initialize uniform buffers
-    for (auto &uniform: this->uniforms) {
+    for (auto& uniform: this->uniforms) {
         uniformBuffers.emplace_back(uniform);
     }
 

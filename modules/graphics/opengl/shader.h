@@ -12,7 +12,7 @@ protected:
     RenderInfo _info;
 public:
 
-    GLint getLocation(const std::string &name) {
+    GLint getLocation(const std::string& name) {
         glUseProgram(_program);
 
         GLint location = glGetUniformLocation(_program, name.c_str());
@@ -20,7 +20,7 @@ public:
     }
 
     template<typename T>
-    void setUniform(const std::string &name, T value) {
+    void setUniform(const std::string& name, T value) {
         GLint location = getLocation(name);
         Debug::WarnIf::isEqual(location, -1, "Uniform " + name + " not found");
 
@@ -45,7 +45,7 @@ public:
         _info = {.renderMode = RENDER_MODE_FILL, .cullMode = CULL_MODE_BACK};
     }
 
-    Shader(const char *vertex, const char *fragment,
+    Shader(const char* vertex, const char* fragment,
            RenderInfo info = {.renderMode = RENDER_MODE_FILL, .cullMode = CULL_MODE_BACK}) {
         _info = info;
 
@@ -100,7 +100,7 @@ public:
 };
 
 template<>
-inline void ShaderBase::setUniform<int>(const std::string &name, int value) {
+inline void ShaderBase::setUniform<int>(const std::string& name, int value) {
     GLint location = getLocation(name);
     Debug::WarnIf::isEqual(location, -1, "Uniform " + name + " not found");
 
@@ -108,7 +108,7 @@ inline void ShaderBase::setUniform<int>(const std::string &name, int value) {
 }
 
 template<>
-inline void ShaderBase::setUniform<float>(const std::string &name, float value) {
+inline void ShaderBase::setUniform<float>(const std::string& name, float value) {
     GLint location = getLocation(name);
     Debug::WarnIf::isEqual(location, -1, "Uniform " + name + " not found");
 
@@ -116,7 +116,7 @@ inline void ShaderBase::setUniform<float>(const std::string &name, float value) 
 }
 
 template<>
-inline void ShaderBase::setUniform<bool>(const std::string &name, bool value) {
+inline void ShaderBase::setUniform<bool>(const std::string& name, bool value) {
     GLint location = getLocation(name);
     Debug::WarnIf::isEqual(location, -1, "Uniform " + name + " not found");
 
@@ -124,7 +124,7 @@ inline void ShaderBase::setUniform<bool>(const std::string &name, bool value) {
 }
 
 template<>
-inline void ShaderBase::setUniform<Vector2>(const std::string &name, Vector2 value) {
+inline void ShaderBase::setUniform<Vector2>(const std::string& name, Vector2 value) {
     GLint location = getLocation(name);
     Debug::WarnIf::isEqual(location, -1, "Uniform " + name + " not found");
 
@@ -132,7 +132,7 @@ inline void ShaderBase::setUniform<Vector2>(const std::string &name, Vector2 val
 }
 
 template<>
-inline void ShaderBase::setUniform<Vector2i>(const std::string &name, Vector2i value) {
+inline void ShaderBase::setUniform<Vector2i>(const std::string& name, Vector2i value) {
     GLint location = getLocation(name);
     Debug::WarnIf::isEqual(location, -1, "Uniform " + name + " not found");
 
@@ -140,7 +140,7 @@ inline void ShaderBase::setUniform<Vector2i>(const std::string &name, Vector2i v
 }
 
 template<>
-inline void ShaderBase::setUniform<Vector3>(const std::string &name, Vector3 value) {
+inline void ShaderBase::setUniform<Vector3>(const std::string& name, Vector3 value) {
     GLint location = getLocation(name);
     Debug::WarnIf::isEqual(location, -1, "Uniform " + name + " not found");
 
@@ -148,7 +148,7 @@ inline void ShaderBase::setUniform<Vector3>(const std::string &name, Vector3 val
 }
 
 template<>
-inline void ShaderBase::setUniform<Vector3i>(const std::string &name, Vector3i value) {
+inline void ShaderBase::setUniform<Vector3i>(const std::string& name, Vector3i value) {
     GLint location = getLocation(name);
     Debug::WarnIf::isEqual(location, -1, "Uniform " + name + " not found");
 
@@ -156,7 +156,7 @@ inline void ShaderBase::setUniform<Vector3i>(const std::string &name, Vector3i v
 }
 
 template<>
-inline void ShaderBase::setUniform<Vector4>(const std::string &name, Vector4 value) {
+inline void ShaderBase::setUniform<Vector4>(const std::string& name, Vector4 value) {
     GLint location = getLocation(name);
     Debug::WarnIf::isEqual(location, -1, "Uniform " + name + " not found");
 
@@ -164,7 +164,7 @@ inline void ShaderBase::setUniform<Vector4>(const std::string &name, Vector4 val
 }
 
 template<>
-inline void ShaderBase::setUniform<Vector4i>(const std::string &name, Vector4i value) {
+inline void ShaderBase::setUniform<Vector4i>(const std::string& name, Vector4i value) {
     GLint location = getLocation(name);
     Debug::WarnIf::isEqual(location, -1, "Uniform " + name + " not found");
 
@@ -172,7 +172,7 @@ inline void ShaderBase::setUniform<Vector4i>(const std::string &name, Vector4i v
 }
 
 template<>
-inline void ShaderBase::setUniform<Matrix2x2>(const std::string &name, Matrix2x2 value) {
+inline void ShaderBase::setUniform<Matrix2x2>(const std::string& name, Matrix2x2 value) {
     GLint location = getLocation(name);
     Debug::WarnIf::isEqual(location, -1, "Uniform " + name + " not found");
 
@@ -180,7 +180,7 @@ inline void ShaderBase::setUniform<Matrix2x2>(const std::string &name, Matrix2x2
 }
 
 template<>
-inline void ShaderBase::setUniform<Matrix3x3>(const std::string &name, Matrix3x3 value) {
+inline void ShaderBase::setUniform<Matrix3x3>(const std::string& name, Matrix3x3 value) {
     GLint location = getLocation(name);
     Debug::WarnIf::isEqual(location, -1, "Uniform " + name + " not found");
 
@@ -188,7 +188,7 @@ inline void ShaderBase::setUniform<Matrix3x3>(const std::string &name, Matrix3x3
 }
 
 template<>
-inline void ShaderBase::setUniform<Matrix4x4>(const std::string &name, Matrix4x4 value) {
+inline void ShaderBase::setUniform<Matrix4x4>(const std::string& name, Matrix4x4 value) {
     GLint location = getLocation(name);
     Debug::WarnIf::isEqual(location, -1, "Uniform " + name + " not found");
 

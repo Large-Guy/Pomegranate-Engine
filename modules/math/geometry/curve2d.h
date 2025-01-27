@@ -10,11 +10,11 @@ struct Curve2D {
 
     Curve2D();
 
-    Curve2D(const List<Vector2> &points);
+    Curve2D(const List<Vector2>& points);
 
-    Curve2D(const Curve2D &other);
+    Curve2D(const Curve2D& other);
 
-    Curve2D &operator=(const Curve2D &other);
+    Curve2D& operator=(const Curve2D& other);
 
     [[nodiscard]] Vector2 bezier(float t) const;
 
@@ -22,11 +22,11 @@ struct Curve2D {
 
     [[nodiscard]] float bezierLength() const;
 
-    void cast(const Ray2D &ray, Hit2D &hit) const;
+    void cast(const Ray2D& ray, Hit2D& hit) const;
 
-    void serialize(Archive &arc) const;
+    void serialize(Archive& arc) const;
 
-    void deserialize(Archive &arc);
+    void deserialize(Archive& arc);
 };
 
 

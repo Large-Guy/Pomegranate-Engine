@@ -11,9 +11,9 @@ private:
 public:
     Directory();
 
-    Directory(const std::string &path);
+    Directory(const std::string& path);
 
-    void open(const std::string &path);
+    void open(const std::string& path);
 
     std::string path() const;
 
@@ -27,7 +27,7 @@ public:
 
     bool exists();
 
-    Directory copy(const std::string &destination);
+    Directory copy(const std::string& destination);
 };
 
 

@@ -62,12 +62,12 @@ public:
     VkPhysicalDevice _physicalDevice;
     VkDevice _logicalDevice;
     Queues _queues;
-    std::vector<const char *> validationLayers;
+    std::vector<const char*> validationLayers;
 
-    std::vector<const char *> deviceExtensions;
+    std::vector<const char*> deviceExtensions;
 
-    std::vector<Window *> _windows;
-    std::vector<ShaderBase *> _shaders;
+    std::vector<Window*> _windows;
+    std::vector<ShaderBase*> _shaders;
 
 
     VkCommandPool _commandPool;
@@ -76,12 +76,12 @@ public:
 
     void setupDebugMessenger();
 
-    VkResult CreateDebugUtilsMessengerEXT(VkInstance instance, const VkDebugUtilsMessengerCreateInfoEXT *pCreateInfo,
-                                          const VkAllocationCallbacks *pAllocator,
-                                          VkDebugUtilsMessengerEXT *pDebugMessenger);
+    VkResult CreateDebugUtilsMessengerEXT(VkInstance instance, const VkDebugUtilsMessengerCreateInfoEXT* pCreateInfo,
+                                          const VkAllocationCallbacks* pAllocator,
+                                          VkDebugUtilsMessengerEXT* pDebugMessenger);
 
     void DestroyDebugUtilsMessengerEXT(VkInstance instance, VkDebugUtilsMessengerEXT debugMessenger,
-                                       const VkAllocationCallbacks *pAllocator);
+                                       const VkAllocationCallbacks* pAllocator);
 
     void createPhysicalDevice();
 
@@ -97,7 +97,7 @@ public:
 
     QueueFamilyIndices getQueueFamilies(VkPhysicalDevice device);
 
-    SwapChainSupportDetails getSwapChainSupport(VkPhysicalDevice device, VkSurfaceKHR *surface = nullptr);
+    SwapChainSupportDetails getSwapChainSupport(VkPhysicalDevice device, VkSurfaceKHR* surface = nullptr);
 
     VkSurfaceFormatKHR getSwapSurfaceFormat(const std::vector<VkSurfaceFormatKHR> availableFormats);
 
@@ -114,9 +114,9 @@ public:
 
     static const int MAX_FRAMES_IN_FLIGHT;
 
-    void createRenderPass(Window *window);
+    void createRenderPass(Window* window);
 
-    GraphicsPipelineGroup createGraphicsPipeline(ShaderBase *shader, Window *window, RenderInfo renderInfo,
+    GraphicsPipelineGroup createGraphicsPipeline(ShaderBase* shader, Window* window, RenderInfo renderInfo,
                                                  VkVertexInputBindingDescription bindingDescription,
                                                  std::vector<VkVertexInputAttributeDescription> attributeDescriptions);
 
@@ -128,7 +128,7 @@ public:
 
     ~Graphics();
 
-    static Graphics *getInstance();
+    static Graphics* getInstance();
 
     friend class Window;
 

@@ -16,9 +16,9 @@ struct Segment2D : public Shape {
 
     Segment2D(float x1, float y1, float x2, float y2);
 
-    Segment2D(const Segment2D &other);
+    Segment2D(const Segment2D& other);
 
-    Segment2D &operator=(const Segment2D &other);
+    Segment2D& operator=(const Segment2D& other);
 
     [[nodiscard]] Vector2 direction() const;
 
@@ -30,15 +30,15 @@ struct Segment2D : public Shape {
 
     [[nodiscard]] Vector2 pointAt(float t) const;
 
-    [[nodiscard]] bool contains(const Vector2 &point) const;
+    [[nodiscard]] bool contains(const Vector2& point) const;
 
-    [[nodiscard]] bool intersects(const Segment2D &other) const;
+    [[nodiscard]] bool intersects(const Segment2D& other) const;
 
-    void cast(const Ray2D &ray, Hit2D &hit) const override;
+    void cast(const Ray2D& ray, Hit2D& hit) const override;
 
-    void serialize(Archive &a) const;
+    void serialize(Archive& a) const;
 
-    void deserialize(Archive &a);
+    void deserialize(Archive& a);
 };
 
 

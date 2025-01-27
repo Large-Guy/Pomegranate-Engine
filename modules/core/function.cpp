@@ -14,11 +14,11 @@ TypeInfo Function::FunctionBase::getReturn() const {
 
 Function::Function() : _function(nullptr) {}
 
-Function::Function(const Function &function) {
+Function::Function(const Function& function) {
     _function = function._function->clone();
 }
 
-Function::Function(Function::FunctionBase *function) {
+Function::Function(Function::FunctionBase* function) {
     _function = function;
 }
 
@@ -26,13 +26,13 @@ Function::~Function() {
     delete _function;
 }
 
-Function &Function::operator=(FunctionBase *function) {
+Function& Function::operator=(FunctionBase* function) {
     delete _function;
     _function = function;
     return *this;
 }
 
-Function &Function::operator=(const Function &function) {
+Function& Function::operator=(const Function& function) {
     if (this == &function)
         return *this;
     delete _function;
@@ -40,7 +40,7 @@ Function &Function::operator=(const Function &function) {
     return *this;
 }
 
-bool Function::operator==(const Function &function) const {
+bool Function::operator==(const Function& function) const {
     return _function == function._function;
 }
 

@@ -14,7 +14,7 @@ public:
     public:
         virtual ~FunctionBase() = default;
 
-        virtual FunctionBase *clone() = 0;
+        virtual FunctionBase* clone() = 0;
 
         [[nodiscard]] size_t getParameterCount() const;
 
@@ -36,7 +36,7 @@ public:
             _return = TypeInfo::get<Return>();
         }
 
-        FunctionImpl(const FunctionImpl &function) : _function(function._function) {
+        FunctionImpl(const FunctionImpl& function) : _function(function._function) {
             _parameters = function._parameters;
             _return = function._return;
         }
@@ -54,7 +54,7 @@ public:
             return ((Return(*)(CallArgs...)) _function)(args...);
         }
 
-        FunctionBase *clone() override {
+        FunctionBase* clone() override {
             return new FunctionImpl<Return, Args...>(_function);
         }
 
@@ -64,21 +64,21 @@ public:
     };
 
 private:
-    FunctionBase *_function;
+    FunctionBase* _function;
 public:
     explicit Function();
 
-    Function(const Function &function);
+    Function(const Function& function);
 
-    explicit Function(FunctionBase *function);
+    explicit Function(FunctionBase* function);
 
     ~Function();
 
-    Function &operator=(FunctionBase *function);
+    Function& operator=(FunctionBase* function);
 
-    Function &operator=(const Function &function);
+    Function& operator=(const Function& function);
 
-    bool operator==(const Function &function) const;
+    bool operator==(const Function& function) const;
 
     [[nodiscard]] size_t getParameterCount() const;
 
@@ -87,7 +87,7 @@ public:
     [[nodiscard]] TypeInfo getReturn() const;
 
     template<typename Return, typename... Args, typename Callable>
-    static Function create(Callable &&function) {
+    static Function create(Callable&& function) {
         return Function(new FunctionImpl<Return, Args...>(std::forward<Callable>(function)));
     }
 
@@ -110,12 +110,12 @@ public:
         }
 #endif
 
-        return (*(FunctionImpl<Return, CallArgs...> *) _function).call(args...);
+        return (*(FunctionImpl<Return, CallArgs...>*) _function).call(args...);
     }
 
     template<typename Return, typename...CallArgs>
-    Return (*getFunction())(CallArgs...) {
-        return ((FunctionImpl<Return, CallArgs...> *) _function)->getFunction();
+    Return (* getFunction())(CallArgs...) {
+        return ((FunctionImpl<Return, CallArgs...>*) _function)->getFunction();
     }
 };
 

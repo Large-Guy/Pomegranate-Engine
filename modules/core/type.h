@@ -15,12 +15,12 @@ struct TypeInfo {
 
     TypeInfo();
 
-    TypeInfo(const TypeInfo &other);
+    TypeInfo(const TypeInfo& other);
 
-    TypeInfo &operator=(const TypeInfo &other);
+    TypeInfo& operator=(const TypeInfo& other);
 
     template<typename T>
-    TypeInfo(T &t) {
+    TypeInfo(T& t) {
         size = sizeof(T);
         type = typeid(T).hash_code();
         name = abi::__cxa_demangle(typeid(T).name(), nullptr, nullptr, nullptr);
@@ -28,7 +28,7 @@ struct TypeInfo {
     }
 
     template<>
-    TypeInfo(TypeInfo &t) {
+    TypeInfo(TypeInfo& t) {
         size = t.size;
         type = t.type;
         name = t.name;
@@ -55,7 +55,7 @@ struct TypeInfo {
     }
 
     template<typename T>
-    static TypeInfo get(T &t) {
+    static TypeInfo get(T& t) {
         TypeInfo ti{};
         ti.size = sizeof(T);
         ti.type = typeid(T).hash_code();
@@ -65,7 +65,7 @@ struct TypeInfo {
     }
 
     template<typename T>
-    TypeInfo &operator=(T &t) {
+    TypeInfo& operator=(T& t) {
         size = sizeof(T);
         type = typeid(T).hash_code();
         name = abi::__cxa_demangle(typeid(T).name(), nullptr, nullptr, nullptr);
@@ -74,9 +74,9 @@ struct TypeInfo {
     }
 
 
-    bool compare(const TypeInfo &other) const;
+    bool compare(const TypeInfo& other) const;
 
-    bool safeCompare(const TypeInfo &other) const;
+    bool safeCompare(const TypeInfo& other) const;
 };
 
 

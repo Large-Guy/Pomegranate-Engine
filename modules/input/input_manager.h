@@ -19,7 +19,7 @@ private:
     Keyboard _keyboard;
     Mouse _mouse;
     std::array<Gamepad, 17> _gamepads; //1 extra for AnyGamepad
-    Window *attachedWindow;
+    Window* attachedWindow;
 
     std::unordered_map<std::string, float> _axisPreviousValues;
 
@@ -28,24 +28,24 @@ private:
 public:
     InputManager();
 
-    InputManager(Window *window);
+    InputManager(Window* window);
 
     void update();
 
-    void attachWindow(Window *window);
+    void attachWindow(Window* window);
 
-    Window *getAttachedWindow();
+    Window* getAttachedWindow();
 
-    ButtonAlias &addButtonAlias(const std::string &name, ButtonAlias alias);
+    ButtonAlias& addButtonAlias(const std::string& name, ButtonAlias alias);
 
-    AxisAlias &addAxisAlias(const std::string &name, AxisAlias alias);
+    AxisAlias& addAxisAlias(const std::string& name, AxisAlias alias);
 
-    void setAxisAliasDeadzone(const std::string &name, float deadzone);
+    void setAxisAliasDeadzone(const std::string& name, float deadzone);
 
     template<typename...Buttons>
-    ButtonAlias &addButtonAlias(const std::string &name, Buttons...buttons) {
+    ButtonAlias& addButtonAlias(const std::string& name, Buttons...buttons) {
         if (_buttonAliases.find(name) != _buttonAliases.end()) {
-            ButtonAlias &alias = _buttonAliases[name];
+            ButtonAlias& alias = _buttonAliases[name];
             alias._inputManager = this;
             alias._onIdle = Event::create("@" + name + "-idle");
             alias._onHeld = Event::create("@" + name + "-held");
@@ -66,9 +66,9 @@ public:
     }
 
     template<typename...Axes>
-    AxisAlias &addAxisAlias(const std::string &name, Axes...axes) {
+    AxisAlias& addAxisAlias(const std::string& name, Axes...axes) {
         if (_axisAliases.find(name) != _axisAliases.end()) {
-            AxisAlias &alias = _axisAliases[name];
+            AxisAlias& alias = _axisAliases[name];
             alias._inputManager = this;
             alias._onChanged = Event::create("@" + name + "-changed");
             (alias.addAxis(axes), ...);
@@ -83,17 +83,17 @@ public:
     }
 
 
-    Keyboard &getKeyboard();
+    Keyboard& getKeyboard();
 
-    Mouse &getMouse();
+    Mouse& getMouse();
 
-    Gamepad &getGamepad(GamepadID gamepad);
+    Gamepad& getGamepad(GamepadID gamepad);
 
-    ButtonAlias &getButtonAlias(const std::string &name);
+    ButtonAlias& getButtonAlias(const std::string& name);
 
-    AxisAlias &getAxisAlias(const std::string &name);
+    AxisAlias& getAxisAlias(const std::string& name);
 
-    Alias getAlias(const std::string &name);
+    Alias getAlias(const std::string& name);
 };
 
 

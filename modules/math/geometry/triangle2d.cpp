@@ -18,13 +18,13 @@ Triangle2D::Triangle2D(float x1, float y1, float x2, float y2, float x3, float y
     c = Vector2(x3, y3);
 }
 
-Triangle2D::Triangle2D(const Triangle2D &other) {
+Triangle2D::Triangle2D(const Triangle2D& other) {
     a = other.a;
     b = other.b;
     c = other.c;
 }
 
-Triangle2D &Triangle2D::operator=(const Triangle2D &other) {
+Triangle2D& Triangle2D::operator=(const Triangle2D& other) {
     a = other.a;
     b = other.b;
     c = other.c;
@@ -39,7 +39,7 @@ Vector2 Triangle2D::center() const {
     return (a + b + c) / 3.0f;
 }
 
-bool Triangle2D::contains(const Vector2 &point) const {
+bool Triangle2D::contains(const Vector2& point) const {
     float area1 = std::abs((a.x * (b.y - point.y) + b.x * (point.y - a.y) + point.x * (a.y - b.y)) / 2.0f);
     float area2 = std::abs((a.x * (c.y - point.y) + c.x * (point.y - a.y) + point.x * (a.y - c.y)) / 2.0f);
     float area3 = std::abs((b.x * (c.y - point.y) + c.x * (point.y - b.y) + point.x * (b.y - c.y)) / 2.0f);
@@ -47,11 +47,11 @@ bool Triangle2D::contains(const Vector2 &point) const {
     return area1 + area2 + area3 == totalArea;
 }
 
-bool Triangle2D::intersects(const Triangle2D &other) const {
+bool Triangle2D::intersects(const Triangle2D& other) const {
     return contains(other.a) || contains(other.b) || contains(other.c);
 }
 
-void Triangle2D::cast(const Ray2D &ray, Hit2D &hit) const {
+void Triangle2D::cast(const Ray2D& ray, Hit2D& hit) const {
     hit.hit = false;
 
     Segment2D ab = Segment2D(a, b);
@@ -71,10 +71,10 @@ void Triangle2D::cast(const Ray2D &ray, Hit2D &hit) const {
     }
 }
 
-void Triangle2D::serialize(Archive &arc) const {
+void Triangle2D::serialize(Archive& arc) const {
     arc << a << b << c;
 }
 
-void Triangle2D::deserialize(Archive &arc) {
+void Triangle2D::deserialize(Archive& arc) {
     arc >> a >> b >> c;
 }

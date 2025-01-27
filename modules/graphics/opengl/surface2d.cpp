@@ -40,7 +40,7 @@ Surface2D::Surface2D(int width, int height, TextureFormat format, TextureFilter 
     _data = new unsigned char[width * height * channels];
 }
 
-Surface2D::Surface2D(const std::string &path, const std::string &name) : Asset(path, name) {
+Surface2D::Surface2D(const std::string& path, const std::string& name) : Asset(path, name) {
     _width = 0;
     _height = 0;
     _data = stbi_load(path.c_str(), &_width, &_height, &_channels, 0);
@@ -89,7 +89,7 @@ TextureFormat Surface2D::getFormat() {
     return _format;
 }
 
-unsigned char *Surface2D::getData() {
+unsigned char* Surface2D::getData() {
     return _data;
 }
 

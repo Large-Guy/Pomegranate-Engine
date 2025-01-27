@@ -13,9 +13,9 @@ struct Rectangle : public Shape {
 
     Rectangle(Vector2 position, Vector2 size);
 
-    Rectangle(const Rectangle &other);
+    Rectangle(const Rectangle& other);
 
-    Rectangle &operator=(const Rectangle &other);
+    Rectangle& operator=(const Rectangle& other);
 
     [[nodiscard]] Vector2 center() const;
 
@@ -23,22 +23,22 @@ struct Rectangle : public Shape {
 
     [[nodiscard]] Vector2 max() const;
 
-    [[nodiscard]] bool contains(const Vector2 &point) const override;
+    [[nodiscard]] bool contains(const Vector2& point) const override;
 
-    [[nodiscard]] bool intersects(const Rectangle &other) const;
+    [[nodiscard]] bool intersects(const Rectangle& other) const;
 
     [[nodiscard]] float area() const;
 
-    void cast(const Ray2D &ray, Hit2D &hit) const override;
+    void cast(const Ray2D& ray, Hit2D& hit) const override;
 
-    void serialize(Archive &a) const;
+    void serialize(Archive& a) const;
 
-    void deserialize(Archive &a);
+    void deserialize(Archive& a);
 };
 
 template<>
 struct std::hash<Rectangle> {
-    size_t operator()(const Rectangle &r) const {
+    size_t operator()(const Rectangle& r) const {
         return hash<Vector2>()(r.position) ^ hash<Vector2>()(r.size);
     }
 };

@@ -15,10 +15,10 @@ Matrix4x4 Camera2D::getView() {
     return Matrix4x4::identity().translate(position).rotateZ(rotation);
 }
 
-void Camera2D::serialize(Archive &archive) {
+void Camera2D::serialize(Archive& archive) {
     archive << position << size << rotation << zoom;
 }
 
-void Camera2D::deserialize(Archive &archive) {
+void Camera2D::deserialize(Archive& archive) {
     archive >> position >> size >> rotation >> zoom;
 }

@@ -15,9 +15,9 @@ public:
 
     Triangle3D(float x1, float y1, float z1, float x2, float y2, float z2, float x3, float y3, float z3);
 
-    Triangle3D(const Triangle3D &other);
+    Triangle3D(const Triangle3D& other);
 
-    Triangle3D &operator=(const Triangle3D &other);
+    Triangle3D& operator=(const Triangle3D& other);
 
     [[nodiscard]] Vector3 normal() const;
 
@@ -25,13 +25,13 @@ public:
 
     [[nodiscard]] float area() const;
 
-    [[nodiscard]] bool contains(const Vector3 &point) const;
+    [[nodiscard]] bool contains(const Vector3& point) const;
 
-    [[nodiscard]] bool intersects(const Triangle3D &other) const;
+    [[nodiscard]] bool intersects(const Triangle3D& other) const;
 
-    void serialize(Archive &a) const;
+    void serialize(Archive& a) const;
 
-    void deserialize(Archive &a);
+    void deserialize(Archive& a);
 };
 
 

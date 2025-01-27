@@ -35,14 +35,14 @@ std::vector<VkVertexInputAttributeDescription> Vertex3D::getAttributeDescription
     return attributeDescriptions;
 }
 
-void Vertex3D::serialize(Archive &archive) {
+void Vertex3D::serialize(Archive& archive) {
     archive << position;
     archive << texCoord;
     archive << normal;
     archive << color;
 }
 
-void Vertex3D::deserialize(Archive &archive) {
+void Vertex3D::deserialize(Archive& archive) {
     archive >> position;
     archive >> texCoord;
     archive >> normal;

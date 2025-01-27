@@ -6,8 +6,8 @@
 
 class Sprite : Reflectable {
 public:
-    Texture2D *texture;
-    Texture2D *normalMap;
+    Texture2D* texture;
+    Texture2D* normalMap;
     float normalStrength;
 
     int zIndex;
@@ -16,9 +16,9 @@ public:
 
     Sprite();
 
-    void serialize(Archive &a) const override;
+    void serialize(Archive& a) const override;
 
-    void deserialize(Archive &a);
+    void deserialize(Archive& a);
 };
 
 

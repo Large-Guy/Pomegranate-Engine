@@ -15,12 +15,12 @@ Line2D::Line2D(float x1, float y1, float x2, float y2) {
     this->b = Vector2(x2, y2);
 }
 
-Line2D::Line2D(const Line2D &other) {
+Line2D::Line2D(const Line2D& other) {
     this->a = other.a;
     this->b = other.b;
 }
 
-Line2D &Line2D::operator=(const Line2D &other) {
+Line2D& Line2D::operator=(const Line2D& other) {
     this->a = other.a;
     this->b = other.b;
     return *this;
@@ -34,15 +34,15 @@ Vector2 Line2D::normal() const {
     return Vector2(-(b - a).y, (b - a).x).normalize();
 }
 
-bool Line2D::contains(const Vector2 &point) const {
+bool Line2D::contains(const Vector2& point) const {
     return (point - a).length() + (point - b).length() == (b - a).length();
 }
 
-bool Line2D::intersects(const Line2D &other) const {
+bool Line2D::intersects(const Line2D& other) const {
     return contains(other.a) || contains(other.b);
 }
 
-void Line2D::cast(const Ray2D &ray, Hit2D &hit) const {
+void Line2D::cast(const Ray2D& ray, Hit2D& hit) const {
     hit.hit = false;
 
     Vector2 lineDir = b - a;
@@ -70,10 +70,10 @@ void Line2D::cast(const Ray2D &ray, Hit2D &hit) const {
     }
 }
 
-void Line2D::serialize(Archive &arc) const {
+void Line2D::serialize(Archive& arc) const {
     arc << a << b;
 }
 
-void Line2D::deserialize(Archive &arc) {
+void Line2D::deserialize(Archive& arc) {
     arc >> a >> b;
 }

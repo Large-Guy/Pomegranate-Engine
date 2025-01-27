@@ -13,7 +13,7 @@ private:
 public:
     AudioSample(std::vector<float> data, size_t channels, size_t sampleRate);
 
-    float *getData();
+    float* getData();
 
     size_t getSize();
 

@@ -23,7 +23,7 @@ Matrix4x4 Camera3D::getProjectionMatrix() const {
     return Matrix4x4::perspective(this->fov, aspect, this->near, this->far);
 }
 
-void Camera3D::setMain(Entity &entity) {
+void Camera3D::setMain(Entity& entity) {
     _mainCamera = entity;
 }
 
@@ -35,13 +35,13 @@ bool Camera3D::isMain() const {
     return _mainCamera.get<Camera3D>() == this;
 }
 
-void Camera3D::serialize(Archive &a) const {
+void Camera3D::serialize(Archive& a) const {
     a << this->fov;
     a << this->near;
     a << this->far;
 }
 
-void Camera3D::deserialize(Archive &a) {
+void Camera3D::deserialize(Archive& a) {
     a >> this->fov;
     a >> this->near;
     a >> this->far;

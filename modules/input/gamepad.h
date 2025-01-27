@@ -12,7 +12,7 @@ private:
     std::string _name;
     float _axes[6];
     ButtonState _buttons[15];
-    InputManager *_inputManager;
+    InputManager* _inputManager;
 public:
     enum Axis {
         AXIS_LEFT_X,

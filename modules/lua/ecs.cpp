@@ -2,17 +2,17 @@
 
 std::unordered_map<std::string, ComponentID> LuaECS::luaComponents = {};
 
-int LuaECS::LuaReflection::index(lua_State *L) {
+int LuaECS::LuaReflection::index(lua_State* L) {
     //Get arg count
 
-    auto *reflectable = (LuaReflectable *) lua_touserdata(L, 1);
+    auto* reflectable = (LuaReflectable*) lua_touserdata(L, 1);
 
     int n = lua_gettop(L);
 
     //Get the key
-    const char *key = lua_tostring(L, 2);
+    const char* key = lua_tostring(L, 2);
 
-    Reflectable *ref = reflectable->reflectable;
+    Reflectable* ref = reflectable->reflectable;
 
     if (ref->has(key)) {
         if (ref->type(key) == typeid(double).hash_code()) {
@@ -26,8 +26,8 @@ int LuaECS::LuaReflection::index(lua_State *L) {
         } else if (ref->type(key) == typeid(std::string).hash_code()) {
             lua_pushstring(L, ref->get<std::string>(key).c_str());
         } else if (ref->type(key) == typeid(LuaTable).hash_code()) {
-            LuaTable *table = &ref->get<LuaTable>(key);
-            LuaReflectable *luaReflectable = (LuaReflectable *) lua_newuserdata(L, sizeof(LuaReflectable));
+            LuaTable* table = &ref->get<LuaTable>(key);
+            LuaReflectable* luaReflectable = (LuaReflectable*) lua_newuserdata(L, sizeof(LuaReflectable));
             new(luaReflectable) LuaReflectable();
             luaReflectable->reflectable = table;
 
@@ -43,17 +43,17 @@ int LuaECS::LuaReflection::index(lua_State *L) {
     return 1;
 }
 
-int LuaECS::LuaReflection::newIndex(lua_State *L) {
+int LuaECS::LuaReflection::newIndex(lua_State* L) {
     //Get arg count
 
-    auto *reflectable = (LuaReflectable *) lua_touserdata(L, 1);
+    auto* reflectable = (LuaReflectable*) lua_touserdata(L, 1);
 
     int n = lua_gettop(L);
 
     //Get the key
     std::string key = lua_tostring(L, 2);
 
-    Reflectable *ref = reflectable->reflectable;
+    Reflectable* ref = reflectable->reflectable;
 
     if (ref->has(key)) {
         if (ref->type(key) == typeid(double).hash_code()) {
@@ -75,14 +75,14 @@ int LuaECS::LuaReflection::newIndex(lua_State *L) {
     return 1;
 }
 
-int LuaECS::LuaEntity::has(lua_State *L) {
-    Entity *entity = (Entity *) lua_touserdata(L, 1);
+int LuaECS::LuaEntity::has(lua_State* L) {
+    Entity* entity = (Entity*) lua_touserdata(L, 1);
 
     if (entity == nullptr) {
         return 0;
     }
 
-    const char *component = lua_tostring(L, 2);
+    const char* component = lua_tostring(L, 2);
 
     bool has = Entity::hasComponent(entity->id, component);
 
@@ -90,23 +90,23 @@ int LuaECS::LuaEntity::has(lua_State *L) {
     return 1;
 }
 
-int LuaECS::LuaEntity::get(lua_State *L) {
+int LuaECS::LuaEntity::get(lua_State* L) {
     using namespace LuaReflection;
 
-    Entity *entity = (Entity *) lua_touserdata(L, 1);
+    Entity* entity = (Entity*) lua_touserdata(L, 1);
 
     if (entity == nullptr) {
         return 0;
     }
 
-    const char *component = lua_tostring(L, 2);
+    const char* component = lua_tostring(L, 2);
 
-    void *data = Entity::getComponent(entity->id, component);
+    void* data = Entity::getComponent(entity->id, component);
 
     //Assume data is a reflectable object
-    Reflectable *reflectable = (Reflectable *) data;
+    Reflectable* reflectable = (Reflectable*) data;
 
-    LuaReflectable *luaReflectable = (LuaReflectable *) lua_newuserdata(L, sizeof(LuaReflectable));
+    LuaReflectable* luaReflectable = (LuaReflectable*) lua_newuserdata(L, sizeof(LuaReflectable));
     new(luaReflectable) LuaReflectable();
     luaReflectable->reflectable = reflectable;
 
@@ -115,14 +115,14 @@ int LuaECS::LuaEntity::get(lua_State *L) {
     return 1;
 }
 
-int LuaECS::LuaEntity::add(lua_State *L) {
-    auto *entity = (Entity *) lua_touserdata(L, 1);
+int LuaECS::LuaEntity::add(lua_State* L) {
+    auto* entity = (Entity*) lua_touserdata(L, 1);
 
     if (entity == nullptr) {
         return 0;
     }
 
-    const char *component = lua_tostring(L, 2);
+    const char* component = lua_tostring(L, 2);
 
     if (ECS::component_names.find(component) == ECS::component_names.end()) {
         //Component doesn't exist create it
@@ -137,14 +137,14 @@ int LuaECS::LuaEntity::add(lua_State *L) {
     return 0;
 }
 
-int LuaECS::LuaEntity::index(lua_State *L) {
+int LuaECS::LuaEntity::index(lua_State* L) {
     using namespace LuaReflection;
 
     // Retrieve the entity
-    Entity *entity = (Entity *) lua_touserdata(L, 1);
+    Entity* entity = (Entity*) lua_touserdata(L, 1);
 
     // Retrieve the key
-    const char *key = lua_tostring(L, 2);
+    const char* key = lua_tostring(L, 2);
 
     // Use luaL_getmetafield to check if the key is a method in the metatable
     if (luaL_getmetafield(L, 1, key)) {
@@ -162,12 +162,12 @@ int LuaECS::LuaEntity::index(lua_State *L) {
 
     // Check for a component
     if (ECS::component_names.contains(key) && entity->has(key)) {
-        void *data = Entity::getComponent(entity->id, key);
+        void* data = Entity::getComponent(entity->id, key);
 
         // Assume data is a reflectable object
-        Reflectable *reflectable = (Reflectable *) data;
+        Reflectable* reflectable = (Reflectable*) data;
 
-        LuaReflectable *luaReflectable = (LuaReflectable *) lua_newuserdata(L, sizeof(LuaReflectable));
+        LuaReflectable* luaReflectable = (LuaReflectable*) lua_newuserdata(L, sizeof(LuaReflectable));
         new(luaReflectable) LuaReflectable();
         luaReflectable->reflectable = reflectable;
 
@@ -181,9 +181,9 @@ int LuaECS::LuaEntity::index(lua_State *L) {
     return 1;
 }
 
-int LuaECS::LuaEntity::newIndex(lua_State *L) {
-    Entity *entity = (Entity *) lua_touserdata(L, 1);
-    const char *key = lua_tostring(L, 2);
+int LuaECS::LuaEntity::newIndex(lua_State* L) {
+    Entity* entity = (Entity*) lua_touserdata(L, 1);
+    const char* key = lua_tostring(L, 2);
 
     if (ECS::component_names.contains(key)) {
         if (ECS::component_names[key] == luaComponents[key]) {
@@ -201,11 +201,11 @@ int LuaECS::LuaEntity::newIndex(lua_State *L) {
     return 0;
 }
 
-int LuaECS::LuaEntity::newEntity(lua_State *L) {
+int LuaECS::LuaEntity::newEntity(lua_State* L) {
     //Get arg count
     int n = lua_gettop(L);
 
-    Entity *entity = (Entity *) lua_newuserdata(L, sizeof(Entity));
+    Entity* entity = (Entity*) lua_newuserdata(L, sizeof(Entity));
 
     if (n >= 1) {
         new(entity) Entity(lua_tointeger(L, 1));
@@ -219,18 +219,18 @@ int LuaECS::LuaEntity::newEntity(lua_State *L) {
     return 1;
 }
 
-int LuaECS::foreach(lua_State *L) {
+int LuaECS::foreach(lua_State* L) {
     using namespace LuaReflection;
 
-    const char *component = lua_tostring(L, 1);
+    const char* component = lua_tostring(L, 1);
     lua_pushvalue(L, 2); // Push the callback function
     int ref = luaL_ref(L, LUA_REGISTRYINDEX); // Store the reference to the callback in the registry
 
-    ECS::each(component, [L, ref](void *table, Entity &entity) {
+    ECS::each(component, [L, ref](void* table, Entity& entity) {
         lua_rawgeti(L, LUA_REGISTRYINDEX, ref); // Push the callback function to the stack
-        LuaReflectable *luaReflectable = (LuaReflectable *) lua_newuserdata(L, sizeof(LuaReflectable));
+        LuaReflectable* luaReflectable = (LuaReflectable*) lua_newuserdata(L, sizeof(LuaReflectable));
         new(luaReflectable) LuaReflectable();
-        luaReflectable->reflectable = (Reflectable *) table;
+        luaReflectable->reflectable = (Reflectable*) table;
 
         luaL_getmetatable(L, "Reflectable");
         lua_setmetatable(L, -2);
@@ -243,7 +243,7 @@ int LuaECS::foreach(lua_State *L) {
     return 0;
 }
 
-void LuaECS::registerFunctions(LuaState &script) {
+void LuaECS::registerFunctions(LuaState& script) {
     script.beginClass("Entity"); //Entity class
 
     script.function("__index", LuaEntity::index);

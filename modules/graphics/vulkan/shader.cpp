@@ -1,7 +1,7 @@
 #include "shader.h"
 
 void ShaderBase::createBuffer(VkDeviceSize size, VkBufferUsageFlagBits usage, VkMemoryPropertyFlags properties,
-                              VkBuffer &buffer, VkDeviceMemory &bufferMemory) {
+                              VkBuffer& buffer, VkDeviceMemory& bufferMemory) {
     VkBufferCreateInfo bufferInfo{};
     bufferInfo.sType = VK_STRUCTURE_TYPE_BUFFER_CREATE_INFO;
     bufferInfo.size = size;
@@ -29,11 +29,11 @@ void ShaderBase::createBuffer(VkDeviceSize size, VkBufferUsageFlagBits usage, Vk
     vkBindBufferMemory(Graphics::getInstance()->_logicalDevice, buffer, bufferMemory, 0);
 }
 
-VkShaderModule ShaderBase::createShaderModule(const List<char> &code) {
+VkShaderModule ShaderBase::createShaderModule(const List<char>& code) {
     VkShaderModuleCreateInfo createInfo{};
     createInfo.sType = VK_STRUCTURE_TYPE_SHADER_MODULE_CREATE_INFO;
     createInfo.codeSize = code.size();
-    createInfo.pCode = reinterpret_cast<const uint32_t *>(code.data());
+    createInfo.pCode = reinterpret_cast<const uint32_t*>(code.data());
 
     VkShaderModule shaderModule;
     Debug::AssertIf::isFalse(
@@ -42,7 +42,7 @@ VkShaderModule ShaderBase::createShaderModule(const List<char> &code) {
     return shaderModule;
 }
 
-void ShaderBase::requestPipeline(Window *window) {
+void ShaderBase::requestPipeline(Window* window) {
 
     Graphics::GraphicsPipelineGroup group = Graphics::getInstance()->createGraphicsPipeline(this, window, _info,
                                                                                             _bindingDescription,

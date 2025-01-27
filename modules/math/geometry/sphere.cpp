@@ -15,29 +15,29 @@ Sphere::Sphere(float x, float y, float z, float radius) {
     this->radius = radius;
 }
 
-Sphere::Sphere(const Sphere &other) {
+Sphere::Sphere(const Sphere& other) {
     position = other.position;
     radius = other.radius;
 }
 
-Sphere &Sphere::operator=(const Sphere &other) {
+Sphere& Sphere::operator=(const Sphere& other) {
     position = other.position;
     radius = other.radius;
     return *this;
 }
 
-bool Sphere::contains(const Vector3 &point) const {
+bool Sphere::contains(const Vector3& point) const {
     return (point - position).length() <= radius;
 }
 
-bool Sphere::intersects(const Sphere &other) const {
+bool Sphere::intersects(const Sphere& other) const {
     return (position - other.position).length() <= radius + other.radius;
 }
 
-void Sphere::serialize(Archive &a) const {
+void Sphere::serialize(Archive& a) const {
     a << position << radius;
 }
 
-void Sphere::deserialize(Archive &a) {
+void Sphere::deserialize(Archive& a) {
     a >> position >> radius;
 }

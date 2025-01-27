@@ -17,15 +17,15 @@ struct UniformBuffer {
     Uniform uniform;
     std::vector<VkBuffer> buffer;
     std::vector<VkDeviceMemory> memory;
-    std::vector<void *> mapped;
+    std::vector<void*> mapped;
 
-    UniformBuffer(const Uniform &uniform);
+    UniformBuffer(const Uniform& uniform);
 
     ~UniformBuffer();
 
     void
-    createBuffer(VkDeviceSize size, VkBufferUsageFlagBits usage, VkMemoryPropertyFlags properties, VkBuffer &buffer,
-                 VkDeviceMemory &bufferMemory);
+    createBuffer(VkDeviceSize size, VkBufferUsageFlagBits usage, VkMemoryPropertyFlags properties, VkBuffer& buffer,
+                 VkDeviceMemory& bufferMemory);
 
     void createUniformBuffers();
 };
@@ -39,7 +39,7 @@ struct DescriptorSet {
     VkDescriptorSetLayout descriptorSetLayout;
 
     template<typename T>
-    void set(int frame, size_t binding, T &data) {
+    void set(int frame, size_t binding, T& data) {
         for (size_t i = 0; i < uniforms.size(); i++) {
             if (uniforms[i].binding == binding) {
                 memcpy(uniformBuffers[i].mapped[frame], &data, sizeof(T));

@@ -17,7 +17,7 @@ private:
     EventID _onHeld;
     EventID _onPressed;
     EventID _onReleased;
-    InputManager *_inputManager;
+    InputManager* _inputManager;
 public:
 
     List<Button> buttons;
@@ -46,7 +46,7 @@ public:
 struct AxisAlias {
 private:
     EventID _onChanged;
-    InputManager *_inputManager;
+    InputManager* _inputManager;
 public:
     List<Axis> axes;
     bool invert;
@@ -71,7 +71,7 @@ public:
         AXIS
     };
 private:
-    void *_alias;
+    void* _alias;
     Type _type;
 public:
     ButtonAlias button();
@@ -84,9 +84,9 @@ public:
 
     Alias();
 
-    Alias(ButtonAlias &alias);
+    Alias(ButtonAlias& alias);
 
-    Alias(AxisAlias &alias);
+    Alias(AxisAlias& alias);
 };
 
 #endif //POMEGRANATEENGINE_ALIASES_H

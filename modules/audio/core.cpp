@@ -2,7 +2,7 @@
 
 Audio Audio::_instance{};
 
-Audio *Audio::getInstance() {
+Audio* Audio::getInstance() {
     return &_instance;
 }
 

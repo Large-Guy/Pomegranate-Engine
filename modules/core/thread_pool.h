@@ -85,7 +85,7 @@ public:
         }
         _mutexCondition.notify_all();
 
-        for (std::thread &active_thread: _threads) {
+        for (std::thread& active_thread: _threads) {
             if (active_thread.joinable()) {
                 active_thread.join();
             }
@@ -100,7 +100,7 @@ public:
         }
         _mutexCondition.notify_all();
 
-        for (std::thread &active_thread: _threads) {
+        for (std::thread& active_thread: _threads) {
             if (active_thread.joinable()) {
                 active_thread.join();
             }

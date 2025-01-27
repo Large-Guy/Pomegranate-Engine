@@ -5,20 +5,20 @@ Color::Color() {
     property("color", &this->color);
 }
 
-Color::Color(const Vector4 &color) {
+Color::Color(const Vector4& color) {
     this->color = color;
     property("color", &this->color);
 }
 
-Color::Color(const Color &other) {
+Color::Color(const Color& other) {
     this->color = other.color;
     property("color", &this->color);
 }
 
-void Color::serialize(Archive &a) const {
+void Color::serialize(Archive& a) const {
     a << this->color;
 }
 
-void Color::deserialize(Archive &a) {
+void Color::deserialize(Archive& a) {
     a >> this->color;
 }

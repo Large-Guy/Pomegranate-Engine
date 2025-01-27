@@ -15,8 +15,8 @@ protected:
     VkDeviceMemory _memory;
 
     void
-    createBuffer(VkDeviceSize size, VkBufferUsageFlagBits usage, VkMemoryPropertyFlags properties, VkBuffer &buffer,
-                 VkDeviceMemory &bufferMemory) {
+    createBuffer(VkDeviceSize size, VkBufferUsageFlagBits usage, VkMemoryPropertyFlags properties, VkBuffer& buffer,
+                 VkDeviceMemory& bufferMemory) {
         VkBufferCreateInfo bufferInfo{};
         bufferInfo.sType = VK_STRUCTURE_TYPE_BUFFER_CREATE_INFO;
         bufferInfo.size = size;
@@ -94,7 +94,7 @@ public:
         vkFreeMemory(Graphics::getInstance()->_logicalDevice, _memory, nullptr);
     }
 
-    void bind(Window *window) {
+    void bind(Window* window) {
         switch (Type) {
             case BUFFER_TYPE_VERTEX: {
                 VkBuffer vertexBuffers[] = {_buffer};
@@ -128,7 +128,7 @@ private:
                                        VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT,
                                        stagingBuffer, stagingBufferMemory);
 
-        void *data;
+        void* data;
         vkMapMemory(Graphics::getInstance()->_logicalDevice, stagingBufferMemory, 0, bufferSize, 0, &data);
         memcpy(data, _data.data(), (size_t) bufferSize);
         vkUnmapMemory(Graphics::getInstance()->_logicalDevice, stagingBufferMemory);

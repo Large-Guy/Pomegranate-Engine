@@ -12,9 +12,9 @@ bool Graphics::enableValidationLayers = false;
 const int Graphics::MAX_FRAMES_IN_FLIGHT = 2;
 
 VkResult Graphics::CreateDebugUtilsMessengerEXT(VkInstance instance,
-                                                const VkDebugUtilsMessengerCreateInfoEXT *pCreateInfo,
-                                                const VkAllocationCallbacks *pAllocator,
-                                                VkDebugUtilsMessengerEXT *pDebugMessenger) {
+                                                const VkDebugUtilsMessengerCreateInfoEXT* pCreateInfo,
+                                                const VkAllocationCallbacks* pAllocator,
+                                                VkDebugUtilsMessengerEXT* pDebugMessenger) {
     auto func = (PFN_vkCreateDebugUtilsMessengerEXT) vkGetInstanceProcAddr(instance, "vkCreateDebugUtilsMessengerEXT");
     if (func != nullptr) {
         return func(instance, pCreateInfo, pAllocator, pDebugMessenger);
@@ -24,7 +24,7 @@ VkResult Graphics::CreateDebugUtilsMessengerEXT(VkInstance instance,
 }
 
 void Graphics::DestroyDebugUtilsMessengerEXT(VkInstance instance, VkDebugUtilsMessengerEXT debugMessenger,
-                                             const VkAllocationCallbacks *pAllocator) {
+                                             const VkAllocationCallbacks* pAllocator) {
     auto func = (PFN_vkDestroyDebugUtilsMessengerEXT) vkGetInstanceProcAddr(instance,
                                                                             "vkDestroyDebugUtilsMessengerEXT");
     if (func != nullptr) {
@@ -35,7 +35,7 @@ void Graphics::DestroyDebugUtilsMessengerEXT(VkInstance instance, VkDebugUtilsMe
 
 static VKAPI_ATTR VkBool32 VKAPI_CALL
 debugCallback(VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity, VkDebugUtilsMessageTypeFlagsEXT messageType,
-              const VkDebugUtilsMessengerCallbackDataEXT *pCallbackData, void *pUserData) {
+              const VkDebugUtilsMessengerCallbackDataEXT* pCallbackData, void* pUserData) {
     if (messageSeverity == VK_DEBUG_UTILS_MESSAGE_SEVERITY_WARNING_BIT_EXT) {
         Debug::Log::warn(pCallbackData->pMessage);
     } else if (messageSeverity == VK_DEBUG_UTILS_MESSAGE_SEVERITY_INFO_BIT_EXT) {
@@ -83,11 +83,11 @@ Graphics::~Graphics() {
         vkDestroyFence(_logicalDevice, inFlightFences[i], nullptr);
     }
 
-    for (auto &window: _windows) {
+    for (auto& window: _windows) {
         delete window;
     }
 
-    for (auto &shader: _shaders) {
+    for (auto& shader: _shaders) {
         delete shader;
     }
 
@@ -131,11 +131,11 @@ void Graphics::createInstance() {
     //GLFW Extensions
 
     uint32_t glfwExtensionCount = 0;
-    const char **glfwExtensions;
+    const char** glfwExtensions;
 
     glfwExtensions = glfwGetRequiredInstanceExtensions(&glfwExtensionCount);
 
-    std::vector<const char *> requiredExtensions;
+    std::vector<const char*> requiredExtensions;
 
     for (uint32_t i = 0; i < glfwExtensionCount; i++) {
         requiredExtensions.push_back(glfwExtensions[i]);
@@ -152,10 +152,10 @@ void Graphics::createInstance() {
 
     //Ensure extensions are supported
 
-    for (const char *extension: requiredExtensions) {
+    for (const char* extension: requiredExtensions) {
         bool found = false;
 
-        for (const auto &availableExtension: extensions) {
+        for (const auto& availableExtension: extensions) {
             if (strcmp(availableExtension.extensionName, extension) == 0) {
                 found = true;
                 break;
@@ -184,7 +184,7 @@ void Graphics::createInstance() {
                 VK_DEBUG_UTILS_MESSAGE_TYPE_GENERAL_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_TYPE_VALIDATION_BIT_EXT |
                 VK_DEBUG_UTILS_MESSAGE_TYPE_PERFORMANCE_BIT_EXT;
         debugCreateInfo.pfnUserCallback = debugCallback;
-        createInfo.pNext = (VkDebugUtilsMessengerCreateInfoEXT *) &debugCreateInfo;
+        createInfo.pNext = (VkDebugUtilsMessengerCreateInfoEXT*) &debugCreateInfo;
     } else {
         createInfo.enabledLayerCount = 0;
         createInfo.pNext = nullptr;
@@ -228,7 +228,7 @@ void Graphics::createPhysicalDevice() {
     std::vector<VkPhysicalDevice> devices(deviceCount);
     vkEnumeratePhysicalDevices(_instance, &deviceCount, devices.data());
 
-    for (const auto &device: devices) {
+    for (const auto& device: devices) {
         if (isDeviceSuitable(device)) {
             _physicalDevice = device;
             break;
@@ -270,7 +270,7 @@ void Graphics::createLogicalDevice() {
 
 #ifdef __APPLE__
     //Portability Subset extension
-    const char *extensions[] = {VK_KHR_PORTABILITY_SUBSET_EXTENSION_NAME};
+    const char* extensions[] = {VK_KHR_PORTABILITY_SUBSET_EXTENSION_NAME};
 
     createInfo.enabledExtensionCount = 1;
     createInfo.ppEnabledExtensionNames = extensions;
@@ -311,7 +311,7 @@ void Graphics::createCommandPool() {
     Debug::Log::pass("Successfully created command pool!");
 }
 
-void Graphics::createRenderPass(Window *window) {
+void Graphics::createRenderPass(Window* window) {
     VkAttachmentDescription colorAttachment{};
     colorAttachment.format = window->_swapChainImageFormat;
     colorAttachment.samples = VK_SAMPLE_COUNT_1_BIT;
@@ -355,7 +355,7 @@ void Graphics::createRenderPass(Window *window) {
 }
 
 Graphics::GraphicsPipelineGroup
-Graphics::createGraphicsPipeline(ShaderBase *shader, Window *window, RenderInfo renderInfo,
+Graphics::createGraphicsPipeline(ShaderBase* shader, Window* window, RenderInfo renderInfo,
                                  VkVertexInputBindingDescription bindingDescription,
                                  std::vector<VkVertexInputAttributeDescription> attributeDescriptions) {
     GraphicsPipelineGroup group{};
@@ -532,10 +532,10 @@ bool Graphics::hasValidationLayerSupport() {
     std::vector<VkLayerProperties> availableLayers(layerCount);
     vkEnumerateInstanceLayerProperties(&layerCount, availableLayers.data());
 
-    for (const char *layerName: validationLayers) {
+    for (const char* layerName: validationLayers) {
         bool layerFound = false;
 
-        for (const auto &layerProperties: availableLayers) {
+        for (const auto& layerProperties: availableLayers) {
             if (strcmp(layerName, layerProperties.layerName) == 0) {
                 layerFound = true;
                 break;
@@ -558,7 +558,7 @@ bool Graphics::hasDeviceExtensionSupport(VkPhysicalDevice device) {
 
     std::set<std::string> requiredExtensions(deviceExtensions.begin(), deviceExtensions.end());
 
-    for (const auto &extension: availableExtensions) {
+    for (const auto& extension: availableExtensions) {
         requiredExtensions.erase(extension.extensionName);
     }
     return requiredExtensions.empty();
@@ -588,21 +588,21 @@ QueueFamilyIndices Graphics::getQueueFamilies(VkPhysicalDevice device) {
     vkGetPhysicalDeviceQueueFamilyProperties(device, &queueFamilyCount, queueFamilies.data());
 
     //Create a temporary surface and window to get the queue family indices
-    GLFWwindow *tempWindow = glfwCreateWindow(1, 1, "Temp", nullptr, nullptr);
+    GLFWwindow* tempWindow = glfwCreateWindow(1, 1, "Temp", nullptr, nullptr);
     VkSurfaceKHR tempSurface;
     if (glfwCreateWindowSurface(_instance, tempWindow, nullptr, &tempSurface) == VK_SUCCESS) {
         Debug::Log::pass("Created temporary surface");
     } else {
         //Get glfw error
         Debug::Log::fail("Failed to create temporary surface");
-        const char *error;
+        const char* error;
         int code = glfwGetError(&error);
         Debug::Log::fail(std::string("Error code: ") + std::to_string(code) + " - " + std::string(error));
         throw std::runtime_error("Failed to create temporary surface");
     }
 
     int i = 0;
-    for (const auto &queueFamily: queueFamilies) {
+    for (const auto& queueFamily: queueFamilies) {
         if (queueFamily.queueFlags & VK_QUEUE_GRAPHICS_BIT) {
             indices.graphicsFamily = i;
         }
@@ -625,10 +625,10 @@ QueueFamilyIndices Graphics::getQueueFamilies(VkPhysicalDevice device) {
     return indices;
 }
 
-SwapChainSupportDetails Graphics::getSwapChainSupport(VkPhysicalDevice device, VkSurfaceKHR *surface) {
+SwapChainSupportDetails Graphics::getSwapChainSupport(VkPhysicalDevice device, VkSurfaceKHR* surface) {
     SwapChainSupportDetails details;
 
-    GLFWwindow *tempWindow = nullptr;
+    GLFWwindow* tempWindow = nullptr;
     VkSurfaceKHR tempSurface;
     if (surface != nullptr) {
         tempSurface = *surface;
@@ -664,7 +664,7 @@ SwapChainSupportDetails Graphics::getSwapChainSupport(VkPhysicalDevice device, V
 }
 
 VkSurfaceFormatKHR Graphics::getSwapSurfaceFormat(const std::vector<VkSurfaceFormatKHR> availableFormats) {
-    for (const auto &availableFormat: availableFormats) {
+    for (const auto& availableFormat: availableFormats) {
         if (availableFormat.format == VK_FORMAT_B8G8R8A8_SRGB &&
             availableFormat.colorSpace == VK_COLOR_SPACE_SRGB_NONLINEAR_KHR) {
             return availableFormat;
@@ -675,7 +675,7 @@ VkSurfaceFormatKHR Graphics::getSwapSurfaceFormat(const std::vector<VkSurfaceFor
 }
 
 VkPresentModeKHR Graphics::chooseSwapPresentMode(const std::vector<VkPresentModeKHR> availablePresentModes) {
-    for (const auto &availablePresentMode: availablePresentModes) {
+    for (const auto& availablePresentMode: availablePresentModes) {
         if (availablePresentMode == VK_PRESENT_MODE_MAILBOX_KHR) {
             return availablePresentMode;
         }
@@ -702,6 +702,6 @@ bool QueueFamilyIndices::complete() {
     return graphicsFamily.has_value() && presentFamily.has_value();
 }
 
-Graphics *Graphics::getInstance() {
+Graphics* Graphics::getInstance() {
     return &_graphicsInstance;
 }

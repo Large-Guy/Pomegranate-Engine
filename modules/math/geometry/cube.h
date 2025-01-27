@@ -13,7 +13,7 @@ struct Cube {
 
     Cube(float x, float y, float z, float w, float h, float d);
 
-    Cube &operator=(const Cube &other);
+    Cube& operator=(const Cube& other);
 
     [[nodiscard]] Vector3 center() const;
 
@@ -21,13 +21,13 @@ struct Cube {
 
     [[nodiscard]] Vector3 max() const;
 
-    [[nodiscard]] bool contains(const Vector3 &point) const;
+    [[nodiscard]] bool contains(const Vector3& point) const;
 
-    [[nodiscard]] bool intersects(const Cube &other) const;
+    [[nodiscard]] bool intersects(const Cube& other) const;
 
-    void serialize(Archive &a) const;
+    void serialize(Archive& a) const;
 
-    void deserialize(Archive &a);
+    void deserialize(Archive& a);
 };
 
 

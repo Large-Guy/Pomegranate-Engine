@@ -1,8 +1,8 @@
 #include "archetype.h"
 
-Archetype *Archetype::addComponent(ComponentID component) {
+Archetype* Archetype::addComponent(ComponentID component) {
     if (edges.find(component) != edges.end()) {
-        ArchetypeEdge &edge = edges[component];
+        ArchetypeEdge& edge = edges[component];
         if (edge.add != nullptr) {
             return edge.add;
         } else {
@@ -14,15 +14,15 @@ Archetype *Archetype::addComponent(ComponentID component) {
     } else {
         Type new_type = type;
         new_type.insert(component);
-        ArchetypeEdge &edge = edges[component];
+        ArchetypeEdge& edge = edges[component];
         edge.add = ecs->getArchetype(new_type);
         return edge.add;
     }
 }
 
-Archetype *Archetype::removeComponent(ComponentID component) {
+Archetype* Archetype::removeComponent(ComponentID component) {
     if (edges.find(component) != edges.end()) {
-        ArchetypeEdge &edge = edges[component];
+        ArchetypeEdge& edge = edges[component];
         if (edge.remove != nullptr) {
             return edge.remove;
         } else {
@@ -34,14 +34,14 @@ Archetype *Archetype::removeComponent(ComponentID component) {
     } else {
         Type new_type = type;
         new_type.erase(component);
-        ArchetypeEdge &edge = edges[component];
+        ArchetypeEdge& edge = edges[component];
         edge.remove = ecs->getArchetype(new_type);
         return edge.remove;
     }
 }
 
 void Archetype::removeRow(size_t row) {
-    for (auto &component: components) {
+    for (auto& component: components) {
         component.remove(row);
     }
 }

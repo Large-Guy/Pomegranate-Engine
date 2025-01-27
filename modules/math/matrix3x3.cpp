@@ -8,7 +8,7 @@ Matrix3x3::Matrix3x3() {
     z = Vector3(0.0f, 0.0f, 1.0f);
 }
 
-Matrix3x3::Matrix3x3(const Vector3 &x, const Vector3 &y, const Vector3 &z) {
+Matrix3x3::Matrix3x3(const Vector3& x, const Vector3& y, const Vector3& z) {
     this->x = x;
     this->y = y;
     this->z = z;
@@ -20,11 +20,11 @@ Matrix3x3::Matrix3x3(float x0, float x1, float x2, float y0, float y1, float y2,
     z = Vector3(z0, z1, z2);
 }
 
-void Matrix3x3::serialize(Archive &a) const {
+void Matrix3x3::serialize(Archive& a) const {
     a << x << y << z;
 }
 
-void Matrix3x3::deserialize(Archive &a) {
+void Matrix3x3::deserialize(Archive& a) {
     a >> x >> y >> z;
 }
 
@@ -78,7 +78,7 @@ Matrix3x3 Matrix3x3::rotate(float angle) const {
     );
 }
 
-Matrix3x3 Matrix3x3::dot(const Matrix3x3 &m) const {
+Matrix3x3 Matrix3x3::dot(const Matrix3x3& m) const {
     return Matrix3x3(
             x.x * m.x.x + x.y * m.y.x + x.z * m.z.x,
             x.x * m.x.y + x.y * m.y.y + x.z * m.z.y,
@@ -104,11 +104,11 @@ Vector3 Matrix3x3::up() const {
     return Vector3(y.x, y.y, y.z);
 }
 
-Matrix3x3 Matrix3x3::operator*(const Matrix3x3 &m) const {
+Matrix3x3 Matrix3x3::operator*(const Matrix3x3& m) const {
     return dot(m);
 }
 
-Vector3 Matrix3x3::operator*(const Vector3 &v) const {
+Vector3 Matrix3x3::operator*(const Vector3& v) const {
     return Vector3(
             x.x * v.x + x.y * v.y + x.z * v.z,
             y.x * v.x + y.y * v.y + y.z * v.z,
@@ -120,7 +120,7 @@ Matrix3x3 Matrix3x3::operator*(float v) const {
     return Matrix3x3(x * v, y * v, z * v);
 }
 
-bool Matrix3x3::operator==(const Matrix3x3 &m) const {
+bool Matrix3x3::operator==(const Matrix3x3& m) const {
     return x == m.x && y == m.y && z == m.z;
 }
 

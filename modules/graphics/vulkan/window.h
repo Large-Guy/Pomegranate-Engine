@@ -20,7 +20,7 @@ class Window {
 public:
     class Draw {
     public:
-        Window *window;
+        Window* window;
         uint32_t imageIndex;
 
         void begin();
@@ -29,13 +29,13 @@ public:
 
         void clear(Vector4 color);
 
-        void buffers(BufferBase<BUFFER_TYPE_VERTEX> *vertexBuffer, BufferBase<BUFFER_TYPE_INDEX> *indexBuffer,
-                     ShaderBase *shader);
+        void buffers(BufferBase<BUFFER_TYPE_VERTEX>* vertexBuffer, BufferBase<BUFFER_TYPE_INDEX>* indexBuffer,
+                     ShaderBase* shader);
 
-        void mesh(Mesh3D &mesh);
+        void mesh(Mesh3D& mesh);
     };
 
-    GLFWwindow *_window;
+    GLFWwindow* _window;
     VkSurfaceKHR _surface;
     VkSwapchainKHR _swapChain;
     std::vector<VkImage> _swapChainImages;
@@ -61,7 +61,7 @@ public:
 
     void createImageViews();
 
-    VkExtent2D getExtents(const VkSurfaceCapabilitiesKHR &capabilities);
+    VkExtent2D getExtents(const VkSurfaceCapabilitiesKHR& capabilities);
 
 public:
     Draw draw;
@@ -78,9 +78,9 @@ public:
 
     void endCommandBuffer();
 
-    VkCommandBuffer &getCurrentCommandBuffer();
+    VkCommandBuffer& getCurrentCommandBuffer();
 
-    void setTitle(const std::string &title);
+    void setTitle(const std::string& title);
 
     void setSize(Vector2i size);
 

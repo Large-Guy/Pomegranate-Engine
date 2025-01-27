@@ -21,7 +21,7 @@ namespace Extensions::Rendering {
     }
 
     void render3D() {
-        Camera3D *camera = nullptr;
+        Camera3D* camera = nullptr;
         Entity camEntity = Camera3D::getMain();
         if (camEntity != NULL_ENTITY && camEntity.has<Camera3D>()) {
             camera = camEntity.get<Camera3D>();
@@ -34,11 +34,11 @@ namespace Extensions::Rendering {
                 Transform3D::getRotation(camEntity));
         Matrix4x4 projection = camera->getProjectionMatrix();
 
-        ECS::each<MeshInstance>(MESH_INSTANCE, [&](MeshInstance *meshInstance, Entity &entity) {
+        ECS::each<MeshInstance>(MESH_INSTANCE, [&](MeshInstance* meshInstance, Entity& entity) {
             if (!entity.has<Transform3D>())
                 return;
 
-            ShaderBase *shader = nullptr;
+            ShaderBase* shader = nullptr;
             if (meshInstance->shader != nullptr) {
                 shader = meshInstance->shader;
             } else {
@@ -64,7 +64,7 @@ namespace Extensions::Rendering {
     }
 
     void render2D() {
-        Camera2D *camera = nullptr;
+        Camera2D* camera = nullptr;
         Entity camEntity = Camera2D::getMain();
         if (camEntity != NULL_ENTITY && camEntity.has<Camera2D>()) {
             camera = camEntity.get<Camera2D>();
@@ -77,11 +77,11 @@ namespace Extensions::Rendering {
                 Transform2D::getRotation(camEntity));
         Matrix4x4 projection = camera->getProjectionMatrix();
 
-        ECS::each<MeshInstance>(MESH_INSTANCE, [&](MeshInstance *meshInstance, Entity &entity) {
+        ECS::each<MeshInstance>(MESH_INSTANCE, [&](MeshInstance* meshInstance, Entity& entity) {
             if (!entity.has<Transform2D>())
                 return;
 
-            ShaderBase *shader = nullptr;
+            ShaderBase* shader = nullptr;
             if (meshInstance->shader != nullptr) {
                 shader = meshInstance->shader;
             } else {
@@ -95,8 +95,8 @@ namespace Extensions::Rendering {
                 color = entity.get<Color>()->color;
             }
 
-            Texture2D *texture = nullptr;
-            Texture2D *normalMap = nullptr;
+            Texture2D* texture = nullptr;
+            Texture2D* normalMap = nullptr;
             int zIndex = 0;
             float normalStrength = 1.0f;
             bool hasSprite = entity.has<Sprite>();

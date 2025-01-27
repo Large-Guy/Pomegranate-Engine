@@ -25,7 +25,7 @@ Matrix4x4 Camera2D::getProjectionMatrix() const {
     return Matrix4x4::orthographic(-0.5f, 0.5f, -0.5f, 0.5f, 0.1f, 100.0f);
 }
 
-void Camera2D::setMain(Entity &entity) {
+void Camera2D::setMain(Entity& entity) {
     _mainCamera = entity;
 }
 
@@ -37,13 +37,13 @@ bool Camera2D::isMain() const {
     return _mainCamera.get<Camera2D>() == this;
 }
 
-void Camera2D::serialize(Archive &a) const {
+void Camera2D::serialize(Archive& a) const {
     a << this->zoom;
     a << this->near;
     a << this->far;
 }
 
-void Camera2D::deserialize(Archive &a) {
+void Camera2D::deserialize(Archive& a) {
     a >> this->zoom;
     a >> this->near;
     a >> this->far;

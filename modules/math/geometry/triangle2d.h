@@ -17,23 +17,23 @@ struct Triangle2D : public Shape {
 
     Triangle2D(float x1, float y1, float x2, float y2, float x3, float y3);
 
-    Triangle2D(const Triangle2D &other);
+    Triangle2D(const Triangle2D& other);
 
-    Triangle2D &operator=(const Triangle2D &other);
+    Triangle2D& operator=(const Triangle2D& other);
 
     [[nodiscard]] float area() const;
 
     [[nodiscard]] Vector2 center() const;
 
-    [[nodiscard]] bool contains(const Vector2 &point) const override;
+    [[nodiscard]] bool contains(const Vector2& point) const override;
 
-    [[nodiscard]] bool intersects(const Triangle2D &other) const;
+    [[nodiscard]] bool intersects(const Triangle2D& other) const;
 
-    void cast(const Ray2D &ray, Hit2D &hit) const override;
+    void cast(const Ray2D& ray, Hit2D& hit) const override;
 
-    void serialize(Archive &a) const override;
+    void serialize(Archive& a) const override;
 
-    void deserialize(Archive &a) override;
+    void deserialize(Archive& a) override;
 };
 
 

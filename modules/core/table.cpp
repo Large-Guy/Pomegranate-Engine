@@ -6,7 +6,7 @@ Table::Table() {
 }
 
 Table::~Table() {
-    for (auto &[key, value]: _data) {
+    for (auto& [key, value]: _data) {
         delete value;
     }
 }

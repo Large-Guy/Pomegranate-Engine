@@ -5,11 +5,11 @@
 #include "lua_state.h"
 
 namespace LuaEvents {
-    int on(lua_State *L);
+    int on(lua_State* L);
 
-    int call(lua_State *L);
+    int call(lua_State* L);
 
-    void registerFunctions(LuaState &script);
+    void registerFunctions(LuaState& script);
 }
 
 

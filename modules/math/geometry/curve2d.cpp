@@ -4,15 +4,15 @@ Curve2D::Curve2D() {
     points = List<Vector2>();
 }
 
-Curve2D::Curve2D(const List<Vector2> &points) {
+Curve2D::Curve2D(const List<Vector2>& points) {
     this->points = points;
 }
 
-Curve2D::Curve2D(const Curve2D &other) {
+Curve2D::Curve2D(const Curve2D& other) {
     points = other.points;
 }
 
-Curve2D &Curve2D::operator=(const Curve2D &other) {
+Curve2D& Curve2D::operator=(const Curve2D& other) {
     points = other.points;
     return *this;
 }
@@ -48,14 +48,14 @@ float Curve2D::bezierLength() const {
     return length;
 }
 
-void Curve2D::cast(const Ray2D &ray, Hit2D &hit) const {
+void Curve2D::cast(const Ray2D& ray, Hit2D& hit) const {
     std::cout << "Not implemented" << std::endl;
 }
 
-void Curve2D::serialize(Archive &arc) const {
+void Curve2D::serialize(Archive& arc) const {
     arc << points;
 }
 
-void Curve2D::deserialize(Archive &arc) {
+void Curve2D::deserialize(Archive& arc) {
     arc >> points;
 }

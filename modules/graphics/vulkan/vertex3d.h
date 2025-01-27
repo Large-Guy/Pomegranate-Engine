@@ -15,9 +15,9 @@ struct Vertex3D {
 
     static std::vector<VkVertexInputAttributeDescription> getAttributeDescriptions();
 
-    void serialize(Archive &archive);
+    void serialize(Archive& archive);
 
-    void deserialize(Archive &archive);
+    void deserialize(Archive& archive);
 };
 
 

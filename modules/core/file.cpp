@@ -6,7 +6,7 @@ File::File() {
     this->buffer = List<char>();
 }
 
-File::File(const std::string &path) {
+File::File(const std::string& path) {
     this->_path = path;
     this->_lines = List<List<char>>();
     this->buffer = List<char>();
@@ -20,7 +20,7 @@ void File::open() {
     this->_file.open(std::string(this->_path.data()));
 }
 
-void File::open(const std::string &path) {
+void File::open(const std::string& path) {
     this->_path = path;
     this->_file.open(this->_path.data());
 }
@@ -56,7 +56,7 @@ std::string File::readText() {
     return text;
 }
 
-List<List<char>> &File::readBufferLine() {
+List<List<char>>& File::readBufferLine() {
     this->_lines.clear();
     this->_file.seekg(0, std::ios::beg);
     while (!this->_file.eof()) {
@@ -70,7 +70,7 @@ List<List<char>> &File::readBufferLine() {
     return this->_lines;
 }
 
-List<char> &File::readBuffer() {
+List<char>& File::readBuffer() {
     this->buffer.clear();
     //Get file length
     this->_file.seekg(0, std::ios::end);

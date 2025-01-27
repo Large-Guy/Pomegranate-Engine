@@ -24,31 +24,31 @@ struct Vector4 {
 
     Vector4(float x, float y, float z, float w = 0.0f);
 
-    Vector4 operator+(const Vector4 &v) const;
+    Vector4 operator+(const Vector4& v) const;
 
-    Vector4 operator-(const Vector4 &v) const;
+    Vector4 operator-(const Vector4& v) const;
 
-    Vector4 operator*(const Vector4 &v) const;
+    Vector4 operator*(const Vector4& v) const;
 
-    Vector4 operator/(const Vector4 &v) const;
+    Vector4 operator/(const Vector4& v) const;
 
     Vector4 operator*(float v) const;
 
     Vector4 operator/(float v) const;
 
-    void operator+=(const Vector4 &v);
+    void operator+=(const Vector4& v);
 
-    void operator-=(const Vector4 &v);
+    void operator-=(const Vector4& v);
 
-    void operator*=(const Vector4 &v);
+    void operator*=(const Vector4& v);
 
-    void operator/=(const Vector4 &v);
+    void operator/=(const Vector4& v);
 
     void operator*=(float v);
 
     void operator/=(float v);
 
-    bool operator==(const Vector4 &v) const;
+    bool operator==(const Vector4& v) const;
 
     operator Vector2() const;
 
@@ -60,23 +60,23 @@ struct Vector4 {
 
     operator Vector4i() const;
 
-    [[nodiscard]] float dot(const Vector4 &v) const;
+    [[nodiscard]] float dot(const Vector4& v) const;
 
     [[nodiscard]] float length() const;
 
     [[nodiscard]] Vector4 normalize() const;
 
-    [[nodiscard]] Vector4 lerp(const Vector4 &v, float t) const;
+    [[nodiscard]] Vector4 lerp(const Vector4& v, float t) const;
 
-    [[nodiscard]] Vector4 slerp(const Vector4 &v, float t) const;
+    [[nodiscard]] Vector4 slerp(const Vector4& v, float t) const;
 
-    [[nodiscard]] Vector4 nlerp(const Vector4 &v, float t) const;
+    [[nodiscard]] Vector4 nlerp(const Vector4& v, float t) const;
 
-    [[nodiscard]] Vector4 cross(const Vector4 &v) const;
+    [[nodiscard]] Vector4 cross(const Vector4& v) const;
 
-    [[nodiscard]] Vector4 reflect(const Vector4 &normal) const;
+    [[nodiscard]] Vector4 reflect(const Vector4& normal) const;
 
-    [[nodiscard]] Vector4 refract(const Vector4 &normal, float eta) const;
+    [[nodiscard]] Vector4 refract(const Vector4& normal, float eta) const;
 
     [[nodiscard]] Vector4 round() const;
 
@@ -86,16 +86,16 @@ struct Vector4 {
 
     [[nodiscard]] Vector4 abs() const;
 
-    void serialize(Archive &a) const;
+    void serialize(Archive& a) const;
 
-    void deserialize(Archive &a);
+    void deserialize(Archive& a);
 
     [[nodiscard]] std::array<float, 4> get() const;
 };
 
 template<>
 struct std::hash<Vector4> {
-    size_t operator()(const Vector4 &v) const {
+    size_t operator()(const Vector4& v) const {
         return hash<float>()(v.x) ^ hash<float>()(v.y) ^ hash<float>()(v.z) ^ hash<float>()(v.w);
     }
 };

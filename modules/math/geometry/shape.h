@@ -8,13 +8,13 @@ struct Hit2D;
 struct Shape {
     virtual ~Shape();
 
-    [[nodiscard]] virtual bool contains(const Vector2 &point) const;
+    [[nodiscard]] virtual bool contains(const Vector2& point) const;
 
-    virtual void cast(const Ray2D &ray, Hit2D &hit) const;
+    virtual void cast(const Ray2D& ray, Hit2D& hit) const;
 
-    virtual void serialize(Archive &a) const;
+    virtual void serialize(Archive& a) const;
 
-    virtual void deserialize(Archive &a);
+    virtual void deserialize(Archive& a);
 };
 
 

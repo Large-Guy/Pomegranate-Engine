@@ -12,7 +12,7 @@ private:
     Vector2 _scroll;
     Vector2 _delta;
     ButtonState _buttons[3];
-    InputManager *_inputManager;
+    InputManager* _inputManager;
 public:
     enum Button {
         BUTTON_LEFT,

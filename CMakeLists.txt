@@ -26,7 +26,7 @@ add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/modules/gameobjects)
 #add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/modules/lua)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/modules/events)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/modules/graphics/opengl)
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/modules/audio)
+#add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/modules/audio)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/modules/input)
 
 set(SOURCE_FILES
@@ -50,7 +50,7 @@ target_link_libraries(PomegranateEngine PomegranateGameObjects)
 #target_link_libraries(PomegranateEngine PomegranateLua)
 target_link_libraries(PomegranateEngine PomegranateEvents)
 target_link_libraries(PomegranateEngine PomegranateGraphics)
-target_link_libraries(PomegranateEngine PomegranateAudio)
+#target_link_libraries(PomegranateEngine PomegranateAudio)
 target_link_libraries(PomegranateEngine PomegranateInput)
 
 

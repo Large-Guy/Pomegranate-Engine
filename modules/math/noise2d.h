@@ -7,22 +7,22 @@
 
 class Noise2D {
 private:
-    static inline Vector2 sin(const Vector2 &uv) {
+    static inline Vector2 sin(const Vector2& uv) {
         return Vector2(std::sin(uv.x), std::sin(uv.y));
     }
 
-    static inline Vector2 fract(const Vector2 &uv) {
+    static inline Vector2 fract(const Vector2& uv) {
         return Vector2(uv.x - std::floor(uv.x), uv.y - std::floor(uv.y));
     }
 
-    static inline Vector2 smoothstep(const Vector2 &uv) {
+    static inline Vector2 smoothstep(const Vector2& uv) {
         return Vector2(
                 uv.x * uv.x * (3.0f - 2.0f * uv.x),
                 uv.y * uv.y * (3.0f - 2.0f * uv.y)
         );
     }
 
-    static inline Vector2 mix(const Vector2 &a, const Vector2 &b, float t) {
+    static inline Vector2 mix(const Vector2& a, const Vector2& b, float t) {
         return Vector2(a.x * (1.0f - t) + b.x * t, a.y * (1.0f - t) + b.y * t);
     }
 
@@ -30,11 +30,11 @@ private:
         return (1.0f - t) * a + t * b;
     }
 
-    static inline Vector2 floor(const Vector2 &uv) {
+    static inline Vector2 floor(const Vector2& uv) {
         return Vector2(std::floor(uv.x), std::floor(uv.y));
     }
 
-    static inline float dot(const Vector2 &a, const Vector2 &b) {
+    static inline float dot(const Vector2& a, const Vector2& b) {
         return a.x * b.x + a.y * b.y;
     }
 

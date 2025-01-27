@@ -14,9 +14,9 @@ class InputManager;
 
 class Window {
 public:
-    static Window *_current;
+    static Window* _current;
 
-    GLFWwindow *_window;
+    GLFWwindow* _window;
 
     uint32_t _currentFrame = 0;
 
@@ -27,13 +27,13 @@ public:
     bool _open;
     Vector2i _position;
 
-    InputManager *_inputManager;
+    InputManager* _inputManager;
 public:
-    Window(int w, int h, const std::string &title);
+    Window(int w, int h, const std::string& title);
 
     ~Window();
 
-    void setTitle(const std::string &title);
+    void setTitle(const std::string& title);
 
     void setSize(Vector2i size);
 
@@ -67,9 +67,9 @@ public:
 
     [[nodiscard]] bool isOpen() const;
 
-    InputManager *getInputManager() const;
+    InputManager* getInputManager() const;
 
-    static Window *getCurrent();
+    static Window* getCurrent();
 
     friend Graphics;
     friend InputManager;

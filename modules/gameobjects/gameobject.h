@@ -8,12 +8,12 @@
 #include "component.h"
 
 class GameObject {
-    static std::unordered_map<GameObjectID, GameObject *> gameObjects;
-    static std::unordered_map<std::string, std::vector<GameObject *>> gameObjectsByName;
+    static std::unordered_map<GameObjectID, GameObject*> gameObjects;
+    static std::unordered_map<std::string, std::vector<GameObject*>> gameObjectsByName;
     static GameObjectID nextID;
 
-    std::vector<GameObject *> children;
-    GameObject *parent = nullptr;
+    std::vector<GameObject*> children;
+    GameObject* parent = nullptr;
     std::string name;
 
     std::unordered_map<ComponentID, size_t> components;
@@ -22,38 +22,38 @@ public:
 
     GameObject();
 
-    GameObject(const std::string &name);
+    GameObject(const std::string& name);
 
     ~GameObject();
 
     std::string getName() const;
 
-    void setName(const std::string &name);
+    void setName(const std::string& name);
 
-    void addChild(GameObject *child);
+    void addChild(GameObject* child);
 
-    void removeChild(GameObject *child);
+    void removeChild(GameObject* child);
 
-    void setParent(GameObject *parent);
+    void setParent(GameObject* parent);
 
-    GameObject *getParent();
+    GameObject* getParent();
 
-    std::vector<GameObject *> getChildren();
+    std::vector<GameObject*> getChildren();
 
-    static GameObject *find(const std::string &name);
+    static GameObject* find(const std::string& name);
 
-    static GameObject *find(GameObjectID id);
+    static GameObject* find(GameObjectID id);
 
-    static std::vector<GameObject *> findAll(const std::string &name);
+    static std::vector<GameObject*> findAll(const std::string& name);
 
     template<typename Comp, typename...Args>
     void addComponent(Args... args) {
-        Comp *component = (Comp *) malloc(sizeof(Comp));
-        size_t pointer = sizeof(GameObject *);
-        GameObject *gameObject = this;
-        memcpy((void *) &(component->gameObject), (void *) &gameObject, pointer); //Override const
+        Comp* component = (Comp*) malloc(sizeof(Comp));
+        size_t pointer = sizeof(GameObject*);
+        GameObject* gameObject = this;
+        memcpy((void*) &(component->gameObject), (void*) &gameObject, pointer); //Override const
         new(component) Comp(args...);
-        memcpy((void *) &(component->gameObject), (void *) &gameObject, pointer); //Override const
+        memcpy((void*) &(component->gameObject), (void*) &gameObject, pointer); //Override const
 
         component->start();
 
@@ -62,9 +62,9 @@ public:
     }
 
     template<typename Comp>
-    Comp *getComponent() {
+    Comp* getComponent() {
         ComponentID id = Component::component_types[typeid(Comp).hash_code()];
-        return (Comp *) Component::getComponent(id, components[id]);
+        return (Comp*) Component::getComponent(id, components[id]);
     }
 };
 

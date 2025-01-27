@@ -9,7 +9,7 @@ struct Rect {
 
     Rect();
 
-    Rect(const Vector2 &position, const Vector2 &size);
+    Rect(const Vector2& position, const Vector2& size);
 
     [[nodiscard]] Vector2 center() const;
 
@@ -17,21 +17,21 @@ struct Rect {
 
     [[nodiscard]] Vector2 max() const;
 
-    [[nodiscard]] bool contains(const Vector2 &point) const;
+    [[nodiscard]] bool contains(const Vector2& point) const;
 
-    [[nodiscard]] bool intersects(const Rect &rect) const;
+    [[nodiscard]] bool intersects(const Rect& rect) const;
 
-    [[nodiscard]] Rect intersection(const Rect &rect) const;
+    [[nodiscard]] Rect intersection(const Rect& rect) const;
 
-    [[nodiscard]] Rect unionBetween(const Rect &rect) const;
+    [[nodiscard]] Rect unionBetween(const Rect& rect) const;
 
-    [[nodiscard]] Rect offset(const Vector2 &offset) const;
+    [[nodiscard]] Rect offset(const Vector2& offset) const;
 
-    [[nodiscard]] Rect scale(const Vector2 &scale) const;
+    [[nodiscard]] Rect scale(const Vector2& scale) const;
 
     [[nodiscard]] Rect scale(float scale) const;
 
-    [[nodiscard]] Rect lerp(const Rect &rect, float t) const;
+    [[nodiscard]] Rect lerp(const Rect& rect, float t) const;
 
     [[nodiscard]] Rect round() const;
 
@@ -41,13 +41,13 @@ struct Rect {
 
     [[nodiscard]] Rect abs() const;
 
-    [[nodiscard]] Rect operator+(const Vector2 &v) const;
+    [[nodiscard]] Rect operator+(const Vector2& v) const;
 
-    [[nodiscard]] Rect operator-(const Vector2 &v) const;
+    [[nodiscard]] Rect operator-(const Vector2& v) const;
 
-    [[nodiscard]] Rect operator*(const Vector2 &v) const;
+    [[nodiscard]] Rect operator*(const Vector2& v) const;
 
-    [[nodiscard]] Rect operator/(const Vector2 &v) const;
+    [[nodiscard]] Rect operator/(const Vector2& v) const;
 
     [[nodiscard]] Rect operator+(float v) const;
 
@@ -57,17 +57,17 @@ struct Rect {
 
     [[nodiscard]] Rect operator/(float v) const;
 
-    [[nodiscard]] bool operator==(const Rect &r) const;
+    [[nodiscard]] bool operator==(const Rect& r) const;
 
-    [[nodiscard]] bool operator!=(const Rect &r) const;
+    [[nodiscard]] bool operator!=(const Rect& r) const;
 
-    void operator+=(const Vector2 &v);
+    void operator+=(const Vector2& v);
 
-    void operator-=(const Vector2 &v);
+    void operator-=(const Vector2& v);
 
-    void operator*=(const Vector2 &v);
+    void operator*=(const Vector2& v);
 
-    void operator/=(const Vector2 &v);
+    void operator/=(const Vector2& v);
 
     void operator+=(float v);
 
@@ -77,9 +77,9 @@ struct Rect {
 
     void operator/=(float v);
 
-    void serialize(Archive &a) const;
+    void serialize(Archive& a) const;
 
-    void deserialize(Archive &a);
+    void deserialize(Archive& a);
 };
 
 

@@ -1,12 +1,12 @@
 #include "vertex2d.h"
 
-void Vertex2D::serialize(Archive &archive) {
+void Vertex2D::serialize(Archive& archive) {
     archive << position;
     archive << texCoord;
     archive << color;
 }
 
-void Vertex2D::deserialize(Archive &archive) {
+void Vertex2D::deserialize(Archive& archive) {
     archive >> position;
     archive >> texCoord;
     archive >> color;

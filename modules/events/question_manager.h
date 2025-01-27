@@ -142,15 +142,15 @@ private:
     static QuestionID createQuestion();
 
 public:
-    static void answer(EventID id, const Function &callback);
+    static void answer(EventID id, const Function& callback);
 
-    static void answer(const std::string &name, const Function &callback);
+    static void answer(const std::string& name, const Function& callback);
 
     template<typename Ret, template<typename T> class Resolver,
             typename RetOverride = Ret, typename... Args>
     static RetOverride ask(EventID id, Args... args) {
         Resolver<Ret> answer;
-        for (auto &f: _events[id]) {
+        for (auto& f: _events[id]) {
             answer(f.call<Ret>(args...));
         }
 
@@ -158,11 +158,11 @@ public:
     }
 
     template<typename Ret, template<typename T> class Resolver, typename RetOverride = Ret, typename... Args>
-    static RetOverride ask(const std::string &name, Args... args) {
+    static RetOverride ask(const std::string& name, Args... args) {
         return ask<Ret, Resolver>(getQuestionId(name), args...);
     }
 
-    static QuestionID getQuestionId(const std::string &name);
+    static QuestionID getQuestionId(const std::string& name);
 };
 
 

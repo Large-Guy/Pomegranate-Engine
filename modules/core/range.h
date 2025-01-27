@@ -23,9 +23,9 @@ public:
 
         iterator(int start, int step) : current(start), step(step) {}
 
-        iterator &operator++();
+        iterator& operator++();
 
-        bool operator!=(const iterator &other) const;
+        bool operator!=(const iterator& other) const;
 
         int operator*() const;
     };

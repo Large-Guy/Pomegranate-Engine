@@ -1,8 +1,8 @@
 #include "window.h"
 
-Window *Window::_current = nullptr;
+Window* Window::_current = nullptr;
 
-Window::Window(int w, int h, const std::string &title) {
+Window::Window(int w, int h, const std::string& title) {
     Graphics::getInstance();
     this->_title = title;
     this->_size = {w, h};
@@ -12,7 +12,7 @@ Window::Window(int w, int h, const std::string &title) {
     this->_window = glfwCreateWindow(this->_size.x, this->_size.y, this->_title.data(), nullptr, nullptr);
     if (!this->_window) {
         //Get the error
-        const char *error;
+        const char* error;
         glfwGetError(&error);
         Debug::Log::error("Failed to create window: " + std::string(error));
         glfwTerminate();
@@ -37,7 +37,7 @@ Window::~Window() {
                              Graphics::getInstance()->_windows.end());
 }
 
-void Window::setTitle(const std::string &title) {
+void Window::setTitle(const std::string& title) {
     this->_title = title;
     glfwSetWindowTitle(this->_window, this->_title.data());
 }
@@ -92,8 +92,8 @@ void Window::fullscreen() {
         glfwSetWindowMonitor(this->_window, nullptr, 0, 0, this->_size.x, this->_size.y, 0);
         this->_fullscreen = false;
     } else {
-        GLFWmonitor *monitor = glfwGetPrimaryMonitor();
-        const GLFWvidmode *mode = glfwGetVideoMode(monitor);
+        GLFWmonitor* monitor = glfwGetPrimaryMonitor();
+        const GLFWvidmode* mode = glfwGetVideoMode(monitor);
         glfwSetWindowMonitor(this->_window, monitor, 0, 0, mode->width, mode->height, mode->refreshRate);
         this->_fullscreen = true;
     }
@@ -137,10 +137,10 @@ bool Window::isOpen() const {
     return this->_open;
 }
 
-InputManager *Window::getInputManager() const {
+InputManager* Window::getInputManager() const {
     return this->_inputManager;
 }
 
-Window *Window::getCurrent() {
+Window* Window::getCurrent() {
     return _current;
 }

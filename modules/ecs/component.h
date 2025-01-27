@@ -10,8 +10,8 @@
 
 struct ComponentList {
     ComponentID component;
-    void *elements;
-    bool *occupied;
+    void* elements;
+    bool* occupied;
     size_t element_size;
     size_t capacity;
     size_t count;
@@ -20,7 +20,7 @@ struct ComponentList {
 
     void resize(size_t new_size);
 
-    void *get(size_t i) const;
+    void* get(size_t i) const;
 
     void remove(size_t i);
 

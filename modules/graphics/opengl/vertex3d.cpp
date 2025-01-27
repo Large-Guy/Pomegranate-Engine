@@ -1,20 +1,20 @@
 #include "vertex3d.h"
 
-void Vertex3D::serialize(Archive &archive) {
+void Vertex3D::serialize(Archive& archive) {
     archive << position;
     /*archive << texCoord;
     archive << normal;
     archive << color;*/
 }
 
-void Vertex3D::deserialize(Archive &archive) {
+void Vertex3D::deserialize(Archive& archive) {
     archive >> position;
     /*archive >> texCoord;
     archive >> normal;
     archive >> color;*/
 }
 
-bool Vertex3D::operator==(const Vertex3D &other) const {
+bool Vertex3D::operator==(const Vertex3D& other) const {
     return position == other.position && texCoord == other.texCoord && normal == other.normal && color == other.color;
 }
 

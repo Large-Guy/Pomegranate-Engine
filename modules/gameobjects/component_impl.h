@@ -1,5 +1,5 @@
 template<typename Comp>
-ComponentID Component::create(const std::string &name) {
+ComponentID Component::create(const std::string& name) {
     ComponentID id = components.size();
     component_names[name] = id;
     components[id] = {

@@ -50,7 +50,7 @@ private:
         Index normalIndex;
     };
 
-    std::vector<std::string> split(const std::string &str, const std::string &delimiter) {
+    std::vector<std::string> split(const std::string& str, const std::string& delimiter) {
         std::vector<std::string> parts;
         size_t start = 0;
         size_t end = str.find(delimiter);
@@ -73,7 +73,7 @@ private:
         return -1;
     }
 
-    void loadOBJ(const std::string &path) {
+    void loadOBJ(const std::string& path) {
         File file(path);
         file.open();
         if (!file.exists()) {
@@ -92,7 +92,7 @@ private:
         std::vector<Vector3> normals;
         std::vector<Vector2> uvs;
 
-        for (auto &line: lines) {
+        for (auto& line: lines) {
 
             int positionIndex = vertexAttributeIndex(ATTRIBUTE_TYPE_POSITION);
             if (positionIndex != -1) {
@@ -152,7 +152,7 @@ private:
             }
         }
 
-        for (auto &index: indices) {
+        for (auto& index: indices) {
             Vertex vertex{};
 
             int positionIndex = vertexAttributeIndex(ATTRIBUTE_TYPE_POSITION);
@@ -165,13 +165,13 @@ private:
             if (normalIndex != -1 && attributeCount[normalIndex] > 0) {
                 //Memcpy the normal
                 size_t offset = attributes[normalIndex].offset;
-                memcpy(((char *) &vertex) + offset, &normals[index.normalIndex], sizeof(Vector3));
+                memcpy(((char*) &vertex) + offset, &normals[index.normalIndex], sizeof(Vector3));
             }
             int uvIndex = vertexAttributeIndex(ATTRIBUTE_TYPE_TEXCOORD);
             if (uvIndex != -1 && attributeCount[uvIndex] > 0) {
                 //Memcpy the uv
                 size_t offset = attributes[uvIndex].offset;
-                memcpy(((char *) &vertex) + offset, &uvs[index.uvIndex], sizeof(Vector2));
+                memcpy(((char*) &vertex) + offset, &uvs[index.uvIndex], sizeof(Vector2));
             }
             vertices.push_back(vertex);
         }
@@ -274,7 +274,7 @@ public:
                     break;
             }
 
-            glVertexAttribPointer(i, size, type, GL_FALSE, sizeof(Vertex), (void *) attributes[i].offset);
+            glVertexAttribPointer(i, size, type, GL_FALSE, sizeof(Vertex), (void*) attributes[i].offset);
             glEnableVertexAttribArray(i);
         }
 
@@ -311,7 +311,7 @@ public:
         if (positionIndex != -1) {
             //Memcpy the position
             size_t offset = Vertex::getAttributeInfo()[positionIndex].offset;
-            memcpy(((char *) &vertex) + offset, &position, sizeof(Vector3));
+            memcpy(((char*) &vertex) + offset, &position, sizeof(Vector3));
         }
 
         //Locate the normal attribute
@@ -319,7 +319,7 @@ public:
         if (normalIndex != -1) {
             //Memcpy the normal
             size_t offset = Vertex::getAttributeInfo()[normalIndex].offset;
-            memcpy(((char *) &vertex) + offset, &normal, sizeof(Vector3));
+            memcpy(((char*) &vertex) + offset, &normal, sizeof(Vector3));
         }
 
         //Locate the uv attribute
@@ -327,7 +327,7 @@ public:
         if (uvIndex != -1) {
             //Memcpy the uv
             size_t offset = Vertex::getAttributeInfo()[uvIndex].offset;
-            memcpy(((char *) &vertex) + offset, &uv, sizeof(Vector2));
+            memcpy(((char*) &vertex) + offset, &uv, sizeof(Vector2));
         }
 
         vertices.push_back(vertex);
@@ -345,19 +345,19 @@ public:
         indices = indices;
     }
 
-    Vertex &getVertex(size_t index) {
+    Vertex& getVertex(size_t index) {
         return vertices[index];
     }
 
-    Index &getIndex(size_t index) {
+    Index& getIndex(size_t index) {
         return indices[index];
     }
 
-    std::vector<Vertex> &getVertices() {
+    std::vector<Vertex>& getVertices() {
         return vertices;
     }
 
-    std::vector<Index> &getIndices() {
+    std::vector<Index>& getIndices() {
         return indices;
     }
 
@@ -380,9 +380,9 @@ public:
         }
 
         for (int i = 0; i < indices.size(); i += 3) {
-            Vertex &v0 = vertices[indices[i]];
-            Vertex &v1 = vertices[indices[i + 1]];
-            Vertex &v2 = vertices[indices[i + 2]];
+            Vertex& v0 = vertices[indices[i]];
+            Vertex& v1 = vertices[indices[i + 1]];
+            Vertex& v2 = vertices[indices[i + 2]];
 
             Vector3 edge1 = v1.position - v0.position;
             Vector3 edge2 = v2.position - v0.position;
@@ -399,8 +399,8 @@ public:
         }
     }
 
-    static Mesh<Vertex, Index> *cuboid(Vector3 size) {
-        Mesh<Vertex, Index> *mesh = new Mesh<Vertex, Index>();
+    static Mesh<Vertex, Index>* cuboid(Vector3 size) {
+        Mesh<Vertex, Index>* mesh = new Mesh<Vertex, Index>();
 
         Vector3 hs = size / 2.0f;
 
@@ -493,8 +493,8 @@ public:
         return mesh;
     }
 
-    static Mesh<Vertex, Index> *sphere(float radius, int slices, int stacks) {
-        Mesh<Vertex, Index> *mesh = new Mesh<Vertex, Index>();
+    static Mesh<Vertex, Index>* sphere(float radius, int slices, int stacks) {
+        Mesh<Vertex, Index>* mesh = new Mesh<Vertex, Index>();
 
         for (int i = 0; i <= stacks; i++) {
             float v = i / (float) stacks;
@@ -536,8 +536,8 @@ public:
         return mesh;
     }
 
-    static Mesh<Vertex, Index> *plane(Vector2 size, int subdivisions = 1) {
-        Mesh<Vertex, Index> *mesh = new Mesh<Vertex, Index>();
+    static Mesh<Vertex, Index>* plane(Vector2 size, int subdivisions = 1) {
+        Mesh<Vertex, Index>* mesh = new Mesh<Vertex, Index>();
 
         Vector2 hs = size / 2.0f;
 
@@ -575,8 +575,8 @@ public:
         return mesh;
     }
 
-    static Mesh<Vertex, Index> *quad(Vector2 size) {
-        Mesh<Vertex, Index> *mesh = new Mesh<Vertex, Index>();
+    static Mesh<Vertex, Index>* quad(Vector2 size) {
+        Mesh<Vertex, Index>* mesh = new Mesh<Vertex, Index>();
 
         Vector2 hs = size / 2.0f;
 
@@ -598,8 +598,8 @@ public:
         return mesh;
     }
 
-    static Mesh<Vertex, Index> *circle(float radius, int segments = 32) {
-        Mesh<Vertex, Index> *mesh = new Mesh<Vertex, Index>();
+    static Mesh<Vertex, Index>* circle(float radius, int segments = 32) {
+        Mesh<Vertex, Index>* mesh = new Mesh<Vertex, Index>();
 
         Vector3 cnormal = {0.0f, 0.0f, 1.0f};
         Vector3 cposition = {0.0f, 0.0f, 0.0f};

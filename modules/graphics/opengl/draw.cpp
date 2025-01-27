@@ -1,6 +1,6 @@
 #include "draw.h"
 
-Draw::Draw(Window *window) {
+Draw::Draw(Window* window) {
     this->_window = window;
 
     // Create a default shader
@@ -66,11 +66,11 @@ void Window::Draw::buffers(BufferBase<BUFFER_TYPE_VERTEX>* vertexBuffer, BufferB
 }
 */
 
-void Draw::camera(Camera2D *camera) {
+void Draw::camera(Camera2D* camera) {
     _camera2d = camera;
 }
 
-void Draw::shader(ShaderBase *shader) {
+void Draw::shader(ShaderBase* shader) {
     _topologyMode = shader->_info.topologyMode;
     if (shader->_info.cullMode != CULL_MODE_NONE) {
         glEnable(GL_CULL_FACE);
@@ -110,7 +110,7 @@ void Draw::shader(ShaderBase *shader) {
     }
 }
 
-void Draw::mesh(MeshBase *mesh) {
+void Draw::mesh(MeshBase* mesh) {
     glBindVertexArray(mesh->_vao);
     glDrawElements(_topologyMode, mesh->getIndexCount(), GL_UNSIGNED_INT, nullptr);
 }
@@ -142,7 +142,7 @@ void Draw::line(Vector2 start, Vector2 end, Vector4 color) {
     mesh(_line);
 }
 
-void Draw::image(Texture2D *texture, Vector2 position, Vector2 size, float rotation, Vector4 tint) {
+void Draw::image(Texture2D* texture, Vector2 position, Vector2 size, float rotation, Vector4 tint) {
     Matrix4x4 model = Matrix4x4::identity().scale(Vector3(size.x, -size.y, 1.0)).rotateZ(-rotation).translate(
             Vector3(position.x, position.y, 0));
 

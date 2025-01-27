@@ -18,83 +18,83 @@ private:
 public:
     Archive();
 
-    Archive &operator<<(long i);
+    Archive& operator<<(long i);
 
-    Archive &operator<<(unsigned long i);
+    Archive& operator<<(unsigned long i);
 
-    Archive &operator<<(int i);
+    Archive& operator<<(int i);
 
-    Archive &operator<<(uint i);
+    Archive& operator<<(uint i);
 
-    Archive &operator<<(short i);
+    Archive& operator<<(short i);
 
-    Archive &operator<<(ushort i);
+    Archive& operator<<(ushort i);
 
-    Archive &operator<<(char i);
+    Archive& operator<<(char i);
 
-    Archive &operator<<(double i);
+    Archive& operator<<(double i);
 
-    Archive &operator<<(float i);
+    Archive& operator<<(float i);
 
-    Archive &operator<<(bool i);
+    Archive& operator<<(bool i);
 
-    Archive &operator<<(const std::string &i);
+    Archive& operator<<(const std::string& i);
 
-    Archive &operator<<(Archive &archive);
+    Archive& operator<<(Archive& archive);
 
-    Archive &operator>>(long &i);
+    Archive& operator>>(long& i);
 
-    Archive &operator>>(unsigned long &i);
+    Archive& operator>>(unsigned long& i);
 
-    Archive &operator>>(int &i);
+    Archive& operator>>(int& i);
 
-    Archive &operator>>(uint &i);
+    Archive& operator>>(uint& i);
 
-    Archive &operator>>(short &i);
+    Archive& operator>>(short& i);
 
-    Archive &operator>>(ushort &i);
+    Archive& operator>>(ushort& i);
 
-    Archive &operator>>(char &i);
+    Archive& operator>>(char& i);
 
-    Archive &operator>>(char *&i);
+    Archive& operator>>(char*& i);
 
-    Archive &operator>>(double &i);
+    Archive& operator>>(double& i);
 
-    Archive &operator>>(float &i);
+    Archive& operator>>(float& i);
 
-    Archive &operator>>(bool &i);
+    Archive& operator>>(bool& i);
 
-    Archive &operator>>(std::string &i);
+    Archive& operator>>(std::string& i);
 
-    Archive &operator>>(Archive &archive);
+    Archive& operator>>(Archive& archive);
 
     template<typename T>
-    Archive &operator<<(T object) {
+    Archive& operator<<(T object) {
         object.serialize(*this);
         return *this;
     }
 
     template<typename T>
-    Archive &operator<<(std::vector<T> object) {
+    Archive& operator<<(std::vector<T> object) {
         *this << object.size();
-        for (auto &i: object) {
+        for (auto& i: object) {
             *this << i;
         }
         return *this;
     }
 
     template<typename T>
-    Archive &operator>>(T &object) {
+    Archive& operator>>(T& object) {
         object.deserialize(*this);
         return *this;
     }
 
     template<typename T>
-    Archive &operator>>(std::vector<T> &object) {
+    Archive& operator>>(std::vector<T>& object) {
         size_t size = 0;
         *this >> size;
         object.resize(size);
-        for (auto &i: object) {
+        for (auto& i: object) {
             *this >> i;
         }
         return *this;
@@ -102,27 +102,27 @@ public:
 
     size_t size();
 
-    const std::vector<char> &getBytes();
+    const std::vector<char>& getBytes();
 
     bool isEnd();
 
-    void writeToFile(const char *filename);
+    void writeToFile(const char* filename);
 
-    void readFromFile(const char *filename);
+    void readFromFile(const char* filename);
 };
 
 template<typename T>
-void serialize(T &object, Archive &archive) {
+void serialize(T& object, Archive& archive) {
     object._serialize(archive);
 }
 
 template<typename T>
-void deserialize(T &object, Archive &archive) {
+void deserialize(T& object, Archive& archive) {
     object._deserialize(archive);
 }
 
 template<typename T>
-T duplicate(T &object) {
+T duplicate(T& object) {
     Archive a;
     a << object;
     T result;

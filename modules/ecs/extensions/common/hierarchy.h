@@ -8,11 +8,11 @@ struct Children : public Reflectable {
 
     Children();
 
-    Children(const Children &other);
+    Children(const Children& other);
 
-    void serialize(Archive &a) const;
+    void serialize(Archive& a) const;
 
-    void deserialize(Archive &a);
+    void deserialize(Archive& a);
 };
 
 struct Parent : public Component, public Reflectable {
@@ -20,11 +20,11 @@ struct Parent : public Component, public Reflectable {
 
     Parent();
 
-    Parent(const Parent &other);
+    Parent(const Parent& other);
 
-    void serialize(Archive &a) const;
+    void serialize(Archive& a) const;
 
-    void deserialize(Archive &a);
+    void deserialize(Archive& a);
 };
 
 struct Hierarchy {

@@ -1,7 +1,7 @@
 #include "core.h"
 
 Graphics Graphics::_instance{};
-std::vector<Window *> Graphics::_windows{};
+std::vector<Window*> Graphics::_windows{};
 
 Graphics::Graphics() {
     // Initialize GLFW
@@ -15,6 +15,6 @@ Graphics::Graphics() {
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GLFW_TRUE);
 }
 
-Graphics *Graphics::getInstance() {
+Graphics* Graphics::getInstance() {
     return &_instance;
 }

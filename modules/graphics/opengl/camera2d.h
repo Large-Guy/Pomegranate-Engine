@@ -16,9 +16,9 @@ public:
 
     Matrix4x4 getView();
 
-    void serialize(Archive &archive);
+    void serialize(Archive& archive);
 
-    void deserialize(Archive &archive);
+    void deserialize(Archive& archive);
 };
 
 

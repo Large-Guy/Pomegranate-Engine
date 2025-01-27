@@ -1,6 +1,6 @@
 #include "debug.h"
 
-int LuaDebug::LuaLog::info(lua_State *L) {
+int LuaDebug::LuaLog::info(lua_State* L) {
 //Get arg count
     int n = lua_gettop(L);
 
@@ -18,7 +18,7 @@ int LuaDebug::LuaLog::info(lua_State *L) {
     return 0;
 }
 
-int LuaDebug::LuaLog::pass(lua_State *L) {
+int LuaDebug::LuaLog::pass(lua_State* L) {
 //Get arg count
     int n = lua_gettop(L);
 
@@ -36,7 +36,7 @@ int LuaDebug::LuaLog::pass(lua_State *L) {
     return 0;
 }
 
-int LuaDebug::LuaLog::fail(lua_State *L) {
+int LuaDebug::LuaLog::fail(lua_State* L) {
 //Get arg count
     int n = lua_gettop(L);
 
@@ -54,7 +54,7 @@ int LuaDebug::LuaLog::fail(lua_State *L) {
     return 0;
 }
 
-int LuaDebug::LuaLog::warn(lua_State *L) {
+int LuaDebug::LuaLog::warn(lua_State* L) {
 //Get arg count
     int n = lua_gettop(L);
 
@@ -72,7 +72,7 @@ int LuaDebug::LuaLog::warn(lua_State *L) {
     return 0;
 }
 
-int LuaDebug::LuaLog::error(lua_State *L) {
+int LuaDebug::LuaLog::error(lua_State* L) {
 //Get arg count
     int n = lua_gettop(L);
 
@@ -90,7 +90,7 @@ int LuaDebug::LuaLog::error(lua_State *L) {
     return 0;
 }
 
-void LuaDebug::registerFunctions(LuaState &script) {
+void LuaDebug::registerFunctions(LuaState& script) {
     script.beginNamespace("Debug");
 
     //Log

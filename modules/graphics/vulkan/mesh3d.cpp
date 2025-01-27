@@ -7,7 +7,7 @@ Mesh3D::Mesh3D() {
     this->_indexBuffer = nullptr;
 }
 
-Mesh3D::Mesh3D(List<Vertex3D> vertices, List<uint16_t> indices, Shader<Vertex3D> *shader) {
+Mesh3D::Mesh3D(List<Vertex3D> vertices, List<uint16_t> indices, Shader<Vertex3D>* shader) {
     this->vertices = vertices;
     this->indices = indices;
     this->shader = shader;

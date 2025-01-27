@@ -18,13 +18,13 @@ Triangle3D::Triangle3D(float x1, float y1, float z1, float x2, float y2, float z
     c = Vector3(x3, y3, z3);
 }
 
-Triangle3D::Triangle3D(const Triangle3D &other) {
+Triangle3D::Triangle3D(const Triangle3D& other) {
     a = other.a;
     b = other.b;
     c = other.c;
 }
 
-Triangle3D &Triangle3D::operator=(const Triangle3D &other) {
+Triangle3D& Triangle3D::operator=(const Triangle3D& other) {
     a = other.a;
     b = other.b;
     c = other.c;
@@ -43,7 +43,7 @@ float Triangle3D::area() const {
     return (b - a).cross(c - a).length() / 2.0f;
 }
 
-bool Triangle3D::contains(const Vector3 &point) const {
+bool Triangle3D::contains(const Vector3& point) const {
     Vector3 n = normal();
     Vector3 ab = b - a;
     Vector3 bc = c - b;
@@ -54,14 +54,14 @@ bool Triangle3D::contains(const Vector3 &point) const {
     return n.dot(ab.cross(ap)) >= 0.0f && n.dot(bc.cross(bp)) >= 0.0f && n.dot(ca.cross(cp)) >= 0.0f;
 }
 
-bool Triangle3D::intersects(const Triangle3D &other) const {
+bool Triangle3D::intersects(const Triangle3D& other) const {
     return contains(other.a) || contains(other.b) || contains(other.c);
 }
 
-void Triangle3D::serialize(Archive &arc) const {
+void Triangle3D::serialize(Archive& arc) const {
     arc << a << b << c;
 }
 
-void Triangle3D::deserialize(Archive &arc) {
+void Triangle3D::deserialize(Archive& arc) {
     arc >> a >> b >> c;
 }

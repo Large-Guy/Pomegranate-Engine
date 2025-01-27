@@ -15,7 +15,7 @@ Cube::Cube(float x, float y, float z, float w, float h, float d) {
     size = Vector3(w, h, d);
 }
 
-Cube &Cube::operator=(const Cube &other) {
+Cube& Cube::operator=(const Cube& other) {
     position = other.position;
     size = other.size;
     return *this;
@@ -33,13 +33,13 @@ Vector3 Cube::max() const {
     return this->position + this->size;
 }
 
-bool Cube::contains(const Vector3 &point) const {
+bool Cube::contains(const Vector3& point) const {
     return point.x >= this->position.x && point.x <= this->position.x + this->size.x &&
            point.y >= this->position.y && point.y <= this->position.y + this->size.y &&
            point.z >= this->position.z && point.z <= this->position.z + this->size.z;
 }
 
-bool Cube::intersects(const Cube &other) const {
+bool Cube::intersects(const Cube& other) const {
     return this->position.x < other.position.x + other.size.x &&
            this->position.x + this->size.x > other.position.x &&
            this->position.y < other.position.y + other.size.y &&
@@ -48,10 +48,10 @@ bool Cube::intersects(const Cube &other) const {
            this->position.z + this->size.z > other.position.z;
 }
 
-void Cube::serialize(Archive &a) const {
+void Cube::serialize(Archive& a) const {
     a << position << size;
 }
 
-void Cube::deserialize(Archive &a) {
+void Cube::deserialize(Archive& a) {
     a >> position >> size;
 }

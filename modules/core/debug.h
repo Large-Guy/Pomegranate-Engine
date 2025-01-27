@@ -86,7 +86,7 @@ public:
         }
 
         template<typename ...args>
-        static inline void isNull(void *ptr, args... message) {
+        static inline void isNull(void* ptr, args... message) {
             if (ptr == nullptr) {
                 Log::fail(message...);
                 throw std::runtime_error("Assertion failed");
@@ -94,7 +94,7 @@ public:
         }
 
         template<typename ...args>
-        static inline void isNotNull(void *ptr, args... message) {
+        static inline void isNotNull(void* ptr, args... message) {
             if (ptr != nullptr) {
                 Log::fail(message...);
                 throw std::runtime_error("Assertion failed");
@@ -183,14 +183,14 @@ public:
         }
 
         template<typename ...args>
-        static inline void isNull(void *ptr, args... message) {
+        static inline void isNull(void* ptr, args... message) {
             if (ptr == nullptr) {
                 Log::warn(message...);
             }
         }
 
         template<typename ...args>
-        static inline void isNotNull(void *ptr, args... message) {
+        static inline void isNotNull(void* ptr, args... message) {
             if (ptr != nullptr) {
                 Log::warn(message...);
             }

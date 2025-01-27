@@ -12,31 +12,31 @@ Plane::Plane(float x, float y, float z) {
     normal = Vector3(x, y, z);
 }
 
-Plane::Plane(const Plane &other) {
+Plane::Plane(const Plane& other) {
     normal = other.normal;
 }
 
-Plane &Plane::operator=(const Plane &other) {
+Plane& Plane::operator=(const Plane& other) {
     normal = other.normal;
     return *this;
 }
 
-float Plane::distance(const Vector3 &point) const {
+float Plane::distance(const Vector3& point) const {
     return normal.dot(point);
 }
 
-bool Plane::contains(const Vector3 &point) const {
+bool Plane::contains(const Vector3& point) const {
     return distance(point) == 0.0f;
 }
 
-bool Plane::intersects(const Plane &other) const {
+bool Plane::intersects(const Plane& other) const {
     return normal.cross(other.normal).length() == 0.0f;
 }
 
-void Plane::serialize(Archive &arc) const {
+void Plane::serialize(Archive& arc) const {
     arc << normal;
 }
 
-void Plane::deserialize(Archive &arc) {
+void Plane::deserialize(Archive& arc) {
     arc >> normal;
 }

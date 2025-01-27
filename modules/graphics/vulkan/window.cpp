@@ -128,7 +128,7 @@ void Window::createCommandBuffer() {
 }
 
 void Window::beginCommandBuffer() {
-    VkCommandBuffer &commandBuffer = getCurrentCommandBuffer();
+    VkCommandBuffer& commandBuffer = getCurrentCommandBuffer();
     VkCommandBufferBeginInfo beginInfo{};
     beginInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
     beginInfo.flags = 0;
@@ -145,7 +145,7 @@ void Window::endCommandBuffer() {
                              "Failed to endNamespace command buffer!");
 }
 
-VkExtent2D Window::getExtents(const VkSurfaceCapabilitiesKHR &capabilities) {
+VkExtent2D Window::getExtents(const VkSurfaceCapabilitiesKHR& capabilities) {
     if (capabilities.currentExtent.width != std::numeric_limits<uint32_t>::max()) {
         return capabilities.currentExtent;
     } else {
@@ -165,7 +165,7 @@ VkExtent2D Window::getExtents(const VkSurfaceCapabilitiesKHR &capabilities) {
     }
 }
 
-VkCommandBuffer &Window::getCurrentCommandBuffer() {
+VkCommandBuffer& Window::getCurrentCommandBuffer() {
     return _commandBuffers[_currentFrame];
 }
 
@@ -215,7 +215,7 @@ Window::~Window() {
             Graphics::getInstance()->_windows.end());
 }
 
-void Window::setTitle(const std::string &title) {
+void Window::setTitle(const std::string& title) {
     this->_title = title;
     glfwSetWindowTitle(this->_window, this->_title.data());
 }
@@ -256,8 +256,8 @@ void Window::fullscreen() {
         glfwSetWindowMonitor(this->_window, nullptr, 0, 0, this->_size.x, this->_size.y, 0);
         this->_fullscreen = false;
     } else {
-        GLFWmonitor *monitor = glfwGetPrimaryMonitor();
-        const GLFWvidmode *mode = glfwGetVideoMode(monitor);
+        GLFWmonitor* monitor = glfwGetPrimaryMonitor();
+        const GLFWvidmode* mode = glfwGetVideoMode(monitor);
         glfwSetWindowMonitor(this->_window, monitor, 0, 0, mode->width, mode->height, mode->refreshRate);
         this->_fullscreen = true;
     }
@@ -385,9 +385,9 @@ void Window::Draw::clear(Vector4 color) {
     vkCmdClearAttachments(window->getCurrentCommandBuffer(), 1, &clearAttachment, 1, &clearRect);
 }
 
-void Window::Draw::buffers(BufferBase<BUFFER_TYPE_VERTEX> *vertexBuffer, BufferBase<BUFFER_TYPE_INDEX> *indexBuffer,
-                           ShaderBase *shader) {
-    VkCommandBuffer &commandBuffer = window->getCurrentCommandBuffer();
+void Window::Draw::buffers(BufferBase<BUFFER_TYPE_VERTEX>* vertexBuffer, BufferBase<BUFFER_TYPE_INDEX>* indexBuffer,
+                           ShaderBase* shader) {
+    VkCommandBuffer& commandBuffer = window->getCurrentCommandBuffer();
 
     VkViewport viewport{};
     viewport.x = 0.0f;
@@ -413,6 +413,6 @@ void Window::Draw::buffers(BufferBase<BUFFER_TYPE_VERTEX> *vertexBuffer, BufferB
     vkCmdDrawIndexed(commandBuffer, (uint32_t) indexBuffer->size, 1, 0, 0, 0);
 }
 
-void Window::Draw::mesh(Mesh3D &mesh) {
+void Window::Draw::mesh(Mesh3D& mesh) {
     buffers(mesh._vertexBuffer, mesh._indexBuffer, mesh.shader);
 }

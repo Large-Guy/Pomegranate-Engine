@@ -9,13 +9,13 @@ struct Color : public Reflectable {
 
     Color();
 
-    Color(const Vector4 &color);
+    Color(const Vector4& color);
 
-    Color(const Color &other);
+    Color(const Color& other);
 
-    void serialize(Archive &a) const;
+    void serialize(Archive& a) const;
 
-    void deserialize(Archive &a);
+    void deserialize(Archive& a);
 };
 
 

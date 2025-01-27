@@ -13,13 +13,13 @@ private:
 public:
     File();
 
-    File(const std::string &path);
+    File(const std::string& path);
 
     ~File();
 
     void open();
 
-    void open(const std::string &path);
+    void open(const std::string& path);
 
     void close();
 
@@ -31,9 +31,9 @@ public:
 
     std::string readText();
 
-    List<List<char>> &readBufferLine();
+    List<List<char>>& readBufferLine();
 
-    List<char> &readBuffer();
+    List<char>& readBuffer();
 };
 
 

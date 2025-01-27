@@ -12,7 +12,7 @@ struct Matrix3x3 {
 
     Matrix3x3();
 
-    Matrix3x3(const Vector3 &x, const Vector3 &y, const Vector3 &z);
+    Matrix3x3(const Vector3& x, const Vector3& y, const Vector3& z);
 
     Matrix3x3(float x0, float x1, float x2, float y0, float y1, float y2, float z0, float z1, float z2);
 
@@ -26,7 +26,7 @@ struct Matrix3x3 {
 
     [[nodiscard]] Matrix3x3 rotate(float angle) const;
 
-    [[nodiscard]] Matrix3x3 dot(const Matrix3x3 &m) const;
+    [[nodiscard]] Matrix3x3 dot(const Matrix3x3& m) const;
 
     [[nodiscard]] Vector3 forward() const;
 
@@ -34,13 +34,13 @@ struct Matrix3x3 {
 
     [[nodiscard]] Vector3 up() const;
 
-    Matrix3x3 operator*(const Matrix3x3 &m) const;
+    Matrix3x3 operator*(const Matrix3x3& m) const;
 
-    Vector3 operator*(const Vector3 &v) const;
+    Vector3 operator*(const Vector3& v) const;
 
     Matrix3x3 operator*(float v) const;
 
-    bool operator==(const Matrix3x3 &m) const;
+    bool operator==(const Matrix3x3& m) const;
 
     static Matrix3x3 identity();
 
@@ -48,14 +48,14 @@ struct Matrix3x3 {
 
     static Matrix3x3 orthographic(float left, float right, float bottom, float top);
 
-    void serialize(Archive &a) const;
+    void serialize(Archive& a) const;
 
-    void deserialize(Archive &a);
+    void deserialize(Archive& a);
 };
 
 template<>
 struct std::hash<Matrix3x3> {
-    size_t operator()(const Matrix3x3 &m) const {
+    size_t operator()(const Matrix3x3& m) const {
         return hash<Vector3>()(m.x) ^ hash<Vector3>()(m.y) ^ hash<Vector3>()(m.z);
     }
 };

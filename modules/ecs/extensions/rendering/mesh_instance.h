@@ -6,16 +6,16 @@
 
 class MeshInstance : Reflectable {
 public:
-    MeshBase *mesh;
-    ShaderBase *shader;
+    MeshBase* mesh;
+    ShaderBase* shader;
 
     MeshInstance();
 
-    MeshInstance(MeshBase *mesh);
+    MeshInstance(MeshBase* mesh);
 
-    void serialize(Archive &a) const override;
+    void serialize(Archive& a) const override;
 
-    void deserialize(Archive &a) override;
+    void deserialize(Archive& a) override;
 };
 
 

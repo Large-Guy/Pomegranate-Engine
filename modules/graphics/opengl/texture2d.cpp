@@ -5,7 +5,7 @@ Texture2D::Texture2D() {
     _surface = nullptr;
 }
 
-Texture2D::Texture2D(Surface2D *surface) {
+Texture2D::Texture2D(Surface2D* surface) {
     _id = 0;
     _surface = surface;
     apply();
@@ -55,7 +55,7 @@ void Texture2D::apply() {
     }
 }
 
-Surface2D *Texture2D::getSurface() {
+Surface2D* Texture2D::getSurface() {
     return _surface;
 }
 

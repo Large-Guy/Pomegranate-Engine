@@ -14,11 +14,11 @@ struct Vertex2D {
 
     static std::vector<VertexAttributeInfo> getAttributeInfo();
 
-    void serialize(Archive &archive);
+    void serialize(Archive& archive);
 
-    void deserialize(Archive &archive);
+    void deserialize(Archive& archive);
 
-    bool operator==(const Vertex2D &other) const {
+    bool operator==(const Vertex2D& other) const {
         return position == other.position && texCoord == other.texCoord && color == other.color;
     }
 };

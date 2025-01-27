@@ -5,19 +5,19 @@ Children::Children() {
     property("children", &this->children);
 }
 
-Children::Children(const Children &other) : Reflectable(other) {
+Children::Children(const Children& other) : Reflectable(other) {
     this->children = other.children;
     property("children", &this->children);
 }
 
-void Children::serialize(Archive &a) const {
+void Children::serialize(Archive& a) const {
     a << children.size();
-    for (auto &child: children) {
+    for (auto& child: children) {
         a << child.id;
     }
 }
 
-void Children::deserialize(Archive &a) {
+void Children::deserialize(Archive& a) {
     size_t size = 0;
     a >> size;
     for (size_t i = 0; i < size; i++) {
@@ -28,7 +28,7 @@ void Children::deserialize(Archive &a) {
 }
 
 void Hierarchy::addChildTo(Entity parent, Entity child) {
-    auto *children = parent.get<Children>();
+    auto* children = parent.get<Children>();
     if (children == nullptr) {
         children = parent.add<Children>();
     }
@@ -41,7 +41,7 @@ void Hierarchy::addChildTo(Entity parent, Entity child) {
 }
 
 void Hierarchy::removeChildFrom(Entity parent, Entity child) {
-    auto *children = parent.get<Children>();
+    auto* children = parent.get<Children>();
     children->children.erase(child);
     child.get<Parent>()->parent = NULL_ENTITY;
 }
@@ -51,40 +51,40 @@ Parent::Parent() {
     property("parent", &this->parent);
 }
 
-Parent::Parent(const Parent &other) {
+Parent::Parent(const Parent& other) {
     this->parent = other.parent;
     property("parent", &this->parent);
 }
 
-void Parent::serialize(Archive &a) const {
+void Parent::serialize(Archive& a) const {
     a << parent.id;
 }
 
-void Parent::deserialize(Archive &a) {
+void Parent::deserialize(Archive& a) {
     EntityID id = 0;
     a >> id;
     parent = Entity(id);
 }
 
 void Hierarchy::orphan(Entity entity) {
-    auto *parent = entity.get<Parent>();
+    auto* parent = entity.get<Parent>();
     if (parent->parent.has("Children")) {
-        auto *children = parent->parent.get<Children>();
+        auto* children = parent->parent.get<Children>();
         children->children.erase(entity);
     }
     parent->parent = NULL_ENTITY;
 }
 
 void Hierarchy::setParentOn(Entity entity, Entity new_parent) {
-    auto *parent = entity.get<Parent>();
+    auto* parent = entity.get<Parent>();
     if (parent->parent.has("Children")) {
-        auto *children = parent->parent.get<Children>();
+        auto* children = parent->parent.get<Children>();
         children->children.erase(entity);
     }
     parent->parent = new_parent;
     //Check if parent has children component
     if (new_parent.has("Children")) {
-        auto *children = new_parent.get<Children>();
+        auto* children = new_parent.get<Children>();
         children->children.insert(entity);
     } else {
         new_parent.add<Children>()->children.insert(entity);

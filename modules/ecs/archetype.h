@@ -12,25 +12,25 @@ struct Archetype;
 
 struct ArchetypeRecord {
     size_t column;
-    Archetype *archetype;
+    Archetype* archetype;
 };
 
 struct ArchetypeEdge {
-    Archetype *add;
-    Archetype *remove;
+    Archetype* add;
+    Archetype* remove;
 };
 
 struct Archetype {
     ArchetypeID id;
     Type type;
-    ECS *ecs;
+    ECS* ecs;
     std::vector<ComponentList> components;
     std::unordered_map<size_t, EntityID> entities;
     std::unordered_map<ComponentID, ArchetypeEdge> edges;
 
-    Archetype *addComponent(ComponentID component);
+    Archetype* addComponent(ComponentID component);
 
-    Archetype *removeComponent(ComponentID component);
+    Archetype* removeComponent(ComponentID component);
 
     void removeRow(size_t row);
 };

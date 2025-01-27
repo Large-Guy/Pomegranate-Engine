@@ -13,7 +13,7 @@ struct Matrix4x4 {
 
     Matrix4x4();
 
-    Matrix4x4(const Vector4 &x, const Vector4 &y, const Vector4 &z, const Vector4 &w);
+    Matrix4x4(const Vector4& x, const Vector4& y, const Vector4& z, const Vector4& w);
 
     Matrix4x4(float x0, float x1, float x2, float x3, float y0, float y1, float y2, float y3, float z0, float z1,
               float z2, float z3, float w0, float w1, float w2, float w3);
@@ -34,7 +34,7 @@ struct Matrix4x4 {
 
     [[nodiscard]] Matrix4x4 rotate(Vector3 eulerAngles);
 
-    [[nodiscard]] Matrix4x4 dot(const Matrix4x4 &m) const;
+    [[nodiscard]] Matrix4x4 dot(const Matrix4x4& m) const;
 
     [[nodiscard]] Vector3 forward() const;
 
@@ -42,13 +42,13 @@ struct Matrix4x4 {
 
     [[nodiscard]] Vector3 up() const;
 
-    Matrix4x4 operator*(const Matrix4x4 &m) const;
+    Matrix4x4 operator*(const Matrix4x4& m) const;
 
-    Vector4 operator*(const Vector4 &v) const;
+    Vector4 operator*(const Vector4& v) const;
 
     Matrix4x4 operator*(float v) const;
 
-    bool operator==(const Matrix4x4 &m) const;
+    bool operator==(const Matrix4x4& m) const;
 
     static Matrix4x4 identity();
 
@@ -58,16 +58,16 @@ struct Matrix4x4 {
 
     static Matrix4x4 transform(Vector3 pos, Vector3 scale, Vector3 rotation);
 
-    void serialize(Archive &a) const;
+    void serialize(Archive& a) const;
 
-    void deserialize(Archive &a);
+    void deserialize(Archive& a);
 
     [[nodiscard]] std::array<float, 16> get() const;
 };
 
 template<>
 struct std::hash<Matrix4x4> {
-    size_t operator()(const Matrix4x4 &m) const {
+    size_t operator()(const Matrix4x4& m) const {
         return hash<Vector4>()(m.x) ^ hash<Vector4>()(m.y) ^ hash<Vector4>()(m.z) ^ hash<Vector4>()(m.w);
     }
 };

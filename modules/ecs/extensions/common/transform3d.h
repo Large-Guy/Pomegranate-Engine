@@ -12,31 +12,31 @@ struct Transform3D : public Reflectable {
 
     Transform3D();
 
-    Transform3D(const Vector3 &position, const Vector3 &scale, const Vector3 &rotation);
+    Transform3D(const Vector3& position, const Vector3& scale, const Vector3& rotation);
 
-    Transform3D(const Transform3D &other);
+    Transform3D(const Transform3D& other);
 
     Matrix4x4 getLocalMatrix() const;
 
-    static Vector3 getPosition(const Entity &entity);
+    static Vector3 getPosition(const Entity& entity);
 
-    static Vector3 getScale(const Entity &entity);
+    static Vector3 getScale(const Entity& entity);
 
-    static Vector3 getRotation(const Entity &entity);
+    static Vector3 getRotation(const Entity& entity);
 
-    static Matrix4x4 getMatrix(const Entity &entity);
+    static Matrix4x4 getMatrix(const Entity& entity);
 
-    static Matrix4x4 getLocalMatrix(const Entity &entity);
+    static Matrix4x4 getLocalMatrix(const Entity& entity);
 
-    static Vector3 getForward(const Entity &entity);
+    static Vector3 getForward(const Entity& entity);
 
-    static Vector3 getUp(const Entity &entity);
+    static Vector3 getUp(const Entity& entity);
 
-    static Vector3 getRight(const Entity &entity);
+    static Vector3 getRight(const Entity& entity);
 
-    void serialize(Archive &a) const;
+    void serialize(Archive& a) const;
 
-    void deserialize(Archive &a);
+    void deserialize(Archive& a);
 };
 
 

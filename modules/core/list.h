@@ -19,7 +19,7 @@ public:
         this->_data = std::vector<T>(size);
     }
 
-    List(const std::vector<T> &data) {
+    List(const std::vector<T>& data) {
         this->_data = data;
     }
 
@@ -27,7 +27,7 @@ public:
         this->_data = data;
     }
 
-    List(const List<T> &other) {
+    List(const List<T>& other) {
         this->_data = other._data;
     }
 
@@ -35,16 +35,16 @@ public:
         this->_data.clear();
     }
 
-    List<T> &operator=(const List<T> &other) {
+    List<T>& operator=(const List<T>& other) {
         this->_data = other._data;
         return *this;
     }
 
-    T &operator[](size_t index) {
+    T& operator[](size_t index) {
         return this->_data[index];
     }
 
-    const T &operator[](size_t index) const {
+    const T& operator[](size_t index) const {
         return this->_data[index];
     }
 
@@ -56,7 +56,7 @@ public:
         this->_data.push_back(value);
     }
 
-    void insert(size_t index, const T &value) {
+    void insert(size_t index, const T& value) {
         this->_data.insert(this->_data.begin() + index, value);
     }
 
@@ -76,25 +76,25 @@ public:
         this->_data.reserve(size);
     }
 
-    T &last() {
+    T& last() {
         return this->_data.back();
     }
 
-    T &first() {
+    T& first() {
         return this->_data.front();
     }
 
-    T &at(size_t index) {
+    T& at(size_t index) {
         return this->_data.at(index);
     }
 
-    T &pop_back() {
-        T &value = this->_data.back();
+    T& pop_back() {
+        T& value = this->_data.back();
         this->_data.pop_back();
         return value;
     }
 
-    T *data() {
+    T* data() {
         return this->_data.data();
     }
 
@@ -106,7 +106,7 @@ public:
         return this->_data.end();
     }
 
-    const T *data() const {
+    const T* data() const {
         return this->_data.data();
     }
 
@@ -114,7 +114,7 @@ public:
         return this->_data;
     }
 
-    friend std::ostream &operator<<(std::ostream &os, const List<T> &list) {
+    friend std::ostream& operator<<(std::ostream& os, const List<T>& list) {
         os << "[";
         for (size_t i = 0; i < list.size(); i++) {
             os << list[i];
@@ -126,18 +126,18 @@ public:
         return os;
     }
 
-    void serialize(Archive &ar) const {
+    void serialize(Archive& ar) const {
         ar << this->_data.size();
-        for (const T &value: this->_data) {
+        for (const T& value: this->_data) {
             ar << value;
         }
     }
 
-    void deserialize(Archive &ar) {
+    void deserialize(Archive& ar) {
         size_t size = 0;
         ar >> size;
         this->_data.resize(size);
-        for (T &value: this->_data) {
+        for (T& value: this->_data) {
             //ar >> value;
         }
     }

@@ -9,7 +9,7 @@ struct Matrix2x2 {
 
     Matrix2x2();
 
-    Matrix2x2(const Vector2 &x, const Vector2 &y);
+    Matrix2x2(const Vector2& x, const Vector2& y);
 
     Matrix2x2(float x0, float x1, float y0, float y1);
 
@@ -17,26 +17,26 @@ struct Matrix2x2 {
 
     [[nodiscard]] Matrix2x2 inverse() const;
 
-    [[nodiscard]] Matrix2x2 dot(const Matrix2x2 &m) const;
+    [[nodiscard]] Matrix2x2 dot(const Matrix2x2& m) const;
 
-    Matrix2x2 operator*(const Matrix2x2 &m) const;
+    Matrix2x2 operator*(const Matrix2x2& m) const;
 
-    Vector2 operator*(const Vector2 &v) const;
+    Vector2 operator*(const Vector2& v) const;
 
     Matrix2x2 operator*(float v) const;
 
-    bool operator==(const Matrix2x2 &m) const;
+    bool operator==(const Matrix2x2& m) const;
 
     static Matrix2x2 identity();
 
-    void serialize(Archive &a) const;
+    void serialize(Archive& a) const;
 
-    void deserialize(Archive &a);
+    void deserialize(Archive& a);
 };
 
 template<>
 struct std::hash<Matrix2x2> {
-    size_t operator()(const Matrix2x2 &m) const {
+    size_t operator()(const Matrix2x2& m) const {
         return hash<Vector2>()(m.x) ^ hash<Vector2>()(m.y);
     }
 };

@@ -10,10 +10,10 @@
 struct LuaTable : Reflectable {
     LuaTable() = default;
 
-    LuaTable(lua_State *L, int idx);
+    LuaTable(lua_State* L, int idx);
 
     template<typename T, typename... Args>
-    void addProperty(const char *name, Args &&... args) {
+    void addProperty(const char* name, Args&& ... args) {
         property<T>(name, new T(std::forward<Args>(args)...));
     }
 };
@@ -36,7 +36,7 @@ struct LuaFunction {
 
 class LuaState {
 public:
-    lua_State *_lua;
+    lua_State* _lua;
     int _args;
     std::string _source;
     std::stack<std::string> _tableStack;
@@ -45,11 +45,11 @@ public:
 
     ~LuaState();
 
-    void open(const std::string &source);
+    void open(const std::string& source);
 
     void open(File file);
 
-    bool global(const std::string &name) {
+    bool global(const std::string& name) {
         lua_getglobal(_lua, name.c_str());
         if (lua_isnil(_lua, -1)) {
             lua_pop(_lua, 1);
@@ -62,7 +62,7 @@ public:
     }
 
     template<typename... Args>
-    void args(Args &&... args) {
+    void args(Args&& ... args) {
         _args = 0;
         (arg(std::forward<Args>(args)), ...);
     }
@@ -117,26 +117,26 @@ public:
 
     void arg(double arg);
 
-    void arg(const std::string &arg);
+    void arg(const std::string& arg);
 
-    void arg(const char *arg);
+    void arg(const char* arg);
 
     void arg(bool arg);
 
-    void function(const std::string &name, lua_CFunction function, bool global = false);
+    void function(const std::string& name, lua_CFunction function, bool global = false);
 
-    void beginClass(const std::string &name);
+    void beginClass(const std::string& name);
 
     void endClass();
 
-    void beginNamespace(const std::string &name);
+    void beginNamespace(const std::string& name);
 
     void endNamespace();
 };
 
 class LuaModule {
 public:
-    virtual void init(LuaState &script) = 0;
+    virtual void init(LuaState& script) = 0;
 };
 
 #endif //POMEGRANATEENGINE_LUA_STATE_H

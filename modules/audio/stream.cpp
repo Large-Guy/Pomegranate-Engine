@@ -1,12 +1,12 @@
 #include "stream.h"
 
-static int callback(const void *inputBuffer, void *outputBuffer, unsigned long framesPerBuffer,
-                    const PaStreamCallbackTimeInfo *timeInfo, PaStreamCallbackFlags statusFlags, void *userData) {
+static int callback(const void* inputBuffer, void* outputBuffer, unsigned long framesPerBuffer,
+                    const PaStreamCallbackTimeInfo* timeInfo, PaStreamCallbackFlags statusFlags, void* userData) {
     static float time = 0.0;
 
     Stream::CallbackInfo info{
-            .input = (float *) inputBuffer,
-            .output = (float *) outputBuffer,
+            .input = (float*) inputBuffer,
+            .output = (float*) outputBuffer,
             .frameCount = framesPerBuffer,
             .time = time,
             .frameDeltaTime = 1.0f / 44100.0f,
@@ -15,7 +15,7 @@ static int callback(const void *inputBuffer, void *outputBuffer, unsigned long f
             .userData = userData
     };
 
-    auto *stream = (Stream *) userData;
+    auto* stream = (Stream*) userData;
 
     stream->getCustomCallback().call<void>(info);
 
@@ -47,11 +47,11 @@ void Stream::stop() {
     }
 }
 
-Function &Stream::setCustomCallback(Function callback) {
+Function& Stream::setCustomCallback(Function callback) {
     customCallback = callback;
     return customCallback;
 }
 
-Function &Stream::getCustomCallback() {
+Function& Stream::getCustomCallback() {
     return customCallback;
 }

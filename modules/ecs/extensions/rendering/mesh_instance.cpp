@@ -5,15 +5,15 @@ MeshInstance::MeshInstance() {
     property("mesh", &this->mesh);
 }
 
-MeshInstance::MeshInstance(MeshBase *mesh) {
+MeshInstance::MeshInstance(MeshBase* mesh) {
     this->mesh = mesh;
     property("mesh", &this->mesh);
 }
 
-void MeshInstance::serialize(Archive &a) const {
+void MeshInstance::serialize(Archive& a) const {
     //a << this->mesh;
 }
 
-void MeshInstance::deserialize(Archive &a) {
+void MeshInstance::deserialize(Archive& a) {
     //a >> this->mesh;
 }

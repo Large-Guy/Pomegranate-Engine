@@ -14,24 +14,24 @@ public:
         this->_data = {};
     }
 
-    explicit HashTable(const std::unordered_map<K, V, Hash> &data) {
+    explicit HashTable(const std::unordered_map<K, V, Hash>& data) {
         this->_data = data;
     }
 
-    HashTable(const HashTable<K, V, Hash> &other) {
+    HashTable(const HashTable<K, V, Hash>& other) {
         this->_data = other._data;
     }
 
-    HashTable<K, V, Hash> &operator=(const HashTable<K, V, Hash> &other) {
+    HashTable<K, V, Hash>& operator=(const HashTable<K, V, Hash>& other) {
         this->_data = other._data;
         return *this;
     }
 
-    V &operator[](const K &key) {
+    V& operator[](const K& key) {
         return this->_data[key];
     }
 
-    const V &operator[](const K &key) const {
+    const V& operator[](const K& key) const {
         return this->_data[key];
     }
 
@@ -39,11 +39,11 @@ public:
         return this->_data.size();
     }
 
-    void add(const K &key, const V &value) {
+    void add(const K& key, const V& value) {
         this->_data[key] = value;
     }
 
-    void remove(const K &key) {
+    void remove(const K& key) {
         this->_data.erase(key);
     }
 
@@ -51,11 +51,11 @@ public:
         this->_data.clear();
     }
 
-    bool has(const K &key) const {
+    bool has(const K& key) const {
         return this->_data.find(key) != this->_data.end();
     }
 
-    size_t count(const K &key) const {
+    size_t count(const K& key) const {
         return this->_data.count(key);
     }
 
@@ -63,7 +63,7 @@ public:
         return this->_data;
     }
 
-    void data(const std::unordered_map<K, V, Hash> &data) {
+    void data(const std::unordered_map<K, V, Hash>& data) {
         this->_data = data;
     }
 
@@ -87,7 +87,7 @@ public:
         return this->_data;
     }
 
-    friend std::ostream &operator<<(std::ostream &os, const HashTable<K, V, Hash> &list) {
+    friend std::ostream& operator<<(std::ostream& os, const HashTable<K, V, Hash>& list) {
         os << "[";
         for (auto it = list.begin(); it != list.end(); it++) {
             os << it->first << ": " << it->second;
@@ -99,7 +99,7 @@ public:
         return os;
     }
 
-    void serialize(Archive &a) const override {
+    void serialize(Archive& a) const override {
         a << this->_data.size();
         for (auto it = this->_data.begin(); it != this->_data.end(); it++) {
             a << it->first;
@@ -107,7 +107,7 @@ public:
         }
     }
 
-    void deserialize(Archive &a) override {
+    void deserialize(Archive& a) override {
         size_t size;
         a >> &size;
         for (size_t i = 0; i < size; i++) {

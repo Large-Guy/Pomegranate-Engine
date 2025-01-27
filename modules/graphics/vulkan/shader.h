@@ -21,8 +21,8 @@ struct Material {
 class ShaderBase {
 private:
     void
-    createBuffer(VkDeviceSize size, VkBufferUsageFlagBits usage, VkMemoryPropertyFlags properties, VkBuffer &buffer,
-                 VkDeviceMemory &bufferMemory);
+    createBuffer(VkDeviceSize size, VkBufferUsageFlagBits usage, VkMemoryPropertyFlags properties, VkBuffer& buffer,
+                 VkDeviceMemory& bufferMemory);
 
 public:
     VkShaderModule _fragment;
@@ -35,14 +35,14 @@ public:
     VkVertexInputBindingDescription _bindingDescription;
     std::vector<VkVertexInputAttributeDescription> _attributeDescriptions;
 
-    std::unordered_map<Window *, Graphics::GraphicsPipelineGroup> _pipelines;
+    std::unordered_map<Window*, Graphics::GraphicsPipelineGroup> _pipelines;
 
     //Uniforms
     DescriptorSet _perspectiveSet;
 
-    VkShaderModule createShaderModule(const List<char> &code);
+    VkShaderModule createShaderModule(const List<char>& code);
 
-    void requestPipeline(Window *window);
+    void requestPipeline(Window* window);
 
     ShaderBase() = default;
 

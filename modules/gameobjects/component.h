@@ -9,46 +9,46 @@
 class GameObject;
 
 struct ClassFunctions {
-    std::function<void(void *)> constructor;
-    std::function<void(void *)> destructor;
-    std::function<void(void *, void *)> copy;
-    std::function<void(void *, void *)> move;
-    std::function<void(Archive &, void *)> serialize;
-    std::function<void(Archive &, void *)> deserialize;
+    std::function<void(void*)> constructor;
+    std::function<void(void*)> destructor;
+    std::function<void(void*, void*)> copy;
+    std::function<void(void*, void*)> move;
+    std::function<void(Archive&, void*)> serialize;
+    std::function<void(Archive&, void*)> deserialize;
 };
 
 template<typename T>
-void _constructor(void *ptr) {
+void _constructor(void* ptr) {
     new(ptr) T();
 }
 
 template<typename T>
-void _destructor(void *ptr) {
-    ((T *) ptr)->~T();
+void _destructor(void* ptr) {
+    ((T*) ptr)->~T();
 }
 
 template<typename T>
-void _copy(void *dest, void *src) {
+void _copy(void* dest, void* src) {
     //Make sure to use the copy constructor because some objects are not trivially copyable
-    T *d = (T *) dest;
-    T *s = (T *) src;
-    new(dest) T(*(T *) src);
+    T* d = (T*) dest;
+    T* s = (T*) src;
+    new(dest) T(*(T*) src);
 }
 
 template<typename T>
-void _move(void *dest, void *src) {
+void _move(void* dest, void* src) {
     //Make sure to use the move constructor because some objects are not trivially copyable
-    new(dest) T(std::move(*(T *) src));
+    new(dest) T(std::move(*(T*) src));
 }
 
 template<typename T>
-void _serialize(Archive &archive, void *ptr) {
-    ((T *) ptr)->serialize(archive);
+void _serialize(Archive& archive, void* ptr) {
+    ((T*) ptr)->serialize(archive);
 }
 
 template<typename T>
-void _deserialize(Archive &archive, void *ptr) {
-    ((T *) ptr)->deserialize(archive);
+void _deserialize(Archive& archive, void* ptr) {
+    ((T*) ptr)->deserialize(archive);
 }
 
 class ComponentList;
@@ -61,14 +61,14 @@ private:
 
     static std::unordered_map<ComponentID, ComponentList> component_lists;
 public:
-    GameObject *const gameObject = nullptr;
+    GameObject* const gameObject = nullptr;
 
     Component();
 
     friend GameObject;
 
     template<typename Comp>
-    static ComponentID create(const std::string &name);
+    static ComponentID create(const std::string& name);
 
     virtual void start() {};
 
@@ -76,13 +76,13 @@ public:
 
     virtual void draw() {};
 
-    virtual void serialize(Archive &archive) const {};
+    virtual void serialize(Archive& archive) const {};
 
-    virtual void deserialize(Archive &archive) {};
+    virtual void deserialize(Archive& archive) {};
 
-    static size_t addComponent(ComponentID component, void *data);
+    static size_t addComponent(ComponentID component, void* data);
 
-    static void *getComponent(ComponentID component, size_t owner);
+    static void* getComponent(ComponentID component, size_t owner);
 
     static void callUpdate(ComponentID component);
 
@@ -95,8 +95,8 @@ public:
 
 struct ComponentList {
     ComponentID component;
-    void *elements;
-    bool *occupied;
+    void* elements;
+    bool* occupied;
     size_t element_size;
     size_t capacity;
     size_t count;
@@ -107,7 +107,7 @@ struct ComponentList {
 
     void resize(size_t new_size);
 
-    void *get(size_t i) const;
+    void* get(size_t i) const;
 
     void remove(size_t i);
 

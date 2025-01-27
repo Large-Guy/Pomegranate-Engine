@@ -4,15 +4,15 @@ Curve3D::Curve3D() {
     points = List<Vector3>();
 }
 
-Curve3D::Curve3D(const List<Vector3> &points) {
+Curve3D::Curve3D(const List<Vector3>& points) {
     this->points = points;
 }
 
-Curve3D::Curve3D(const Curve3D &other) {
+Curve3D::Curve3D(const Curve3D& other) {
     points = other.points;
 }
 
-Curve3D &Curve3D::operator=(const Curve3D &other) {
+Curve3D& Curve3D::operator=(const Curve3D& other) {
     points = other.points;
     return *this;
 }
@@ -48,10 +48,10 @@ float Curve3D::bezierLength() const {
     return length;
 }
 
-void Curve3D::serialize(Archive &arc) const {
+void Curve3D::serialize(Archive& arc) const {
     arc << points;
 }
 
-void Curve3D::deserialize(Archive &arc) {
+void Curve3D::deserialize(Archive& arc) {
     arc >> points;
 }

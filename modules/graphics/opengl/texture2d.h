@@ -13,18 +13,18 @@ class Texture2D : Asset {
 private:
     GLuint _id;
     GLuint _bind;
-    Surface2D *_surface;
+    Surface2D* _surface;
 public:
 
     Texture2D();
 
-    Texture2D(Surface2D *surface);
+    Texture2D(Surface2D* surface);
 
     ~Texture2D();
 
     void apply();
 
-    Surface2D *getSurface();
+    Surface2D* getSurface();
 
     void setBindingSlot(uint slot);
 
@@ -36,7 +36,7 @@ public:
 };
 
 template<>
-inline void ShaderBase::setUniform(const std::string &name, Texture2D *value) {
+inline void ShaderBase::setUniform(const std::string& name, Texture2D* value) {
     GLint location = getLocation(name);
     Debug::WarnIf::isEqual(location, -1, "Uniform " + name + " not found");
 

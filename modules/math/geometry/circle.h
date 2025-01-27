@@ -15,21 +15,21 @@ struct Circle : Shape {
 
     Circle(float x, float y, float radius);
 
-    Circle(const Circle &other);
+    Circle(const Circle& other);
 
-    Circle &operator=(const Circle &other);
+    Circle& operator=(const Circle& other);
 
     [[nodiscard]] float area() const;
 
-    [[nodiscard]] bool contains(const Vector2 &point) const override;
+    [[nodiscard]] bool contains(const Vector2& point) const override;
 
-    [[nodiscard]] bool intersects(const Circle &other) const;
+    [[nodiscard]] bool intersects(const Circle& other) const;
 
-    void cast(const Ray2D &ray, Hit2D &hit) const override;
+    void cast(const Ray2D& ray, Hit2D& hit) const override;
 
-    void serialize(Archive &a) const override;
+    void serialize(Archive& a) const override;
 
-    void deserialize(Archive &a) override;
+    void deserialize(Archive& a) override;
 };
 
 

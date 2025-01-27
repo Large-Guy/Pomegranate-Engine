@@ -6,7 +6,7 @@ AudioSample::AudioSample(std::vector<float> data, size_t channels, size_t sample
     _sampleRate = sampleRate;
 }
 
-float *AudioSample::getData() {
+float* AudioSample::getData() {
     return _data.data();
 }
 
