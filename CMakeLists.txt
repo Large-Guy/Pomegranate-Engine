@@ -1,8 +1,8 @@
 cmake_minimum_required(VERSION 3.5)
 project(PomegranateEngine)
 
-add_compile_options( -Wreturn-type)
-add_compile_options( -Wuninitialized)
+add_compile_options(-Wreturn-type)
+add_compile_options(-Wuninitialized)
 add_definitions(-DPOMEGRANATE_GRAPHICS_VULKAN_VALIDATION_LAYERS)
 add_definitions(-DPOMEGRANATE_FUNCTION_VALIDATION_LAYERS)
 
@@ -28,9 +28,10 @@ add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/modules/events)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/modules/graphics/opengl)
 #add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/modules/audio)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/modules/input)
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/modules/plugins)
 
 set(SOURCE_FILES
-    ${SOURCE_DIR}/main.cpp
+        ${SOURCE_DIR}/main.cpp
 )
 
 # Set include directories
@@ -52,6 +53,7 @@ target_link_libraries(PomegranateEngine PomegranateEvents)
 target_link_libraries(PomegranateEngine PomegranateGraphics)
 #target_link_libraries(PomegranateEngine PomegranateAudio)
 target_link_libraries(PomegranateEngine PomegranateInput)
+target_link_libraries(PomegranateEngine PomegranatePlugin)
 
 
 # Set the output directory for the build
