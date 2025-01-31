@@ -223,31 +223,26 @@ void ECS::parallelEach(const std::string& component, std::function<void(void*, E
     parallelEach(getComponentID(component), func);
 }
 
-void ECS::each(ComponentID component, std::function<void(void*)> func) {
-    for (auto archetype: component_index[component]) {
+void ECS::foreach(const std::vector<ComponentID>& components, std::function<void(std::vector<void*>)> func) {
+    for (auto archetype: component_index[components[0]]) {
         ArchetypeRecord& record = archetype.second;
+        bool allPresent = true;
+        for (ComponentID component: components) {
+            if (record.archetype->type.count(component) == 0) {
+                allPresent = false;
+                break;
+            }
+        }
+        if (!allPresent) {
+            continue;
+        }
+        std::vector<void*> data{components.size()};
         for (size_t i = 0; i < record.archetype->components[record.column].count; i++) {
-            //Call the function
-            func(record.archetype->components[record.column].get(i));
+            for (size_t j = 0; j < components.size(); j++) {
+                data[j] = record.archetype->components[component_index[components[j]][record.archetype->id].column].get(
+                        i);
+            }
+            func(data);
         }
     }
-}
-
-void ECS::each(const std::string& component, std::function<void(void*)> func) {
-    each(getComponentID(component), func);
-}
-
-void ECS::each(ComponentID component, std::function<void(void*, Entity&)> func) {
-    for (auto archetype: component_index[component]) {
-        ArchetypeRecord& record = archetype.second;
-        for (size_t i = 0; i < record.archetype->components[record.column].count; i++) {
-            //Call the function
-            Entity entity(this, record.archetype->entities[i]);
-            func(record.archetype->components[record.column].get(i), entity);
-        }
-    }
-}
-
-void ECS::each(const std::string& component, std::function<void(void*, Entity&)> func) {
-    each(getComponentID(component), func);
 }

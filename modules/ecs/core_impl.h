@@ -34,7 +34,7 @@ void ECS::parallelEach(ComponentID component, std::function<void(Args*)> func) {
 
 template<typename Args>
 void ECS::parallelEach(const std::string& component, std::function<void(Args*)> func) {
-    parallelEach<Args>(getComponentID(component), func);
+    parallelEach < Args > (getComponentID(component), func);
 }
 
 template<typename Args>
@@ -59,45 +59,82 @@ void ECS::parallelEach(const std::string& component, std::function<void(Args*, E
 
 template<typename T>
 void ECS::parallelEach(std::function<void(T*)> func) {
-    parallelEach<T>(ECS::component_ids[typeid(T).hash_code()], func);
+    parallelEach < T > (ECS::component_ids[typeid(T).hash_code()], func);
 }
 
 template<typename T>
 void ECS::parallelEach(std::function<void(T*, Entity&)> func) {
-    parallelEach<T>(ECS::component_ids[typeid(T).hash_code()], func);
+    parallelEach < T > (ECS::component_ids[typeid(T).hash_code()], func);
 }
 
-template<typename Args>
-void ECS::each(ComponentID component, std::function<void(Args*)> func) {
-    for (auto archetype: ECS::component_index[component]) {
+template<typename... Args, typename Func>
+void ECS::each(const std::vector<ComponentID>& components, Func func) {
+    for (std::pair<ArchetypeID, ArchetypeRecord> archetype: ECS::component_index[components[0]]) {
         ArchetypeRecord& record = archetype.second;
+        //Check if all components are present
+        bool allPresent = true;
+        for (ComponentID component: components) {
+            if (ECS::component_index[component].find(archetype.first) == ECS::component_index[component].end()) {
+                allPresent = false;
+                break;
+            }
+        }
+        if (!allPresent) {
+            continue;
+        }
         for (size_t i = 0; i < record.archetype->components[record.column].count; i++) {
-            //Call the function
-            func((Args*) record.archetype->components[record.column].get(i));
+            // Retrieve remaining components
+            if (!record.archetype->components[0].has(i)) {
+                continue;
+            }
+
+            int index = 0;
+            auto getComponent = [&]() {
+                ArchetypeRecord& rec = ECS::component_index[components[index++]][archetype.first];
+                return rec.archetype->components[rec.column].get(i);
+            };
+
+            // Expand parameter pack for remaining arguments
+            func((Args*) getComponent()...);
         }
     }
 }
 
-template<typename Args>
-void ECS::each(const std::string& component, std::function<void(Args*)> func) {
-    each(getComponentID(component), func);
-}
 
-template<typename Args>
-void ECS::each(ComponentID component, std::function<void(Args*, Entity&)> func) {
-    for (auto archetype: ECS::component_index[component]) {
+template<typename... Args, typename Func>
+void ECS::each(Func func) {
+    std::vector<ComponentID> components = {ECS::component_ids[typeid(Args).hash_code()]...};
+
+    for (std::pair<ArchetypeID, ArchetypeRecord> archetype: ECS::component_index[components[0]]) {
         ArchetypeRecord& record = archetype.second;
+        //Check if all components are present
+        bool allPresent = true;
+        for (ComponentID component: components) {
+            if (ECS::component_index[component].find(archetype.first) == ECS::component_index[component].end()) {
+                allPresent = false;
+                break;
+            }
+        }
+        if (!allPresent) {
+            continue;
+        }
         for (size_t i = 0; i < record.archetype->components[record.column].count; i++) {
-            //Call the function
-            Entity entity(this, record.archetype->entities[i]);
-            func((Args*) record.archetype->components[record.column].get(i), entity);
+            // Retrieve remaining components
+            if (!record.archetype->components[0].has(i)) {
+                continue;
+            }
+
+            int index = 0;
+            auto getComponent = [&]() {
+                ArchetypeRecord& rec = ECS::component_index[components[index++]][archetype.first];
+                return rec.archetype->components[rec.column].get(i);
+            };
+
+            // Expand parameter pack for remaining arguments
+            func((Args*) getComponent()...);
         }
     }
 }
 
-template<typename Args>
-void ECS::each(const std::string& component, std::function<void(Args*, Entity&)> func) {
-    each(getComponentID(component), func);
-}
 
 #endif //POMEGRANATE_ENGINE_ECS_IMPL_H

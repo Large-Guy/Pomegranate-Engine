@@ -86,7 +86,7 @@ public:
     T* add(Args&& ... args) {
         Debug::AssertIf::isFalse(ecs->component_ids.count(typeid(T).hash_code()), "Component not registered!");
         T* t = (T*) add(ecs->component_ids[typeid(T).hash_code()]);
-        return new(t) T(std::forward<Args>(args)...);
+        return new(t) T{args...};
     }
 
     void remove(ComponentID component) const;

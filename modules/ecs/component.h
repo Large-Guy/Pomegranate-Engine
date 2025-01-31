@@ -33,7 +33,9 @@ struct ComponentList {
 struct Component {
 private:
 public:
+    virtual void serialize(Archive& archive) {};
 
+    virtual void deserialize(Archive& archive) {};
 };
 
 #endif //POMEGRANATE_ENGINE_COMPONENT_H

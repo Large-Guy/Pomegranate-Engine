@@ -133,25 +133,13 @@ public:
 
     void parallelEach(const std::string& component, std::function<void(void*, Entity&)> func);
 
-    template<typename Args>
-    void each(ComponentID component, std::function<void(Args*)> func);
+    void foreach(const std::vector<ComponentID>& components, std::function<void(std::vector<void*>)> func);
 
-    template<typename Args>
-    void each(const std::string& component, std::function<void(Args*)> func);
+    template<typename...Args, typename Func>
+    void each(const std::vector<ComponentID>& components, Func func);
 
-    template<typename Args>
-    void each(ComponentID component, std::function<void(Args*, Entity&)> func);
-
-    template<typename Args>
-    void each(const std::string& component, std::function<void(Args*, Entity&)> func);
-
-    void each(ComponentID component, std::function<void(void*)> func);
-
-    void each(const std::string& component, std::function<void(void*)> func);
-
-    void each(ComponentID component, std::function<void(void*, Entity&)> func);
-
-    void each(const std::string& component, std::function<void(void*, Entity&)> func);
+    template<typename...Args, typename Func>
+    void each(Func func);
 
     void setThreadCount(int count);
 
